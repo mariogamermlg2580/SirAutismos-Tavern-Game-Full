@@ -36,14 +36,10 @@
       margin: 0;
       min-height: 100vh;
       background:
-        radial-gradient(circle at 7% 13%, rgba(255, 211, 91, .52), transparent 7rem),
-        radial-gradient(circle at 27% 7%, rgba(98, 209, 255, .22), transparent 8rem),
-        radial-gradient(circle at 82% 16%, rgba(255, 76, 117, .34), transparent 8rem),
-        radial-gradient(circle at 94% 72%, rgba(255, 203, 69, .28), transparent 9rem),
-        radial-gradient(circle at 22% 74%, rgba(70, 218, 166, .24), transparent 10rem),
-        repeating-linear-gradient(90deg, rgba(255, 213, 91, .14) 0 2px, transparent 2px 68px),
-        repeating-linear-gradient(0deg, rgba(255, 255, 255, .055) 0 1px, transparent 1px 42px),
-        linear-gradient(135deg, #160715, #111a25 36%, #221019 72%, #070707);
+        linear-gradient(90deg, rgba(44, 4, 15, .95), transparent 14%, transparent 86%, rgba(44, 4, 15, .95)),
+        linear-gradient(180deg, rgba(255, 218, 132, .18), transparent 18%, rgba(0, 0, 0, .54) 78%),
+        repeating-linear-gradient(90deg, rgba(108, 14, 34, .58) 0 44px, rgba(43, 7, 16, .86) 44px 88px),
+        linear-gradient(135deg, #12070b, #1a0a10 42%, #070506);
       color: var(--text);
       overscroll-behavior: none;
     }
@@ -54,10 +50,10 @@
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(circle, rgba(255, 236, 170, .75) 0 2px, transparent 3px) 0 0 / 70px 70px,
-        linear-gradient(180deg, rgba(255, 205, 70, .08), transparent 32%, rgba(255, 56, 118, .08));
-      mix-blend-mode: screen;
-      opacity: .58;
+        linear-gradient(90deg, rgba(0, 0, 0, .62), transparent 17%, transparent 83%, rgba(0, 0, 0, .62)),
+        radial-gradient(ellipse at 50% 0%, rgba(255, 224, 150, .32), transparent 34rem),
+        linear-gradient(180deg, transparent 0 62%, rgba(0, 0, 0, .42));
+      opacity: .9;
     }
 
     body::after {
@@ -66,11 +62,9 @@
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(circle, rgba(255, 239, 169, .85) 0 1.5px, transparent 2.5px) 16px 20px / 92px 92px,
-        radial-gradient(circle, rgba(255, 68, 128, .55) 0 1.5px, transparent 3px) 42px 5px / 136px 88px,
-        radial-gradient(circle, rgba(100, 210, 163, .45) 0 1.5px, transparent 3px) 4px 48px / 118px 112px;
-      opacity: .42;
-      mix-blend-mode: screen;
+        linear-gradient(90deg, transparent 0 10%, rgba(255, 226, 135, .1) 10.3% 10.8%, transparent 11.1% 89%, rgba(255, 226, 135, .1) 89.2% 89.7%, transparent 90%),
+        repeating-linear-gradient(90deg, rgba(255, 236, 176, .035) 0 1px, transparent 1px 72px);
+      opacity: .55;
     }
 
     .menu-nav {
@@ -80,7 +74,7 @@
       padding: 12px;
       border-bottom: 1px solid rgba(255, 226, 135, .18);
       background:
-        radial-gradient(circle, rgba(255, 226, 135, .48) 0 1.5px, transparent 2.5px) 0 0 / 34px 22px,
+        linear-gradient(90deg, rgba(255, 226, 135, .12), transparent 26%, transparent 74%, rgba(255, 226, 135, .12)),
         rgba(8, 6, 8, .62);
     }
 
@@ -164,16 +158,10 @@
       display: grid;
       place-items: center;
       background:
-        radial-gradient(circle, rgba(255, 239, 169, .62) 0 1.5px, transparent 2.5px) 0 0 / 62px 46px,
-        radial-gradient(circle, rgba(255, 56, 93, .46) 0 1.5px, transparent 3px) 26px 19px / 94px 72px,
-        radial-gradient(circle, rgba(100, 210, 163, .32) 0 1.5px, transparent 3px) 48px 7px / 116px 92px,
-        radial-gradient(ellipse at 9% 84%, rgba(32, 105, 62, .42), transparent 15rem),
-        radial-gradient(ellipse at 88% 86%, rgba(56, 118, 92, .3), transparent 14rem),
-        radial-gradient(circle at 19% 22%, rgba(255, 203, 69, .28), transparent 10rem),
-        radial-gradient(circle at 78% 18%, rgba(255, 56, 93, .22), transparent 11rem),
+        linear-gradient(90deg, rgba(88, 8, 28, .82), transparent 13%, transparent 87%, rgba(88, 8, 28, .82)),
+        radial-gradient(ellipse at 50% 8%, rgba(255, 224, 148, .34), transparent 18rem),
         linear-gradient(180deg, rgba(7, 5, 9, .1) 0 48%, rgba(22, 9, 7, .78) 72%),
-        linear-gradient(90deg, rgba(85, 0, 24, .9), transparent 16%, transparent 84%, rgba(85, 0, 24, .9)),
-        radial-gradient(circle at 50% 18%, rgba(255, 228, 136, .34), transparent 16rem);
+        repeating-linear-gradient(90deg, rgba(112, 16, 36, .48) 0 72px, rgba(34, 5, 14, .68) 72px 144px);
     }
 
     .title-screen::before,
@@ -200,12 +188,11 @@
       top: 0;
       height: 100%;
       background:
-        radial-gradient(circle, rgba(255, 236, 170, .62) 0 2px, transparent 3px) 0 0 / 58px 42px,
-        radial-gradient(circle at 16% 20%, rgba(255, 203, 69, .18), transparent 9rem),
-        radial-gradient(circle at 84% 22%, rgba(255, 56, 93, .16), transparent 10rem),
+        linear-gradient(90deg, rgba(255, 226, 135, .1), transparent 18%, transparent 82%, rgba(255, 226, 135, .1)),
+        radial-gradient(ellipse at 50% 12%, rgba(255, 203, 69, .2), transparent 13rem),
         linear-gradient(90deg, rgba(0, 0, 0, .42), transparent 22%, transparent 78%, rgba(0, 0, 0, .42));
       mix-blend-mode: screen;
-      opacity: .75;
+      opacity: .68;
     }
 
     .friendly-sign {
@@ -276,7 +263,7 @@
       text-align: center;
       border-bottom: 1px solid rgba(255, 226, 135, .22);
       background:
-        radial-gradient(circle, rgba(255, 231, 162, .95) 0 3px, transparent 4px) 0 0 / 34px 34px,
+        linear-gradient(90deg, rgba(255, 226, 135, .16), transparent 22%, transparent 78%, rgba(255, 226, 135, .16)),
         linear-gradient(180deg, rgba(84, 23, 34, .9), rgba(33, 18, 20, .95));
     }
 
@@ -298,7 +285,7 @@
       --look-yaw: 0deg;
       background:
         radial-gradient(ellipse at 50% 6%, rgba(255, 226, 135, .24), transparent 14rem),
-        repeating-linear-gradient(90deg, rgba(255, 226, 135, .055) 0 1px, transparent 1px 48px),
+        linear-gradient(90deg, rgba(255, 226, 135, .045), transparent 22%, transparent 78%, rgba(255, 226, 135, .045)),
         linear-gradient(180deg, rgba(8, 6, 8, .38), rgba(8, 5, 6, .72));
       perspective: 1100px;
     }
@@ -313,11 +300,10 @@
 
     .casino-hub::before {
       background:
-        radial-gradient(circle, rgba(255, 232, 160, .82) 0 2px, transparent 3px) 0 0 / 46px 34px,
-        radial-gradient(circle, rgba(255, 68, 128, .55) 0 2px, transparent 3px) 18px 14px / 82px 44px,
+        linear-gradient(90deg, rgba(255, 232, 160, .18), transparent 24%, transparent 76%, rgba(255, 68, 128, .16)),
+        repeating-linear-gradient(90deg, rgba(255, 226, 135, .05) 0 2px, transparent 2px 96px),
         linear-gradient(90deg, rgba(0, 0, 0, .7), transparent 18%, transparent 82%, rgba(0, 0, 0, .7));
-      opacity: .42;
-      mix-blend-mode: screen;
+      opacity: .48;
     }
 
     .casino-hub::after {
@@ -435,7 +421,7 @@
       border-radius: 8px;
       color: #fff0b6;
       background:
-        radial-gradient(circle, rgba(255, 236, 170, .76) 0 1.5px, transparent 2px) 0 0 / 22px 16px,
+        linear-gradient(180deg, rgba(255, 236, 170, .18), transparent 42%),
         rgba(82, 18, 32, .88);
       text-align: center;
       text-transform: uppercase;
@@ -3593,6 +3579,7 @@
         dragStart: null,
         dragPoint: null,
         balls: [],
+        pottedFx: [],
         keyboardAim: null,
         turn: 0,
         groups: [null, null],
@@ -3611,6 +3598,21 @@
 
     let audioContext;
     let ambientTimer;
+
+    window.addEventListener("error", event => {
+      console.error("Tavern runtime error", event.error || event.message);
+      state.gameStarting = false;
+      els.curtains?.classList?.remove("show", "closed");
+      if (els.notice) els.notice.textContent = "A table error was caught. Return to the main menu or start a fresh game.";
+      if (els.dialogue) els.dialogue.textContent = `"The house caught a bad script before it could wreck the table."`;
+    });
+
+    window.addEventListener("unhandledrejection", event => {
+      console.error("Tavern async error", event.reason);
+      state.gameStarting = false;
+      els.curtains?.classList?.remove("show", "closed");
+      if (els.notice) els.notice.textContent = "A connection or async error was caught. You can keep playing or try again.";
+    });
 
     function ensureAudio() {
       if (!state.audioEnabled) return null;
@@ -3903,25 +3905,26 @@
           if (state.multiplayer.socket !== socket) return;
           handleMultiplayerMessage(event.data);
         });
-        socket.addEventListener("close", () => {
+        socket.addEventListener("close", event => {
           if (state.multiplayer.socket !== socket) return;
           window.clearTimeout(timeoutId);
           state.multiplayer.connected = false;
           state.multiplayer.roomCode = "";
           state.multiplayer.role = "offline";
           state.multiplayer.peers = 0;
+          const detail = event?.code ? ` Code ${event.code}${event.reason ? `: ${event.reason}` : ""}.` : "";
           if (!settled) {
             settled = true;
-            setMultiplayerStatus("Could not reach the multiplayer server. If this is Render, wait 30 seconds for it to wake and include the token if you set SERVER_TOKEN.", true);
+            setMultiplayerStatus(`Could not reach the multiplayer server.${detail} If this is Render, wait 30 seconds for it to wake and include the token if you set SERVER_TOKEN.`, true);
             reject(new Error("Multiplayer connection closed."));
           } else {
-            setMultiplayerStatus("Offline. Run the server, then host or join a room.");
+            setMultiplayerStatus(`Offline.${detail} Run the server, then host or join a room.`);
           }
         });
-        socket.addEventListener("error", () => {
+        socket.addEventListener("error", event => {
           if (state.multiplayer.socket !== socket) return;
           window.clearTimeout(timeoutId);
-          setMultiplayerStatus("Could not reach the multiplayer server. Check the Render URL and optional SERVER_TOKEN.", true);
+          setMultiplayerStatus("Could not reach the multiplayer server. Check that the Render service is a Web Service, the URL starts with wss://, and the optional SERVER_TOKEN matches.", true);
           if (!settled) {
             settled = true;
             reject(new Error("Multiplayer connection failed."));
@@ -4023,7 +4026,7 @@
       try {
         await connectMultiplayer();
         if (sendMultiplayer("create-room", {})) {
-          setMultiplayerStatus("Host request sent. Waiting for the room code...");
+          setMultiplayerStatus("Host request sent. Waiting for the room code. If this hangs, press Wake/Test and check your token.");
         }
       } catch {
         setMultiplayerStatus("Could not connect. Use Wake/Test for Render, check the URL/token, then host again.", true);
@@ -4115,23 +4118,39 @@
     function startGameWithCurtains() {
       if (state.gameStarting) return;
       state.gameStarting = true;
+      let gameStarted = false;
       els.curtains.classList.add("show");
       requestAnimationFrame(() => els.curtains.classList.add("closed"));
       const curtainFailSafe = window.setTimeout(() => {
         els.curtains.classList.remove("show", "closed");
         state.gameStarting = false;
+        if (!gameStarted) {
+          document.body.classList.remove("game-started");
+          setMenuPage("cards");
+          els.dialogue.textContent = "\"The curtain jammed, but the table is still open. Try Start again.\"";
+        }
       }, 4200);
       window.setTimeout(() => {
-        document.body.classList.add("game-started");
-        newGame();
-        window.setTimeout(() => {
-          els.curtains.classList.remove("closed");
+        try {
+          document.body.classList.add("game-started");
+          newGame();
+          gameStarted = true;
+        } catch (error) {
+          console.error("Start game failed", error);
+          document.body.classList.remove("game-started");
+          setMenuPage("cards");
+          els.dialogue.textContent = "\"The table hit a bad shuffle. I reset the curtain so you can try again.\"";
+          addLog(`Start error: ${error?.message || "unknown error"}`);
+        } finally {
           window.setTimeout(() => {
-            els.curtains.classList.remove("show");
-            state.gameStarting = false;
-            window.clearTimeout(curtainFailSafe);
-          }, 950);
-        }, 320);
+            els.curtains.classList.remove("closed");
+            window.setTimeout(() => {
+              els.curtains.classList.remove("show");
+              state.gameStarting = false;
+              window.clearTimeout(curtainFailSafe);
+            }, 760);
+          }, 240);
+        }
       }, 900);
     }
 
@@ -5120,12 +5139,12 @@
       const dy = y - c;
       const dist = Math.hypot(dx, dy);
       if (dist > boardR) return { score: 0, label: "miss" };
-      if (dist <= boardR * .045) return { score: 50, label: "bullseye" };
-      if (dist <= boardR * .1) return { score: 25, label: "outer bull" };
+      if (dist <= boardR * .032) return { score: 50, label: "bullseye" };
+      if (dist <= boardR * .078) return { score: 25, label: "outer bull" };
       const degrees = (Math.atan2(dy, dx) * 180 / Math.PI + 450 + 9) % 360;
       const number = dartNumbers[Math.floor(degrees / 18)];
       const ratio = dist / boardR;
-      const mult = ratio >= .9 ? 2 : ratio >= .58 && ratio <= .66 ? 3 : 1;
+      const mult = ratio >= .92 ? 2 : ratio >= .6 && ratio <= .645 ? 3 : 1;
       return { score: number * mult, label: `${mult > 1 ? `${mult}x ` : ""}${number}` };
     }
 
@@ -5225,7 +5244,7 @@
       const dx = point.x - start.x;
       const dy = point.y - start.y;
       const strength = Math.min(100, Math.hypot(dx, dy) / 3);
-      if (strength < 8) {
+      if (strength < 18) {
         els.dartHint.textContent = "Pull back farther before releasing. Darts are drag throws, not clicks.";
         els.dartStrength.style.width = "0%";
         els.dartDistance.style.width = "0%";
@@ -5233,7 +5252,7 @@
         return;
       }
       const chalked = state.dartChalk > 0;
-      let steadiness = (state.pretzels > 0 ? 26 : 42) - (state.loungeBeer > 0 ? 8 : 0) - (chalked ? 14 : 0);
+      let steadiness = (state.pretzels > 0 ? 32 : 54) - (state.loungeBeer > 0 ? 7 : 0) - (chalked ? 13 : 0);
       if (artifactIs("soft-felt")) steadiness -= 6;
       if (artifactIs("weighted-moon")) steadiness -= 10;
       if (artifactIs("lucky-coaster")) steadiness -= 8;
@@ -5247,9 +5266,15 @@
       if (state.pretzels > 0) state.pretzels -= 1;
       if (state.loungeBeer > 0) state.loungeBeer -= 1;
       if (chalked) state.dartChalk -= 1;
-      const noise = Math.max(8, steadiness - strength * .18);
-      const x = start.x + dx * .18 + (Math.random() - .5) * noise;
-      const y = start.y + dy * .18 + (Math.random() - .5) * noise;
+      const sweetSpotPenalty = Math.abs(strength - 62) * .32;
+      const noise = Math.max(14, steadiness - strength * .08 + sweetSpotPenalty);
+      const pullDistance = Math.max(1, Math.hypot(dx, dy));
+      const perpX = -dy / pullDistance;
+      const perpY = dx / pullDistance;
+      const wobble = (Math.random() - .5) * noise;
+      const overPull = (strength - 62) * .06;
+      const x = start.x + dx * .08 + perpX * wobble + (Math.random() - .5) * noise * .55 + dx / pullDistance * overPull;
+      const y = start.y + dy * .08 + perpY * wobble + (Math.random() - .5) * noise * .55 + dy / pullDistance * overPull;
       throwDart(x, y, strength);
       els.dartStrength.style.width = "0%";
       els.dartDistance.style.width = "0%";
@@ -5575,8 +5600,36 @@
         ctx.fillStyle = "rgba(100,210,163,.36)";
         ctx.fill();
       }
+      drawPoolPocketEffects(ctx);
       state.pool.balls.forEach(ball => drawPoolBall(ctx, ball));
       renderPoolStatus();
+    }
+
+    function drawPoolPocketEffects(ctx) {
+      const now = performance.now();
+      state.pool.pottedFx = (state.pool.pottedFx || []).filter(fx => now - fx.at < 650);
+      state.pool.pottedFx.forEach(fx => {
+        const age = Math.min(1, (now - fx.at) / 650);
+        const ease = 1 - Math.pow(1 - age, 3);
+        const x = fx.x + (fx.pocket.x - fx.x) * ease;
+        const y = fx.y + (fx.pocket.y - fx.y) * ease;
+        const radius = fx.r * (1 - age * .68);
+        ctx.save();
+        ctx.globalAlpha = 1 - age;
+        ctx.beginPath();
+        ctx.arc(x, y, radius + 8 * age, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255, 226, 135, .18)";
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x, y, Math.max(1, radius), 0, Math.PI * 2);
+        const glow = ctx.createRadialGradient(x - 4, y - 5, 2, x, y, Math.max(4, radius * 1.25));
+        glow.addColorStop(0, "#fff8df");
+        glow.addColorStop(.34, fx.color);
+        glow.addColorStop(1, "rgba(0,0,0,.75)");
+        ctx.fillStyle = glow;
+        ctx.fill();
+        ctx.restore();
+      });
     }
 
     function roundRect(ctx, x, y, w, h, r) {
@@ -5702,7 +5755,7 @@
         }
         const caughtPocket = poolPockets().find(pocket => Math.hypot(ball.x - pocket.x, ball.y - pocket.y) < poolPocketCatchRadius(ball));
         if (caughtPocket) {
-          potPoolBall(ball);
+          potPoolBall(ball, caughtPocket);
           return;
         }
         if (ball.x < 46 + ball.r || ball.x > w - 46 - ball.r) {
@@ -5720,13 +5773,13 @@
       poolPockets().forEach(pocket => {
         state.pool.balls.forEach(ball => {
           if (!ball.pocketed && Math.hypot(ball.x - pocket.x, ball.y - pocket.y) < poolPocketCatchRadius(ball)) {
-            potPoolBall(ball);
+            potPoolBall(ball, pocket);
           }
         });
       });
       drawPoolTable();
       els.poolHint.textContent = ballsMoving() ? "Balls rolling..." : "Drag from the cue ball or use WASD to aim and Space to shoot.";
-      if (state.pool.active && ballsMoving()) requestAnimationFrame(tickPool);
+      if (state.pool.active && (ballsMoving() || (state.pool.pottedFx || []).length)) requestAnimationFrame(tickPool);
       else endPoolShot();
     }
 
@@ -5751,7 +5804,18 @@
       b.vy += impulse * ny;
     }
 
-    function potPoolBall(ball) {
+    function potPoolBall(ball, pocket = null) {
+      if (ball.pocketed) return;
+      const nearestPocket = pocket || poolPockets().sort((a, b) => Math.hypot(ball.x - a.x, ball.y - a.y) - Math.hypot(ball.x - b.x, ball.y - b.y))[0];
+      state.pool.pottedFx = state.pool.pottedFx || [];
+      state.pool.pottedFx.push({
+        x: ball.x,
+        y: ball.y,
+        r: ball.r,
+        pocket: nearestPocket || { x: ball.x, y: ball.y },
+        color: ball.n === 0 ? "#f7f0d9" : poolColors[ball.n] || "#f7f0d9",
+        at: performance.now()
+      });
       ball.pocketed = true;
       ball.vx = 0;
       ball.vy = 0;

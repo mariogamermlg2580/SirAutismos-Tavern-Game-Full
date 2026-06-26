@@ -363,6 +363,7 @@ function originAllowed(origin) {
     if (!origin || origin === "null" || origin.startsWith("file://")) return true;
     try {
       const parsed = new URL(origin);
+      if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return true;
       if (parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1" || parsed.hostname === "::1") return true;
     } catch {}
   }
