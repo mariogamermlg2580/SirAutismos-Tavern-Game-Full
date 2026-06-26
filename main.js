@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell } = require("electron");
+const { app, BrowserWindow, ipcMain, screen, shell } = require("electron");
 const fs = require("fs");
 const path = require("path");
 
@@ -9,12 +9,25 @@ if (!gotTheLock) {
 
 let mainWindow;
 
+function displayWindowOptions() {
+  const display = screen.getPrimaryDisplay();
+  const bounds = display.bounds || display.workArea || { width: 1280, height: 820 };
+  const workArea = display.workAreaSize || bounds;
+  return {
+    width: Math.max(1024, bounds.width || workArea.width || 1280),
+    height: Math.max(720, bounds.height || workArea.height || 820),
+    minWidth: Math.min(980, Math.max(760, workArea.width || 980)),
+    minHeight: Math.min(680, Math.max(560, workArea.height || 680))
+  };
+}
+
 function createWindow() {
+  const displayOptions = displayWindowOptions();
   mainWindow = new BrowserWindow({
-    width: 1280,
-    height: 820,
-    minWidth: 980,
-    minHeight: 680,
+    width: displayOptions.width,
+    height: displayOptions.height,
+    minWidth: displayOptions.minWidth,
+    minHeight: displayOptions.minHeight,
     show: false,
     fullscreen: true,
     autoHideMenuBar: true,

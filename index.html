@@ -34,7 +34,10 @@
 
     body {
       margin: 0;
+      width: 100%;
       min-height: 100vh;
+      min-height: calc(var(--app-vh, 1vh) * 100);
+      overflow-x: hidden;
       background:
         linear-gradient(90deg, rgba(44, 4, 15, .95), transparent 14%, transparent 86%, rgba(44, 4, 15, .95)),
         linear-gradient(180deg, rgba(255, 218, 132, .18), transparent 18%, rgba(0, 0, 0, .54) 78%),
@@ -132,6 +135,7 @@
 
     .app {
       width: min(1400px, 100%);
+      min-height: calc(var(--app-vh, 1vh) * 100);
       margin: 0 auto;
       padding: 18px;
       padding-left: max(18px, env(safe-area-inset-left));
@@ -154,6 +158,7 @@
     .title-screen {
       position: relative;
       min-height: 100vh;
+      min-height: calc(var(--app-vh, 1vh) * 100);
       padding: 24px;
       display: grid;
       place-items: center;
@@ -322,7 +327,7 @@
       z-index: 1;
       min-height: 280px;
       display: grid;
-      grid-template-columns: repeat(4, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 12px;
       align-items: end;
       transform-style: preserve-3d;
@@ -403,6 +408,13 @@
       background:
         radial-gradient(circle at 50% 18%, rgba(52, 210, 138, .25), transparent 8rem),
         linear-gradient(180deg, #142622, #070d0b);
+    }
+
+    .hub-area.bowling {
+      background:
+        radial-gradient(circle at 50% 18%, rgba(107, 231, 255, .24), transparent 8rem),
+        radial-gradient(ellipse at 50% 76%, rgba(255, 203, 69, .18), transparent 8rem),
+        linear-gradient(180deg, #121d2a, #08090d);
     }
 
     .hub-area.barkeep {
@@ -1176,6 +1188,89 @@
       text-shadow: 0 0 14px rgba(100, 210, 163, .6);
     }
 
+    body[data-table-skin="void"] .table {
+      background:
+        radial-gradient(circle at 50% 44%, rgba(255, 255, 255, .9) 0 2px, transparent 3px 9px, rgba(255, 255, 255, .15) 10px 12px, transparent 13px),
+        repeating-conic-gradient(from 0deg at 50% 45%, rgba(255, 255, 255, .06) 0 9deg, rgba(1, 1, 6, .42) 9deg 20deg),
+        radial-gradient(ellipse at 50% 44%, #111322 0 24%, #05050a 48%, #000 100%);
+      background-size: 100% 100%, 220% 220%, 100% 100%;
+      animation: tableVoidSwirl 4.4s linear infinite;
+      box-shadow:
+        0 34px 70px rgba(0, 0, 0, .6),
+        0 18px 0 rgba(0, 0, 0, .86),
+        inset 0 0 0 8px rgba(255, 255, 255, .13),
+        inset 0 0 90px rgba(0, 0, 0, .7);
+    }
+
+    body[data-table-skin="void"] .table .center::before {
+      content: "VOID TABLE";
+      color: rgba(255, 255, 255, .72);
+      text-shadow: 0 0 16px rgba(255, 255, 255, .7);
+    }
+
+    body[data-table-skin="minecraft"] .table {
+      background:
+        repeating-conic-gradient(from 45deg, rgba(101, 67, 33, .7) 0 25%, rgba(44, 126, 65, .7) 0 50%) 50% 50% / 48px 48px,
+        linear-gradient(180deg, rgba(68, 138, 64, .72), rgba(47, 82, 45, .94));
+      box-shadow:
+        0 34px 70px rgba(0, 0, 0, .5),
+        0 18px 0 rgba(61, 38, 17, .9),
+        inset 0 0 0 8px rgba(127, 88, 43, .42),
+        inset 0 0 60px rgba(169, 255, 119, .08);
+    }
+
+    body[data-table-skin="minecraft"] .table::after {
+      border-color: rgba(83, 55, 30, .62);
+      border-radius: 8px;
+    }
+
+    body[data-table-skin="minecraft"] .table .center::before {
+      content: "BLOCK TABLE";
+      color: rgba(214, 255, 177, .62);
+      text-shadow: 0 0 12px rgba(92, 255, 108, .36);
+    }
+
+    body[data-table-skin="fire"] .table {
+      background:
+        radial-gradient(circle at 22% 82%, rgba(255, 237, 134, .65), transparent 10rem),
+        radial-gradient(circle at 72% 78%, rgba(255, 77, 35, .6), transparent 12rem),
+        repeating-linear-gradient(115deg, rgba(255, 203, 69, .08) 0 18px, transparent 18px 36px),
+        linear-gradient(180deg, #3f0b10, #16080a 56%, #070404);
+      animation: tableFireGlow 1.6s ease-in-out infinite alternate;
+      box-shadow:
+        0 34px 70px rgba(0, 0, 0, .52),
+        0 18px 0 rgba(60, 18, 9, .9),
+        inset 0 0 0 8px rgba(255, 118, 39, .24),
+        inset 0 0 80px rgba(255, 91, 31, .16);
+    }
+
+    body[data-table-skin="fire"] .table .center::before {
+      content: "FIRE TABLE";
+      color: rgba(255, 231, 168, .72);
+      text-shadow: 0 0 16px rgba(255, 91, 31, .7);
+    }
+
+    body[data-table-skin="galactic"] .table {
+      background:
+        linear-gradient(115deg, transparent 0 35%, rgba(255, 255, 255, .55) 38% 41%, transparent 45%),
+        radial-gradient(circle at 18% 24%, rgba(255, 255, 255, .8) 0 1px, transparent 2px),
+        radial-gradient(circle at 75% 16%, rgba(255, 203, 69, .82) 0 2px, transparent 3px),
+        radial-gradient(ellipse at 50% 50%, rgba(94, 65, 179, .62), rgba(16, 15, 54, .92) 48%, rgba(5, 6, 18, .98));
+      background-size: 260% 260%, 150px 150px, 220px 220px, 100% 100%;
+      animation: tableEmperorGleam 2.8s ease-in-out infinite;
+      box-shadow:
+        0 34px 70px rgba(0, 0, 0, .58),
+        0 18px 0 rgba(14, 11, 43, .9),
+        inset 0 0 0 8px rgba(255, 226, 135, .24),
+        inset 0 0 90px rgba(142, 118, 255, .2);
+    }
+
+    body[data-table-skin="galactic"] .table .center::before {
+      content: "GALACTIC EMPEROR";
+      color: rgba(255, 240, 168, .76);
+      text-shadow: 0 0 18px rgba(255, 203, 69, .8);
+    }
+
     .table > * {
       position: relative;
       z-index: 1;
@@ -1674,6 +1769,19 @@
       50% { background-position: 60% 50%, 0 0, 0 0; filter: brightness(1.22) saturate(1.08); }
       100% { background-position: 220% 50%, 0 0, 0 0; filter: brightness(1); }
     }
+    @keyframes tableVoidSwirl {
+      from { background-position: 0 0, 0% 0%, 0 0; }
+      to { background-position: 0 0, 220% 220%, 0 0; }
+    }
+    @keyframes tableFireGlow {
+      from { filter: brightness(.98) saturate(1.05); }
+      to { filter: brightness(1.18) saturate(1.24); }
+    }
+    @keyframes tableEmperorGleam {
+      0% { background-position: -140% 50%, 0 0, 0 0, 0 0; }
+      50% { background-position: 60% 50%, 60px 60px, -70px 40px, 0 0; }
+      100% { background-position: 240% 50%, 150px 150px, 220px 220px, 0 0; }
+    }
     .card.selected {
       transform: translateY(-12px) rotateZ(1deg);
       outline: 3px solid var(--accent);
@@ -1843,6 +1951,7 @@
     .lounge {
       display: none;
       min-height: 100vh;
+      min-height: calc(var(--app-vh, 1vh) * 100);
       padding: 22px;
       position: relative;
       overflow-x: hidden;
@@ -1877,6 +1986,16 @@
         linear-gradient(90deg, rgba(97, 18, 40, .4), transparent 18%, transparent 82%, rgba(97, 18, 40, .4)),
         repeating-linear-gradient(90deg, rgba(255, 228, 145, .06) 0 1px, transparent 1px 58px),
         linear-gradient(135deg, #100609, #201116 50%, #0b0a08);
+    }
+
+    .lounge[data-area="bowling"] {
+      background:
+        radial-gradient(ellipse at 12% 46%, rgba(107, 231, 255, .28), transparent 12rem),
+        radial-gradient(circle at 24% 12%, rgba(255, 203, 69, .24), transparent 11rem),
+        radial-gradient(circle at 80% 16%, rgba(255, 74, 116, .22), transparent 12rem),
+        linear-gradient(90deg, rgba(25, 38, 74, .46), transparent 20%, transparent 80%, rgba(25, 38, 74, .46)),
+        repeating-linear-gradient(90deg, rgba(255, 228, 145, .06) 0 1px, transparent 1px 58px),
+        linear-gradient(135deg, #080b14, #171625 52%, #070608);
     }
 
     .lounge::before {
@@ -1980,7 +2099,7 @@
       align-items: start;
     }
 
-    .dart-stage, .pool-stage {
+    .dart-stage, .pool-stage, .bowling-stage {
       display: grid;
       gap: 10px;
       justify-items: center;
@@ -1998,7 +2117,7 @@
       min-height: 560px;
     }
 
-    .dart-stage::before, .pool-stage::before {
+    .dart-stage::before, .pool-stage::before, .bowling-stage::before {
       content: "";
       position: absolute;
       inset: auto 8% 0;
@@ -2099,6 +2218,27 @@
         0 34px 62px rgba(0, 0, 0, .48);
     }
 
+    #bowlingLane {
+      width: min(820px, 88vw);
+      aspect-ratio: 1.45 / 1;
+      border: 12px solid #45301d;
+      border-radius: 18px;
+      background: #1c1410;
+      cursor: crosshair;
+      touch-action: none;
+      position: relative;
+      z-index: 1;
+      transform: rotateX(6deg);
+      transform-origin: center 76%;
+      filter: saturate(1.08) contrast(1.04);
+      box-shadow:
+        0 0 0 1px rgba(255, 226, 135, .2),
+        inset 0 0 35px rgba(0, 0, 0, .42),
+        0 18px 0 #20130c,
+        0 25px 0 rgba(0, 0, 0, .22),
+        0 34px 62px rgba(0, 0, 0, .48);
+    }
+
     .throw-meters {
       width: min(520px, 88vw);
       display: grid;
@@ -2160,6 +2300,34 @@
       margin-bottom: 2px;
     }
 
+    .bowling-status {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      width: 100%;
+    }
+
+    .bowling-status div {
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, .07), transparent),
+        rgba(255, 255, 255, .045);
+      padding: 10px;
+      text-align: center;
+      font-weight: 900;
+      color: var(--accent);
+      box-shadow: inset 0 0 18px rgba(0, 0, 0, .18);
+    }
+
+    .bowling-status span {
+      display: block;
+      color: var(--muted);
+      font-size: .74rem;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
     .dart-player {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -2212,8 +2380,32 @@
     }
 
     .lounge[data-area="darts"] .pool-shop,
-    .lounge[data-area="pool"] .darts-shop {
+    .lounge[data-area="darts"] .bowling-shop,
+    .lounge[data-area="pool"] .darts-shop,
+    .lounge[data-area="pool"] .bowling-shop,
+    .lounge[data-area="bowling"] .darts-shop,
+    .lounge[data-area="bowling"] .pool-shop {
       display: none;
+    }
+
+    .bowling-cosmetics {
+      grid-column: 1 / -1;
+      border: 1px solid rgba(255, 226, 135, .18);
+      border-radius: 8px;
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+      background: rgba(7, 6, 8, .42);
+    }
+
+    .bowling-cosmetics .deck-buttons {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+
+    .bowling-cosmetics button.active {
+      background: var(--accent-2);
+      color: #092015;
+      border-color: #d8f8e9;
     }
 
     .artifact-banner {
@@ -2543,19 +2735,20 @@
         white-space: normal;
       }
 
-      .pool-status {
+      .pool-status,
+      .bowling-status {
         grid-template-columns: 1fr;
       }
 
-      #dartBoard, #poolTable {
-        width: min(92vw, 420px);
+      #dartBoard, #poolTable, #bowlingLane {
+        width: min(100%, 420px);
         max-width: 100%;
         border-width: 8px;
       }
 
       .throw-meters {
         grid-template-columns: 1fr;
-        width: min(92vw, 420px);
+        width: min(100%, 420px);
       }
     }
   </style>
@@ -2598,6 +2791,13 @@
             <h2>8-Ball Pool</h2>
             <p>Quiet green felt, brass lamps, and a table built for clean shots.</p>
             <button id="hubPool">Enter Room</button>
+          </section>
+          <section class="hub-area bowling" data-hub-area="bowling">
+            <div class="hub-sign">Bowling</div>
+            <div class="hub-set" aria-hidden="true"></div>
+            <h2>Bowling Lane</h2>
+            <p>Glossy wood, neon pins, and a lane with enough shine to judge you.</p>
+            <button id="hubBowling">Roll In</button>
           </section>
           <section class="hub-area barkeep" data-hub-area="barkeep">
             <div class="hub-sign">Barkeep</div>
@@ -2688,6 +2888,11 @@
                 <span class="roulette-label royal">Royal</span>
                 <span class="roulette-label mirror">Mirror</span>
                 <span class="roulette-label eclipse">Eclipse</span>
+                <span class="roulette-label silver">Silver</span>
+                <span class="roulette-label wildfire">Wildfire</span>
+                <span class="roulette-label storm">Storm</span>
+                <span class="roulette-label quiet">Quiet</span>
+                <span class="roulette-label joker">Joker</span>
               </div>
             </div>
             <button id="spinDeck">Spin Deck</button>
@@ -2701,6 +2906,11 @@
               <button data-deck="royal">Royal</button>
               <button data-deck="mirror">Mirror</button>
               <button data-deck="eclipse">Eclipse</button>
+              <button data-deck="silver">Silver</button>
+              <button data-deck="wildfire">Wildfire</button>
+              <button data-deck="storm">Storm</button>
+              <button data-deck="quiet">Quiet</button>
+              <button data-deck="joker">Joker</button>
             </div>
             <div class="selected-info" id="deckStatus">Standard deck: tavern chaos as usual.</div>
           </div>
@@ -2723,10 +2933,11 @@
               <tr><td>Free Dice</td><td>Only straights and flushes earn a free dice roll.</td></tr>
               <tr><td>Dice Cost</td><td>Normal rolls draw half the die size. D12 unlocks on turn 10 and D20 unlocks on turn 20.</td></tr>
               <tr><td>Dice Target</td><td>Click or tap an opponent panel during your turn. Big target draws are capped so one roll cannot instantly end the table.</td></tr>
-              <tr><td>Shop</td><td>Cards, darts, and pool each have different buyable items. Card table items use table coins; lounge games use table coins or a small bar wallet when played alone.</td></tr>
-              <tr><td>Cosmetics</td><td>Card and table cosmetics are visual only. The Cosmic table changes the card table into a space-styled felt without changing rules.</td></tr>
+              <tr><td>Shop</td><td>Cards, darts, pool, and bowling each have different buyable items. Card table items use table coins; lounge games use table coins or a small bar wallet when played alone.</td></tr>
+              <tr><td>Cosmetics</td><td>Card, table, and bowling cosmetics are visual only. Table skins include Cosmic, Void, Minecraft, Fire, and Galactic Emperor looks.</td></tr>
               <tr><td>Dealer</td><td>Optional chaos event: 1%, then 15% after turn 6, then 50% past turn 8.</td></tr>
-              <tr><td>Deck Roulette</td><td>Gold adds coins. Dragon starts with 15 cards and no dice. Blue adds rumors. Orange starts at 5 cards, caps at 15, uses D4 only, and has no action cards. Strike is a black-suit speed deck with no coins or action cards. Royal, Mirror, and Eclipse add stronger table twists.</td></tr>
+              <tr><td>Deck Roulette</td><td>Gold adds coins. Dragon starts with 15 cards and no dice. Blue adds rumors. Orange starts at 5 cards, caps at 15, uses D4 only, and has no action cards. Strike is a black-suit speed deck with no coins or action cards. Royal, Mirror, Eclipse, Silver, Wildfire, Storm, Quiet, and Joker add stronger table twists.</td></tr>
+              <tr><td>Bowling</td><td>Standard 10-frame bowling. Drag up the lane to roll. Shop items only help focus, spin, lane control, and cosmetics.</td></tr>
               <tr><td>Win Payouts</td><td>Card wins pay by AI difficulty: Easy 1, Medium 3, Hard 6. Boss pass now costs 50 wins.</td></tr>
             </tbody>
           </table>
@@ -2787,6 +2998,10 @@
               <button data-table-skin="cosmic">Cosmic</button>
               <button data-table-skin="velvet">Velvet</button>
               <button data-table-skin="neon">Neon Grid</button>
+              <button data-table-skin="void">Void</button>
+              <button data-table-skin="minecraft">Minecraft</button>
+              <button data-table-skin="fire">Fire</button>
+              <button data-table-skin="galactic">Galactic Emperor</button>
             </div>
             <button id="openAchievements">Achievements</button>
             <div class="selected-info" id="achievementStatus">Achievements unlock cosmetic cards and tables.</div>
@@ -2970,6 +3185,7 @@
       </div>
       <button id="newDarts">New Darts</button>
       <button id="newPool">New Pool</button>
+      <button id="newBowling">New Bowling</button>
       <button id="loungeMusic">Load Music</button>
       <button id="loungeMainMenu">Main Menu</button>
       <button id="loungeExitGame">Exit</button>
@@ -2978,6 +3194,7 @@
     <div class="lounge-mode">
       <button id="showDartsMode" class="active">Darts Hall</button>
       <button id="showPoolMode">8-Ball Billiards</button>
+      <button id="showBowlingMode">Bowling Lane</button>
     </div>
     <label class="wager-panel">Wagers
       <span id="wagerStatus">Bet 2 wins before a lounge game. Win and collect 4.</span>
@@ -3011,6 +3228,20 @@
           </div>
           <div class="selected-info" id="poolHint">8-ball rules: claim solids or stripes, sink your group, then sink the 8.</div>
           <div class="touch-help">Touch the cue ball, pull back, and release to shoot.</div>
+        </div>
+        <div class="bowling-stage lounge-game" id="bowlingGameView">
+          <canvas id="bowlingLane" width="900" height="620"></canvas>
+          <div class="throw-meters">
+            <div class="meter">Roll Power <span id="bowlingPower"></span></div>
+            <div class="meter">Spin Control <span id="bowlingSpin"></span></div>
+          </div>
+          <div class="bowling-status">
+            <div><span>Frame</span><b id="bowlingFrame">1</b></div>
+            <div><span>Turn</span><b id="bowlingTurnName">You</b></div>
+            <div><span>Pins</span><b id="bowlingPins">10</b></div>
+          </div>
+          <div class="selected-info" id="bowlingHint">Drag upward on the lane and release to roll. Standard 10-frame bowling.</div>
+          <div class="touch-help">Touch the lane, drag toward the pins, and release. A/D aims, Z/X adds spin, W/S changes power, Space rolls.</div>
         </div>
         <div class="dialogue" id="loungeDialogue">The saxophone is imaginary, but the attitude is real.</div>
         <div class="lounge-log" id="loungeLog"></div>
@@ -3073,6 +3304,42 @@
         <strong>Spotter Lamp - 5 coins</strong>
         <span>Highlights legal target balls for your next few shots.</span>
         <button id="buySpotterLamp">Buy Lamp</button>
+      </div>
+    </div>
+    <div class="lounge-shop bowling-shop">
+      <div class="shop-item">
+        <strong>Focus Soda - 3 coins</strong>
+        <span>Steadies your next bowling roll and tightens the pocket.</span>
+        <button id="buyBowlingFocus">Buy Focus</button>
+      </div>
+      <div class="shop-item">
+        <strong>Wrist Tape - 4 coins</strong>
+        <span>Adds controlled spin to the next roll without sending it wild.</span>
+        <button id="buyWristTape">Buy Tape</button>
+      </div>
+      <div class="shop-item">
+        <strong>Lane Polish - 5 coins</strong>
+        <span>Gives your next roll a cleaner glide and reduces gutter danger.</span>
+        <button id="buyLanePolish">Polish Lane</button>
+      </div>
+      <div class="shop-item">
+        <strong>Flame Ball Wax - 6 coins</strong>
+        <span>Lights up your next ball for stronger pin carry.</span>
+        <button id="buyFlameWax">Wax Ball</button>
+      </div>
+      <div class="shop-item">
+        <strong>Pin Spotlight - 5 coins</strong>
+        <span>Shows a brighter target pocket and adds one roll of aim help.</span>
+        <button id="buyPinSpotlight">Buy Spotlight</button>
+      </div>
+      <div class="bowling-cosmetics">
+        <strong>Bowling Cosmetics</strong>
+        <div class="deck-buttons">
+          <button data-bowling-cosmetic="classic">Classic Lane</button>
+          <button data-bowling-cosmetic="fireball">Fire Ball</button>
+          <button data-bowling-cosmetic="neonpins">Animated Pins</button>
+          <button data-bowling-cosmetic="galactic">Galactic Lane</button>
+        </div>
       </div>
     </div>
     <audio id="musicPlayer" loop></audio>
@@ -3229,6 +3496,13 @@
         description: "Win an 8-ball match by clearing your group and sinking the 8.",
         colors: ["#16885e", "#f8ead1"],
         art: ["011110", "100001", "101101", "100001", "011110", "001100"]
+      },
+      {
+        key: "bowlingWinner",
+        name: "Bowling Winner",
+        description: "Win a 10-frame bowling match in the bar lounge.",
+        colors: ["#6be7ff", "#ffcb45"],
+        art: ["001100", "011110", "111111", "011110", "111111", "100001"]
       },
       {
         key: "artifactOwner",
@@ -3450,7 +3724,7 @@
       {
         key: "loungeWins5",
         name: "Lounge Regular",
-        description: "Win 5 total darts or pool games.",
+        description: "Win 5 total darts, pool, or bowling games.",
         colors: ["#64d2a3", "#ff385d"],
         art: ["101101", "011110", "111111", "011110", "101101", "010010"]
       },
@@ -3467,6 +3741,13 @@
         description: "Win 3 billiards games.",
         colors: ["#64d2a3", "#0f6b4a"],
         art: ["111111", "100001", "101101", "100001", "111111", "001100"]
+      },
+      {
+        key: "bowlingWins3",
+        name: "Lane Royalty",
+        description: "Win 3 bowling games.",
+        colors: ["#6be7ff", "#f8ead1"],
+        art: ["001100", "011110", "111111", "111111", "011110", "001100"]
       }
     ];
     const deckModes = {
@@ -3514,6 +3795,31 @@
         label: "Eclipse",
         description: "Eclipse deck: darker hands, fewer dice turns, and higher rewards for clean poker plays.",
         quote: "Eclipse deck: the lights dim, and the discard pile starts listening."
+      },
+      silver: {
+        label: "Silver",
+        description: "Silver deck: everyone starts with 3 coins and poker hands pay one extra coin.",
+        quote: "Silver deck: polished coins, quiet pressure, and expensive little combos."
+      },
+      wildfire: {
+        label: "Wildfire",
+        description: "Wildfire deck: extra 8s enter the shoe and wild plays show up faster.",
+        quote: "Wildfire deck: too many 8s, not enough fire exits."
+      },
+      storm: {
+        label: "Storm",
+        description: "Storm deck: dice unlock earlier. D12 opens on turn 6 and D20 opens on turn 12.",
+        quote: "Storm deck: the dice are already awake and asking for weather reports."
+      },
+      quiet: {
+        label: "Quiet",
+        description: "Quiet deck: no dealer, no action cards, calmer hands, and a 30-card forfeit cap.",
+        quote: "Quiet deck: the table lowers its voice, which is honestly suspicious."
+      },
+      joker: {
+        label: "Joker",
+        description: "Joker deck: action cards are more common and every player starts with 2 coins.",
+        quote: "Joker deck: the action cards have entered the room with too much confidence."
       }
     };
     const deckWheelColors = {
@@ -3525,7 +3831,12 @@
       strike: "#161616",
       royal: "#7833c9",
       mirror: "#4cb8ba",
-      eclipse: "#24163d"
+      eclipse: "#24163d",
+      silver: "#aeb8c7",
+      wildfire: "#f05a28",
+      storm: "#3d8cff",
+      quiet: "#4d8a82",
+      joker: "#d13df2"
     };
     const championRumors = [
       "Rumor says the champion once won with one card and a very tired smile.",
@@ -3602,6 +3913,7 @@
       hubCards: document.querySelector("#hubCards"),
       hubDarts: document.querySelector("#hubDarts"),
       hubPool: document.querySelector("#hubPool"),
+      hubBowling: document.querySelector("#hubBowling"),
       hubBarkeep: document.querySelector("#hubBarkeep"),
       titlePlayerCount: document.querySelector("#titlePlayerCount"),
       titleFriendMode: document.querySelector("#titleFriendMode"),
@@ -3694,10 +4006,13 @@
       loungeMainMenu: document.querySelector("#loungeMainMenu"),
       loungeExitGame: document.querySelector("#loungeExitGame"),
       newDarts: document.querySelector("#newDarts"),
+      newBowling: document.querySelector("#newBowling"),
       showDartsMode: document.querySelector("#showDartsMode"),
       showPoolMode: document.querySelector("#showPoolMode"),
+      showBowlingMode: document.querySelector("#showBowlingMode"),
       dartsGameView: document.querySelector("#dartsGameView"),
       poolGameView: document.querySelector("#poolGameView"),
+      bowlingGameView: document.querySelector("#bowlingGameView"),
       wagerEnabled: document.querySelector("#wagerEnabled"),
       wagerStatus: document.querySelector("#wagerStatus"),
       loungeMusic: document.querySelector("#loungeMusic"),
@@ -3731,7 +4046,19 @@
       poolYouGroup: document.querySelector("#poolYouGroup"),
       poolSecondLabel: document.querySelector("#poolSecondLabel"),
       poolAiGroup: document.querySelector("#poolAiGroup"),
-      poolTurnName: document.querySelector("#poolTurnName")
+      poolTurnName: document.querySelector("#poolTurnName"),
+      bowlingLane: document.querySelector("#bowlingLane"),
+      bowlingPower: document.querySelector("#bowlingPower"),
+      bowlingSpin: document.querySelector("#bowlingSpin"),
+      bowlingFrame: document.querySelector("#bowlingFrame"),
+      bowlingTurnName: document.querySelector("#bowlingTurnName"),
+      bowlingPins: document.querySelector("#bowlingPins"),
+      bowlingHint: document.querySelector("#bowlingHint"),
+      buyBowlingFocus: document.querySelector("#buyBowlingFocus"),
+      buyWristTape: document.querySelector("#buyWristTape"),
+      buyLanePolish: document.querySelector("#buyLanePolish"),
+      buyFlameWax: document.querySelector("#buyFlameWax"),
+      buyPinSpotlight: document.querySelector("#buyPinSpotlight")
     };
 
     function readSavedObject(key, fallback = {}) {
@@ -3796,6 +4123,12 @@
       poolPocketBoost: 0,
       poolSpotter: 0,
       poolShotCarry: false,
+      bowlingFocus: 0,
+      bowlingSpinControl: 0,
+      bowlingPolish: 0,
+      bowlingFlame: 0,
+      bowlingSpotlight: 0,
+      bowlingCosmetic: readSavedText("satcasBowlingCosmetic", "classic"),
       multiplayer: {
         socket: null,
         connected: false,
@@ -3815,12 +4148,14 @@
           cardGamesPlayed: 0,
           dartsGamesPlayed: 0,
           poolGamesPlayed: 0,
+          bowlingGamesPlayed: 0,
           totalGamesPlayed: 0,
           cardsPlayed: 0,
           winsEarned: 0,
           cardWins: 0,
           dartsWins: 0,
-          poolWins: 0
+          poolWins: 0,
+          bowlingWins: 0
         },
         ...readSavedObject("satcasStats")
       },
@@ -3865,6 +4200,21 @@
         scratch: false,
         wager: null
       },
+      bowling: {
+        active: false,
+        over: false,
+        players: [],
+        current: 0,
+        pins: [],
+        ball: null,
+        rolling: false,
+        dragging: false,
+        dragStart: null,
+        dragPoint: null,
+        keyboardAim: null,
+        fx: [],
+        wager: null
+      },
       winCurrency: Number(localStorage.getItem("satcasWins") || 0),
       jokers: {
         rage: 0,
@@ -3876,6 +4226,17 @@
 
     let audioContext;
     let ambientTimer;
+
+    function updateScreenProfile() {
+      const width = window.innerWidth || document.documentElement.clientWidth || 0;
+      const height = window.innerHeight || document.documentElement.clientHeight || 0;
+      document.documentElement.style.setProperty("--app-vh", `${Math.max(1, height * 0.01)}px`);
+      document.body.dataset.screen = width <= 580 ? "phone" : width <= 980 ? "tablet" : "desktop";
+    }
+
+    updateScreenProfile();
+    window.addEventListener("resize", updateScreenProfile, { passive: true });
+    window.addEventListener("orientationchange", () => window.setTimeout(updateScreenProfile, 120), { passive: true });
 
     window.addEventListener("error", event => {
       console.error("Tavern runtime error", event.error || event.message);
@@ -4029,6 +4390,8 @@
         : suits;
       const modeRanks = state.deckMode === "royal"
         ? [...ranks, "10", "J", "Q", "K", "A"]
+        : state.deckMode === "wildfire"
+          ? [...ranks, "8", "8", "8", "A"]
         : ranks;
       const standard = modeSuits.flatMap(suit => modeRanks.map(rank => ({
         suit: suit.id,
@@ -4038,13 +4401,14 @@
         rank,
         id: `${rank}${suit.id}-${cardId++}`
       })));
-      const allowActions = state.actionCardsEnabled && !["orange", "strike"].includes(state.deckMode);
+      const allowActions = state.actionCardsEnabled && !["orange", "strike", "quiet"].includes(state.deckMode);
       return allowActions ? [...standard, ...makeActionCards()] : standard;
     }
 
     function makeActionCards() {
       const kinds = state.diceEnabled ? ["dice", "dice", "decrease", "chip"] : ["decrease", "decrease"];
-      const count = Math.random() < balance.actionCardRareChance ? balance.actionCardRareCount : balance.actionCardCommonCount;
+      const baseCount = Math.random() < balance.actionCardRareChance ? balance.actionCardRareCount : balance.actionCardCommonCount;
+      const count = state.deckMode === "joker" ? baseCount + 2 : baseCount;
       return Array.from({ length: count }, () => {
         const actionKind = pick(kinds);
         return {
@@ -4388,6 +4752,14 @@
         state.diceEnabled = false;
         els.titleDiceEnabled.checked = false;
         els.startCards.value = "15";
+      } else if (state.deckMode === "quiet") {
+        state.actionCardsEnabled = false;
+        state.dealerEnabled = false;
+        els.titleActionCardsEnabled.checked = false;
+        els.titleDealerEnabled.checked = false;
+      } else if (state.deckMode === "joker") {
+        state.actionCardsEnabled = true;
+        els.titleActionCardsEnabled.checked = true;
       }
       if (state.jokers.rage > 0) {
         els.difficulty.value = "hard";
@@ -4447,7 +4819,7 @@
       state.current = 0;
       state.direction = 1;
       state.turnNumber = 1;
-      state.handLimit = state.deckMode === "orange" ? 15 : 25;
+      state.handLimit = state.deckMode === "orange" ? 15 : state.deckMode === "quiet" ? 30 : 25;
       state.selected.clear();
       state.keyboardCardIndex = 0;
       state.diceTargetIndex = 1;
@@ -4467,7 +4839,7 @@
       const total = clampNumber(Number(els.playerCount.value) || 2, 1, 4);
       const friendMode = !state.boss.active && state.friendMode;
       const playerTotal = friendMode ? 2 : state.boss.active ? 2 : total === 1 ? 2 : total;
-      const startCards = state.deckMode === "dragon" ? 15 : state.deckMode === "orange" || state.deckMode === "strike" ? 5 : clampNumber(Number(els.startCards.value) || 7, 5, 15);
+      const startCards = state.deckMode === "dragon" ? 15 : state.deckMode === "orange" || state.deckMode === "strike" ? 5 : state.deckMode === "quiet" ? 6 : clampNumber(Number(els.startCards.value) || 7, 5, 15);
       state.players.push(makePlayer("You", false));
       const usedNames = new Set(["You", "Friend"]);
       if (friendMode) {
@@ -4552,6 +4924,25 @@
           player.rollLock += 1;
         });
         addLog("Eclipse deck: dice start locked for 1 turn, but poker plays pay brighter.");
+      } else if (state.deckMode === "silver") {
+        state.players.forEach(player => {
+          player.coins += 3;
+        });
+        addLog("Silver deck: every player starts with 3 coins, and poker hands pay one extra coin.");
+      } else if (state.deckMode === "wildfire") {
+        addLog("Wildfire deck: extra 8s are in the shoe. Wild cards will show up more often.");
+      } else if (state.deckMode === "storm") {
+        state.diceEnabled = true;
+        addLog("Storm deck: dice are eager. D12 opens turn 6 and D20 opens turn 12.");
+      } else if (state.deckMode === "quiet") {
+        state.actionCardsEnabled = false;
+        state.dealerEnabled = false;
+        addLog("Quiet deck: action cards and the Black Market Dealer are off, and the forfeit cap is 30.");
+      } else if (state.deckMode === "joker") {
+        state.players.forEach(player => {
+          player.coins += 2;
+        });
+        addLog("Joker deck: more action cards are hiding in the deck, and everyone starts with 2 coins.");
       }
     }
 
@@ -4811,6 +5202,7 @@
       { id: "cards", name: "Card Table", page: "cards", hint: "Set up cards, dice, decks, and table rules." },
       { id: "darts", name: "Darts Hall", lounge: "darts", hint: "Open standard 301 darts in the jazz lounge." },
       { id: "pool", name: "8-Ball Billiards", lounge: "pool", hint: "Open the billiards room with 8-ball rules." },
+      { id: "bowling", name: "Bowling Lane", lounge: "bowling", hint: "Open standard 10-frame bowling with helpful focus and spin items." },
       { id: "barkeep", name: "Barkeep Shop", page: "barkeep", hint: "Spend wins on jokers, cheats, boss passes, and cosmetics." }
     ];
 
@@ -4980,18 +5372,24 @@
       els.lounge.dataset.area = mode;
       els.dartsGameView.classList.toggle("active", mode === "darts");
       els.poolGameView.classList.toggle("active", mode === "pool");
+      els.bowlingGameView.classList.toggle("active", mode === "bowling");
       els.showDartsMode.classList.toggle("active", mode === "darts");
       els.showPoolMode.classList.toggle("active", mode === "pool");
-      els.loungePanelTitle.textContent = mode === "darts" ? "Darts Scoreboard" : "8-Ball Table";
-      els.dartScores.style.display = mode === "darts" ? "" : "none";
+      els.showBowlingMode.classList.toggle("active", mode === "bowling");
+      els.loungePanelTitle.textContent = mode === "darts" ? "Darts Scoreboard" : mode === "pool" ? "8-Ball Table" : "Bowling Scoreboard";
+      els.dartScores.style.display = mode === "pool" ? "none" : "";
       if (mode === "darts") {
         if (!state.darts.started && !state.darts.players?.length) startDartsGame();
         drawDartBoard();
         renderDarts();
-      } else {
+      } else if (mode === "pool") {
         if (!state.pool.active && !state.pool.balls?.length) startPoolGame();
         drawPoolTable();
         renderPoolStatus();
+      } else {
+        if (!state.bowling.active && !state.bowling.players?.length) startBowlingGame();
+        drawBowlingLane();
+        renderBowling();
       }
       renderWagerStatus();
     }
@@ -5001,7 +5399,7 @@
       els.wagerEnabled.disabled = state.winCurrency < 2;
       if (state.winCurrency < 2) els.wagerEnabled.checked = false;
       els.wagerStatus.textContent = state.winCurrency >= 2
-        ? "Bet 2 wins before a new darts or 8-ball game. Win and collect 4."
+        ? "Bet 2 wins before a new darts, 8-ball, or bowling game. Win and collect 4."
         : "Wagers need at least 2 wins.";
       renderLoungeShop();
     }
@@ -5034,9 +5432,10 @@
       const coins = loungeCoinBalance();
       const mode = state.loungeMode;
       els.loungeCoinCount.textContent = coins;
-      els.loungeShopTitle.textContent = mode === "pool" ? "8-Ball Shop" : "Darts Shop";
+      els.loungeShopTitle.textContent = mode === "pool" ? "8-Ball Shop" : mode === "bowling" ? "Bowling Shop" : "Darts Shop";
       const dartMode = mode === "darts";
       const poolMode = mode === "pool";
+      const bowlingMode = mode === "bowling";
       const setDisabled = (button, disabled) => {
         if (button) button.disabled = disabled;
       };
@@ -5050,6 +5449,14 @@
       setDisabled(els.buyBridgeStick, !poolMode || coins < 5);
       setDisabled(els.buyCueReset, !poolMode || coins < 6 || !state.pool.active || state.pool.over || ballsMoving());
       setDisabled(els.buySpotterLamp, !poolMode || coins < 5);
+      setDisabled(els.buyBowlingFocus, !bowlingMode || coins < 3);
+      setDisabled(els.buyWristTape, !bowlingMode || coins < 4);
+      setDisabled(els.buyLanePolish, !bowlingMode || coins < 5);
+      setDisabled(els.buyFlameWax, !bowlingMode || coins < 6);
+      setDisabled(els.buyPinSpotlight, !bowlingMode || coins < 5);
+      document.querySelectorAll("[data-bowling-cosmetic]").forEach(button => {
+        button.classList.toggle("active", state.bowlingCosmetic === button.dataset.bowlingCosmetic);
+      });
     }
 
     function startLoungeWager(gameName) {
@@ -5093,7 +5500,9 @@
         "A quiet patron says the board respects swagger.",
         "The jazz is low, the stakes are weird, and the floor has history.",
         "The barkeep watches the dartboard like it owes him an apology.",
-        "Somebody just toasted to bad choices and excellent lighting."
+        "Somebody just toasted to bad choices and excellent lighting.",
+        "A bowling pin wobbles like it knows too much.",
+        "The lane shines so hard it starts making eye contact."
       ]);
     }
 
@@ -5261,7 +5670,7 @@
 
     function drawLoungeBackdrop(ctx, w, h, mode) {
       const wall = ctx.createLinearGradient(0, 0, 0, h);
-      wall.addColorStop(0, mode === "pool" ? "#25131b" : "#2a1620");
+      wall.addColorStop(0, mode === "pool" ? "#25131b" : mode === "bowling" ? "#151d32" : "#2a1620");
       wall.addColorStop(.58, "#130b0e");
       wall.addColorStop(1, "#060405");
       ctx.fillStyle = wall;
@@ -5296,12 +5705,13 @@
       }
       ctx.strokeStyle = "rgba(255, 226, 135, .18)";
       ctx.lineWidth = 3;
-      roundRect(ctx, mode === "pool" ? w * .7 : w * .1, h * .39, w * .18, h * .12, 4);
+      const signX = mode === "pool" ? w * .7 : mode === "bowling" ? w * .41 : w * .1;
+      roundRect(ctx, signX, h * .39, w * .18, h * .12, 4);
       ctx.stroke();
       ctx.fillStyle = "rgba(255, 226, 135, .12)";
       ctx.font = `${Math.max(12, Math.floor(w * .022))}px system-ui`;
       ctx.textAlign = "center";
-      ctx.fillText(mode === "pool" ? "8 BALL" : "DARTS", mode === "pool" ? w * .79 : w * .19, h * .465);
+      ctx.fillText(mode === "pool" ? "8 BALL" : mode === "bowling" ? "BOWLING" : "DARTS", signX + w * .09, h * .465);
       if (mode === "darts") {
         ctx.fillStyle = "rgba(0,0,0,.34)";
         roundRect(ctx, w * .68, h * .58, w * .18, h * .08, 8);
@@ -5309,12 +5719,21 @@
         ctx.fillStyle = "rgba(37, 104, 72, .5)";
         roundRect(ctx, w * .71, h * .6, w * .12, h * .035, 6);
         ctx.fill();
-      } else {
+      } else if (mode === "pool") {
         ctx.fillStyle = "rgba(0,0,0,.32)";
         roundRect(ctx, w * .08, h * .56, w * .2, h * .07, 8);
         ctx.fill();
         ctx.fillStyle = "rgba(28, 120, 78, .45)";
         roundRect(ctx, w * .11, h * .575, w * .14, h * .032, 6);
+        ctx.fill();
+      } else {
+        ctx.fillStyle = "rgba(0,0,0,.34)";
+        roundRect(ctx, w * .08, h * .58, w * .18, h * .07, 8);
+        roundRect(ctx, w * .74, h * .58, w * .18, h * .07, 8);
+        ctx.fill();
+        ctx.fillStyle = "rgba(107,231,255,.34)";
+        roundRect(ctx, w * .1, h * .596, w * .14, h * .025, 5);
+        roundRect(ctx, w * .76, h * .596, w * .14, h * .025, 5);
         ctx.fill();
       }
       ctx.fillStyle = "rgba(34, 113, 69, .22)";
@@ -5705,11 +6124,572 @@
         state.poolSpotter = Math.max(state.poolSpotter, 3);
         addLoungeLog("Spotter Lamp bought. Legal target balls glow for three shots.");
         drawPoolTable();
+      } else if (kind === "bowlingFocus") {
+        if (!spendLoungeCoins(3, "Focus Soda")) return;
+        state.bowlingFocus += 1;
+        addLoungeLog("Focus Soda bought. Your next bowling roll tightens toward the pocket.");
+      } else if (kind === "wristTape") {
+        if (!spendLoungeCoins(4, "Wrist Tape")) return;
+        state.bowlingSpinControl += 1;
+        addLoungeLog("Wrist Tape bought. Your next bowling roll gets controlled spin.");
+      } else if (kind === "lanePolish") {
+        if (!spendLoungeCoins(5, "Lane Polish")) return;
+        state.bowlingPolish += 1;
+        addLoungeLog("Lane Polish bought. Your next roll glides cleaner and avoids ugly gutters.");
+      } else if (kind === "flameWax") {
+        if (!spendLoungeCoins(6, "Flame Ball Wax")) return;
+        state.bowlingFlame += 1;
+        addLoungeLog("Flame Ball Wax bought. Your next ball gets stronger pin carry.");
+      } else if (kind === "pinSpotlight") {
+        if (!spendLoungeCoins(5, "Pin Spotlight")) return;
+        state.bowlingSpotlight += 1;
+        addLoungeLog("Pin Spotlight bought. The lane will help your next target line.");
       }
       sound("shop");
-      renderDarts();
-      renderPoolStatus();
+      if (state.loungeMode === "darts") renderDarts();
+      else if (state.loungeMode === "pool") renderPoolStatus();
+      else renderBowling();
       renderLoungeShop();
+    }
+
+    function makeBowlingPlayer(profile, ai) {
+      return {
+        name: profile.name,
+        ai,
+        personality: profile.personality || "careful",
+        frames: Array.from({ length: 10 }, () => []),
+        frame: 0,
+        done: false
+      };
+    }
+
+    function startBowlingGame() {
+      rollArtifact("bowling");
+      addStat("bowlingGamesPlayed", 1);
+      addStat("totalGamesPlayed", 1);
+      setFriendMode(els.friendMode.checked || els.titleFriendMode.checked);
+      const count = Number(els.playerCount.value || els.titlePlayerCount.value || 2);
+      const friendMode = !state.boss.active && state.friendMode;
+      const total = friendMode ? 2 : count === 1 ? 2 : clampNumber(count, 2, 4);
+      const usedNames = new Set(["You"]);
+      state.bowling.players = [makeBowlingPlayer({ name: "You", personality: "careful" }, false)];
+      if (friendMode) {
+        state.bowling.players.push(makeBowlingPlayer({ name: "Friend", personality: "careful" }, false));
+      } else {
+        for (let i = 1; i < total; i++) {
+          const profile = generateAICharacter(usedNames);
+          state.bowling.players.push(makeBowlingPlayer(profile, true));
+        }
+      }
+      state.bowling.current = 0;
+      state.bowling.active = true;
+      state.bowling.over = false;
+      state.bowling.rolling = false;
+      state.bowling.dragging = false;
+      state.bowling.dragStart = null;
+      state.bowling.dragPoint = null;
+      state.bowling.keyboardAim = null;
+      state.bowling.ball = null;
+      state.bowling.fx = [];
+      els.loungeLog.innerHTML = "";
+      state.bowling.wager = startLoungeWager("Bowling");
+      resetBowlingPins();
+      applyArtifactBowlingStart();
+      addLoungeLog(friendMode
+        ? "New 10-frame bowling duel started. You and Friend pass the lane each turn."
+        : "New 10-frame bowling match started. Strikes, spares, and suspiciously shiny shoes.");
+      drawBowlingLane();
+      renderBowling();
+      runBowlingAIIfNeeded();
+    }
+
+    function applyArtifactBowlingStart() {
+      if (!state.activeArtifact) return;
+      if (artifactIs("brass-compass") || artifactIs("velvet-dartboard") || artifactIs("casino-map")) {
+        state.bowlingFocus += 1;
+        addLoungeLog(`${state.activeArtifact.name}: one extra focus boost waits on the lane.`);
+      } else if (artifactIs("jackpot-soul") || artifactIs("emperor-chip") || artifactIs("timekeeper-ace") || artifactIs("chandelier-crown")) {
+        state.bowlingFocus += 1;
+        state.bowlingFlame += 1;
+        addLoungeLog(`${state.activeArtifact.name}: focus and flame carry power wake up for bowling.`);
+      }
+    }
+
+    function bowlingPlayer() {
+      return state.bowling.players[state.bowling.current];
+    }
+
+    function bowlingStandingPins() {
+      return state.bowling.pins.filter(pin => !pin.fallen);
+    }
+
+    function resetBowlingPins() {
+      const w = els.bowlingLane.width;
+      const h = els.bowlingLane.height;
+      const center = w / 2;
+      const headY = h * .37;
+      const pins = [];
+      let id = 1;
+      for (let row = 0; row < 4; row++) {
+        const y = headY - row * 34;
+        for (let col = 0; col <= row; col++) {
+          pins.push({
+            id: id++,
+            row,
+            x: center + (col - row / 2) * 42,
+            y,
+            fallen: false,
+            fall: 0,
+            tilt: (Math.random() - .5) * .45
+          });
+        }
+      }
+      state.bowling.pins = pins;
+    }
+
+    function drawBowlingLane(aimPoint) {
+      const canvas = els.bowlingLane;
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+      drawLoungeBackdrop(ctx, w, h, "bowling");
+      drawPixelPatrons(ctx, w, h);
+      drawHangingLights(ctx, w, h);
+      const galactic = state.bowlingCosmetic === "galactic";
+      const lane = ctx.createLinearGradient(0, h * .12, 0, h);
+      lane.addColorStop(0, galactic ? "#1b1f4f" : "#d7a762");
+      lane.addColorStop(.48, galactic ? "#47318a" : "#b77b38");
+      lane.addColorStop(1, galactic ? "#070817" : "#6b3d1f");
+      ctx.fillStyle = "rgba(0,0,0,.45)";
+      ctx.beginPath();
+      ctx.ellipse(w / 2, h - 22, w * .42, 40, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(w * .22, h * .14);
+      ctx.lineTo(w * .78, h * .14);
+      ctx.lineTo(w * .92, h * .92);
+      ctx.lineTo(w * .08, h * .92);
+      ctx.closePath();
+      ctx.fillStyle = lane;
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255, 226, 135, .3)";
+      ctx.lineWidth = 8;
+      ctx.stroke();
+      ctx.fillStyle = galactic ? "rgba(255,255,255,.12)" : "rgba(255,255,255,.13)";
+      for (let i = 1; i < 8; i++) {
+        const topX = w * (.25 + i * .062);
+        const bottomX = w * (.09 + i * .102);
+        ctx.beginPath();
+        ctx.moveTo(topX, h * .15);
+        ctx.lineTo(bottomX, h * .91);
+        ctx.strokeStyle = i % 2 ? "rgba(255,255,255,.09)" : "rgba(80,35,15,.18)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+      ctx.fillStyle = "rgba(0,0,0,.34)";
+      ctx.beginPath();
+      ctx.moveTo(w * .06, h * .18);
+      ctx.lineTo(w * .2, h * .16);
+      ctx.lineTo(w * .08, h * .92);
+      ctx.lineTo(w * .01, h * .92);
+      ctx.closePath();
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(w * .8, h * .16);
+      ctx.lineTo(w * .94, h * .18);
+      ctx.lineTo(w * .99, h * .92);
+      ctx.lineTo(w * .92, h * .92);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = state.bowlingCosmetic === "galactic" ? "rgba(255,255,255,.38)" : "rgba(76, 35, 14, .28)";
+      for (let i = -2; i <= 2; i++) {
+        ctx.beginPath();
+        ctx.arc(w / 2 + i * 38, h * .69, 6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      if (state.bowlingSpotlight > 0 || aimPoint) drawBowlingAimGuide(ctx, aimPoint);
+      [...state.bowling.pins].sort((a, b) => a.y - b.y).forEach(pin => drawBowlingPin(ctx, pin));
+      if (state.bowling.ball) {
+        const ball = state.bowling.ball;
+        drawBowlingBall(ctx, ball.x, ball.y, ball.radius || 22, ball.flame);
+      } else {
+        drawBowlingBall(ctx, w / 2, h * .84, 24, state.bowlingCosmetic === "fireball");
+      }
+    }
+
+    function drawBowlingAimGuide(ctx, aimPoint) {
+      const w = els.bowlingLane.width;
+      const h = els.bowlingLane.height;
+      const target = aimPoint || { x: w / 2, y: h * .28 };
+      ctx.save();
+      ctx.strokeStyle = "rgba(255, 203, 69, .72)";
+      ctx.lineWidth = 4;
+      ctx.setLineDash([12, 9]);
+      ctx.beginPath();
+      ctx.moveTo(w / 2, h * .84);
+      ctx.lineTo(target.x, h * .29);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.arc(target.x, h * .29, 14, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(107, 231, 255, .82)";
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawBowlingPin(ctx, pin) {
+      const neon = state.bowlingCosmetic === "neonpins";
+      const pulse = neon ? .75 + Math.sin(performance.now() / 180 + pin.id) * .25 : 0;
+      ctx.save();
+      ctx.translate(pin.x, pin.y);
+      if (pin.fallen) {
+        pin.fall = Math.min(1, (pin.fall || 0) + .08);
+        ctx.rotate((Math.PI / 2.6) * pin.fall + pin.tilt);
+        ctx.translate(10 * pin.fall, 8 * pin.fall);
+      }
+      ctx.fillStyle = "rgba(0,0,0,.35)";
+      ctx.beginPath();
+      ctx.ellipse(4, 22, 18, 6, 0, 0, Math.PI * 2);
+      ctx.fill();
+      if (neon) {
+        ctx.shadowColor = `rgba(107, 231, 255, ${pulse})`;
+        ctx.shadowBlur = 16;
+      }
+      const body = ctx.createLinearGradient(-10, -28, 10, 28);
+      body.addColorStop(0, "#fffef4");
+      body.addColorStop(.5, neon ? "#d6fbff" : "#f8ead1");
+      body.addColorStop(1, "#c9baa0");
+      ctx.fillStyle = body;
+      ctx.beginPath();
+      ctx.moveTo(-8, -26);
+      ctx.quadraticCurveTo(-18, -5, -10, 20);
+      ctx.quadraticCurveTo(0, 32, 10, 20);
+      ctx.quadraticCurveTo(18, -5, 8, -26);
+      ctx.quadraticCurveTo(0, -33, -8, -26);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = neon ? "#6be7ff" : "#d42b36";
+      ctx.fillRect(-10, -10, 20, 5);
+      ctx.fillRect(-9, -3, 18, 4);
+      ctx.strokeStyle = "rgba(0,0,0,.18)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawBowlingBall(ctx, x, y, r = 24, flame = false) {
+      ctx.save();
+      if (flame || state.bowlingCosmetic === "fireball") {
+        ctx.fillStyle = "rgba(255, 88, 31, .22)";
+        for (let i = 0; i < 5; i++) {
+          ctx.beginPath();
+          ctx.arc(x - 26 + i * 12, y + 10 + Math.sin(performance.now() / 120 + i) * 4, 12 - i, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      ctx.beginPath();
+      ctx.ellipse(x + 8, y + r * .72, r * 1.15, r * .42, 0, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(0,0,0,.38)";
+      ctx.fill();
+      const fill = ctx.createRadialGradient(x - r * .35, y - r * .42, 3, x, y, r * 1.2);
+      if (state.bowlingCosmetic === "galactic") {
+        fill.addColorStop(0, "#fff");
+        fill.addColorStop(.35, "#755dff");
+        fill.addColorStop(1, "#050613");
+      } else if (flame || state.bowlingCosmetic === "fireball") {
+        fill.addColorStop(0, "#fff0a8");
+        fill.addColorStop(.4, "#ff6b24");
+        fill.addColorStop(1, "#260705");
+      } else {
+        fill.addColorStop(0, "#6be7ff");
+        fill.addColorStop(.38, "#233a5f");
+        fill.addColorStop(1, "#080b14");
+      }
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fillStyle = fill;
+      ctx.fill();
+      ctx.fillStyle = "rgba(0,0,0,.38)";
+      [[-.25, -.22], [.1, -.28], [-.04, .04]].forEach(([dx, dy]) => {
+        ctx.beginPath();
+        ctx.arc(x + dx * r, y + dy * r, r * .11, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.restore();
+    }
+
+    function bowlingPoint(event) {
+      const rect = els.bowlingLane.getBoundingClientRect();
+      const scale = els.bowlingLane.width / rect.width;
+      return { x: (event.clientX - rect.left) * scale, y: (event.clientY - rect.top) * scale };
+    }
+
+    function resolveBowlingHit(targetX, power, spin, player) {
+      const standing = bowlingStandingPins();
+      if (!standing.length) return [];
+      const w = els.bowlingLane.width;
+      const laneLeft = w * .13;
+      const laneRight = w * .87;
+      let assist = 0;
+      let noise = player.ai
+        ? els.difficulty.value === "hard" ? 20 : els.difficulty.value === "medium" ? 34 : 52
+        : 34;
+      if (!player.ai && state.bowlingFocus > 0) { assist += 1.2; noise -= 12; state.bowlingFocus -= 1; }
+      if (!player.ai && state.bowlingSpinControl > 0) { assist += .8; spin *= 1.18; noise -= 8; state.bowlingSpinControl -= 1; }
+      if (!player.ai && state.bowlingPolish > 0) { assist += .9; noise -= 7; state.bowlingPolish -= 1; }
+      if (!player.ai && state.bowlingFlame > 0) { assist += 1.4; state.bowlingFlame -= 1; }
+      if (!player.ai && state.bowlingSpotlight > 0) { assist += 1; noise -= 10; state.bowlingSpotlight -= 1; }
+      if (artifactIs("soft-felt") || artifactIs("lucky-coaster")) assist += .4;
+      if (artifactIs("brass-compass") || artifactIs("casino-map")) assist += .8;
+      if (artifactIs("jackpot-soul") || artifactIs("emperor-chip") || artifactIs("chandelier-crown")) assist += 1.2;
+      const impact = targetX + spin * .16 + (Math.random() - .5) * Math.max(4, noise);
+      if (impact < laneLeft || impact > laneRight) {
+        return Math.random() < .18 && standing.length ? [standing.sort((a, b) => Math.abs(a.x - impact) - Math.abs(b.x - impact))[0]] : [];
+      }
+      const pocket = Math.min(Math.abs(impact - (w / 2 - 18)), Math.abs(impact - (w / 2 + 18)));
+      const quality = clampNumber(1 - pocket / 220, 0, 1);
+      const powerQuality = clampNumber(1 - Math.abs(power - 68) / 72, 0, 1);
+      let expected = quality * 7.2 + powerQuality * 2.2 + assist + (Math.random() * 1.8 - .7);
+      if (pocket < 24 && power > 45 && power < 94) expected += 1.4;
+      if (power < 28) expected -= 2;
+      const count = clampNumber(Math.round(expected), 0, standing.length);
+      return standing
+        .map(pin => ({ pin, weight: Math.abs(pin.x - impact) + pin.row * 13 + Math.random() * 42 }))
+        .sort((a, b) => a.weight - b.weight)
+        .slice(0, count)
+        .map(item => item.pin);
+    }
+
+    function startBowlingRoll(targetX, power, spin, player = bowlingPlayer()) {
+      if (!state.bowling.active || state.bowling.over || state.bowling.rolling || !player) return;
+      const w = els.bowlingLane.width;
+      const h = els.bowlingLane.height;
+      const hits = resolveBowlingHit(targetX, power, spin, player);
+      state.bowling.ball = {
+        x: w / 2,
+        y: h * .84,
+        targetX,
+        power,
+        spin,
+        hits,
+        player,
+        t: 0,
+        radius: 24,
+        flame: state.bowlingCosmetic === "fireball"
+      };
+      state.bowling.rolling = true;
+      sound("dice");
+      requestAnimationFrame(tickBowlingRoll);
+    }
+
+    function tickBowlingRoll() {
+      const ball = state.bowling.ball;
+      if (!ball || !state.bowling.rolling) return;
+      const w = els.bowlingLane.width;
+      const h = els.bowlingLane.height;
+      ball.t = Math.min(1, ball.t + .022 + Math.min(.018, ball.power / 5200));
+      const ease = 1 - Math.pow(1 - ball.t, 3);
+      ball.x = w / 2 + (ball.targetX - w / 2) * ease + Math.sin(ball.t * Math.PI) * ball.spin * .04;
+      ball.y = h * .84 + (h * .31 - h * .84) * ease;
+      ball.radius = 24 - ease * 6;
+      drawBowlingLane();
+      if (ball.t < 1) {
+        requestAnimationFrame(tickBowlingRoll);
+        return;
+      }
+      const hitIds = new Set(ball.hits.map(pin => pin.id));
+      let knocked = 0;
+      state.bowling.pins.forEach(pin => {
+        if (!pin.fallen && hitIds.has(pin.id)) {
+          pin.fallen = true;
+          pin.fall = 0;
+          knocked += 1;
+        }
+      });
+      const player = ball.player;
+      state.bowling.ball = null;
+      drawBowlingLane();
+      sound(knocked ? "card" : "draw");
+      window.setTimeout(() => finishBowlingRoll(player, knocked), 520);
+    }
+
+    function finishBowlingRoll(player, knocked) {
+      if (!state.bowling.active || state.bowling.over || !player) return;
+      recordBowlingRoll(player, knocked);
+      renderBowling();
+      drawBowlingLane();
+      runBowlingAIIfNeeded();
+    }
+
+    function recordBowlingRoll(player, knocked) {
+      const frameIndex = clampNumber(player.frame, 0, 9);
+      const frame = player.frames[frameIndex];
+      frame.push(knocked);
+      const totalPins = frame.reduce((sum, roll) => sum + roll, 0);
+      const label = knocked === 10 ? "strike" : totalPins === 10 && frame.length === 2 ? "spare" : `${knocked} pin${knocked === 1 ? "" : "s"}`;
+      addLoungeLog(`${player.name} rolled ${label}.`);
+      let passTurn = false;
+      let resetPinsAfter = false;
+
+      if (frameIndex < 9) {
+        if (frame.length === 1 && knocked === 10) {
+          player.frame += 1;
+          passTurn = true;
+          resetPinsAfter = true;
+        } else if (frame.length >= 2) {
+          player.frame += 1;
+          passTurn = true;
+          resetPinsAfter = true;
+        }
+      } else if (frame.length === 1) {
+        if (knocked === 10) resetPinsAfter = true;
+      } else if (frame.length === 2) {
+        if (frame[0] === 10) {
+          if (knocked === 10) resetPinsAfter = true;
+        } else if (frame[0] + frame[1] >= 10) {
+          resetPinsAfter = true;
+        } else {
+          player.done = true;
+          passTurn = true;
+        }
+      } else {
+        player.done = true;
+        passTurn = true;
+      }
+
+      state.bowling.rolling = false;
+      if (state.bowling.players.every(item => item.done)) {
+        finishBowlingGame();
+        return;
+      }
+      if (resetPinsAfter) resetBowlingPins();
+      if (passTurn) advanceBowlingTurn();
+    }
+
+    function advanceBowlingTurn() {
+      const players = state.bowling.players;
+      for (let step = 1; step <= players.length; step++) {
+        const next = (state.bowling.current + step) % players.length;
+        if (!players[next].done) {
+          state.bowling.current = next;
+          resetBowlingPins();
+          break;
+        }
+      }
+      renderBowling();
+      drawBowlingLane();
+    }
+
+    function bowlingScore(player) {
+      const rolls = player.frames.flat();
+      let score = 0;
+      let rollIndex = 0;
+      for (let frame = 0; frame < 10; frame++) {
+        const first = rolls[rollIndex];
+        if (first == null) break;
+        if (first === 10) {
+          const bonusOne = rolls[rollIndex + 1];
+          const bonusTwo = rolls[rollIndex + 2];
+          score += 10 + (bonusOne || 0) + (bonusTwo || 0);
+          rollIndex += 1;
+        } else {
+          const second = rolls[rollIndex + 1];
+          if (second == null) {
+            score += first;
+            break;
+          }
+          const sum = first + second;
+          score += sum + (sum === 10 ? (rolls[rollIndex + 2] || 0) : 0);
+          rollIndex += 2;
+        }
+      }
+      return score;
+    }
+
+    function renderBowling() {
+      if (!els.bowlingFrame || !state.bowling.players?.length) {
+        renderLoungeShop();
+        return;
+      }
+      els.dartScores.innerHTML = "";
+      state.bowling.players.forEach((player, index) => {
+        const div = document.createElement("div");
+        div.className = `dart-player ${index === state.bowling.current ? "active" : ""}`;
+        const frameText = player.done ? "done" : `F${Math.min(10, player.frame + 1)} ${player.frames[player.frame]?.length ? "roll 2" : "roll 1"}`;
+        div.innerHTML = `<strong>${player.name}</strong><span>${bowlingScore(player)} pts - ${frameText}</span>`;
+        els.dartScores.appendChild(div);
+      });
+      const player = bowlingPlayer();
+      els.bowlingFrame.textContent = player?.done ? "Done" : `${Math.min(10, (player?.frame || 0) + 1)}`;
+      els.bowlingTurnName.textContent = player?.name || "Lane";
+      els.bowlingPins.textContent = bowlingStandingPins().length;
+      els.bowlingHint.textContent = player?.ai
+        ? `${player.name} is lining up a roll.`
+        : `Drag upward to roll. Focus: ${state.bowlingFocus}, Spin: ${state.bowlingSpinControl}, Polish: ${state.bowlingPolish}, Flame: ${state.bowlingFlame}, Spotlight: ${state.bowlingSpotlight}.`;
+      renderBarkeep();
+      renderLoungeShop();
+    }
+
+    function finishBowlingGame() {
+      state.bowling.over = true;
+      state.bowling.active = false;
+      const scores = state.bowling.players.map((player, index) => ({ player, index, score: bowlingScore(player) }));
+      scores.sort((a, b) => b.score - a.score);
+      const winner = scores[0];
+      const humanWon = winner.index === 0 || (state.friendMode && winner.index === 1);
+      addLoungeLog(`${winner.player.name} wins bowling with ${winner.score}.`);
+      if (humanWon) {
+        addStat("bowlingWins", 1);
+        unlockAchievement("bowlingWinner", "Bowling Winner");
+        resolveLoungeWager(state.bowling.wager, true, "Bowling");
+        sound("win");
+      } else {
+        resolveLoungeWager(state.bowling.wager, false, "Bowling");
+        sound("forfeit");
+      }
+      renderBowling();
+      renderBarkeep();
+    }
+
+    function runBowlingAIIfNeeded() {
+      const player = bowlingPlayer();
+      if (!state.loungeOpen || state.loungeMode !== "bowling" || !state.bowling.active || state.bowling.rolling || !player?.ai) return;
+      window.setTimeout(() => {
+        if (!state.loungeOpen || state.loungeMode !== "bowling" || state.bowling.rolling || bowlingPlayer() !== player) return;
+        const w = els.bowlingLane.width;
+        const spread = els.difficulty.value === "hard" ? 42 : els.difficulty.value === "medium" ? 70 : 105;
+        const targetX = w / 2 + (Math.random() - .5) * spread;
+        const power = els.difficulty.value === "hard" ? 68 + (Math.random() - .5) * 18 : 62 + (Math.random() - .5) * 28;
+        const spin = (Math.random() - .5) * (els.difficulty.value === "hard" ? 38 : 70);
+        startBowlingRoll(targetX, power, spin, player);
+      }, 760);
+    }
+
+    function humanBowlingTurn() {
+      const player = bowlingPlayer();
+      return state.loungeOpen && state.loungeMode === "bowling" && state.bowling.active && !state.bowling.over && !state.bowling.rolling && player && !player.ai;
+    }
+
+    function finishHumanBowling(point) {
+      if (!humanBowlingTurn() || !state.bowling.dragStart) return;
+      const start = state.bowling.dragStart;
+      const upward = start.y - point.y;
+      const distance = Math.hypot(point.x - start.x, point.y - start.y);
+      const power = clampNumber(upward / 3.8 + distance / 12, 0, 100);
+      if (upward < 28 || power < 18) {
+        els.bowlingHint.textContent = "Drag upward toward the pins before releasing. Bowling is a roll, not a tap.";
+        els.bowlingPower.style.width = "0%";
+        els.bowlingSpin.style.width = "0%";
+        drawBowlingLane();
+        return;
+      }
+      const spin = (point.x - start.x) * .55;
+      const targetX = clampNumber(point.x + spin * .28, els.bowlingLane.width * .1, els.bowlingLane.width * .9);
+      startBowlingRoll(targetX, power, spin, bowlingPlayer());
+      els.bowlingPower.style.width = "0%";
+      els.bowlingSpin.style.width = "0%";
     }
 
     function startPoolGame() {
@@ -6322,7 +7302,8 @@
       if (discarded > 0 && state.deckMode !== "strike") {
         const comboBoost = state.deckMode === "royal" && discarded >= 3 ? 1 : 0;
         const eclipseBoost = state.deckMode === "eclipse" && discarded >= 4 ? 2 : 0;
-        player.coins += discarded + comboBoost + eclipseBoost;
+        const silverBoost = state.deckMode === "silver" && discarded >= 3 ? 1 : 0;
+        player.coins += discarded + comboBoost + eclipseBoost + silverBoost;
       }
       return discarded;
     }
@@ -6561,7 +7542,8 @@
       const cardWins = Number(state.stats.cardWins || 0);
       const dartsWins = Number(state.stats.dartsWins || 0);
       const poolWins = Number(state.stats.poolWins || 0);
-      const loungeWins = Number(state.stats.dartsWins || 0) + Number(state.stats.poolWins || 0);
+      const bowlingWins = Number(state.stats.bowlingWins || 0);
+      const loungeWins = dartsWins + poolWins + bowlingWins;
       if (totalGames >= 5) unlockAchievement("games5", "Regular Customer");
       if (totalGames >= 20) unlockAchievement("games20", "House Familiar");
       if (totalGames >= 50) unlockAchievement("games50", "Tavern Fixture");
@@ -6580,6 +7562,7 @@
       if (loungeWins >= 5) unlockAchievement("loungeWins5", "Lounge Regular");
       if (dartsWins >= 3) unlockAchievement("dartsWins3", "Sharp Thrower");
       if (poolWins >= 3) unlockAchievement("poolWins3", "Corner Pocket Crew");
+      if (bowlingWins >= 3) unlockAchievement("bowlingWins3", "Lane Royalty");
     }
 
     function unlockAchievement(key, label) {
@@ -6612,7 +7595,11 @@
         classic: true,
         cosmic: true,
         velvet: state.achievements.firstCardWin || state.winCurrency >= 5,
-        neon: state.achievements.wins25 || state.winCurrency >= 25
+        neon: state.achievements.wins25 || state.winCurrency >= 25,
+        void: state.achievements.voidBanked || state.winCurrency >= 60,
+        minecraft: state.achievements.games20 || state.winCurrency >= 20,
+        fire: state.achievements.fireBanked || state.winCurrency >= 12,
+        galactic: state.achievements.barkeepDuel || state.achievements.wins75 || state.winCurrency >= 75
       };
     }
 
@@ -7617,8 +8604,8 @@
     }
 
     function dieUnlockTurn(sides) {
-      if (sides === 12) return 10;
-      if (sides === 20) return 20;
+      if (sides === 12) return state.deckMode === "storm" ? 6 : 10;
+      if (sides === 20) return state.deckMode === "storm" ? 12 : 20;
       return 1;
     }
 
@@ -8203,6 +9190,37 @@
       els.poolAim.style.width = "0%";
     }
 
+    function ensureBowlingKeyboardAim() {
+      if (!state.bowling.keyboardAim) {
+        state.bowling.keyboardAim = {
+          targetX: els.bowlingLane.width / 2,
+          power: 66,
+          spin: 0
+        };
+      }
+      return state.bowling.keyboardAim;
+    }
+
+    function moveBowlingKeyboardAim(targetDelta, powerDelta, spinDelta) {
+      if (!humanBowlingTurn()) return;
+      const aim = ensureBowlingKeyboardAim();
+      aim.targetX = clampNumber(aim.targetX + targetDelta, els.bowlingLane.width * .12, els.bowlingLane.width * .88);
+      aim.power = clampNumber(aim.power + powerDelta, 18, 100);
+      aim.spin = clampNumber(aim.spin + spinDelta, -110, 110);
+      els.bowlingPower.style.width = `${aim.power}%`;
+      els.bowlingSpin.style.width = `${Math.min(100, Math.abs(aim.spin))}%`;
+      drawBowlingLane({ x: aim.targetX, y: els.bowlingLane.height * .3 });
+      els.bowlingHint.textContent = `Keyboard roll: power ${Math.round(aim.power)}, spin ${Math.round(aim.spin)}. A/D aim, Z/X spin, W/S power, Space roll.`;
+    }
+
+    function rollKeyboardBowling() {
+      if (!humanBowlingTurn()) return;
+      const aim = ensureBowlingKeyboardAim();
+      startBowlingRoll(aim.targetX, aim.power, aim.spin, bowlingPlayer());
+      els.bowlingPower.style.width = "0%";
+      els.bowlingSpin.style.width = "0%";
+    }
+
     function handleCasinoKey(key) {
       if (key === "a" || key === "arrowleft" || key === "w" || key === "arrowup") walkCasinoHub(-1);
       else if (key === "d" || key === "arrowright" || key === "s" || key === "arrowdown") walkCasinoHub(1);
@@ -8244,6 +9262,18 @@
       return true;
     }
 
+    function handleBowlingKey(key) {
+      if (key === "a" || key === "arrowleft") moveBowlingKeyboardAim(-18, 0, 0);
+      else if (key === "d" || key === "arrowright") moveBowlingKeyboardAim(18, 0, 0);
+      else if (key === "w" || key === "arrowup") moveBowlingKeyboardAim(0, 4, 0);
+      else if (key === "s" || key === "arrowdown") moveBowlingKeyboardAim(0, -4, 0);
+      else if (key === "z") moveBowlingKeyboardAim(0, 0, -12);
+      else if (key === "x") moveBowlingKeyboardAim(0, 0, 12);
+      else if (key === " " || key === "enter") rollKeyboardBowling();
+      else return false;
+      return true;
+    }
+
     function handleGlobalKeys(event) {
       if (isTextEntryTarget(event.target) || els.achievementsModal.classList.contains("show")) return;
       if (handleSecretWinGrant(event)) {
@@ -8259,7 +9289,7 @@
           leaveLounge();
           handled = true;
         } else {
-          handled = state.loungeMode === "darts" ? handleDartKey(key) : handlePoolKey(key);
+          handled = state.loungeMode === "darts" ? handleDartKey(key) : state.loungeMode === "pool" ? handlePoolKey(key) : handleBowlingKey(key);
         }
       } else if (document.body.classList.contains("game-started")) {
         handled = handleCardKey(key);
@@ -8312,6 +9342,7 @@
     els.hubCards.addEventListener("click", startGameFromTitle);
     els.hubDarts.addEventListener("click", () => openLoungeArea("darts"));
     els.hubPool.addEventListener("click", () => openLoungeArea("pool"));
+    els.hubBowling.addEventListener("click", () => openLoungeArea("bowling"));
     els.hubBarkeep.addEventListener("click", approachBarkeep);
     els.titleFriendMode.addEventListener("change", () => setFriendMode(els.titleFriendMode.checked));
     els.friendMode.addEventListener("change", () => setFriendMode(els.friendMode.checked));
@@ -8345,6 +9376,7 @@
     });
     els.showDartsMode.addEventListener("click", () => switchLoungeMode("darts"));
     els.showPoolMode.addEventListener("click", () => switchLoungeMode("pool"));
+    els.showBowlingMode.addEventListener("click", () => switchLoungeMode("bowling"));
     els.loungeMusic.addEventListener("click", loadMusic);
     els.buyLoungeBeer.addEventListener("click", () => buyLoungeItem("beer"));
     els.buyPretzels.addEventListener("click", () => buyLoungeItem("pretzels"));
@@ -8356,10 +9388,20 @@
     els.buyBridgeStick.addEventListener("click", () => buyLoungeItem("bridgeStick"));
     els.buyCueReset.addEventListener("click", () => buyLoungeItem("cueReset"));
     els.buySpotterLamp.addEventListener("click", () => buyLoungeItem("spotterLamp"));
+    els.buyBowlingFocus.addEventListener("click", () => buyLoungeItem("bowlingFocus"));
+    els.buyWristTape.addEventListener("click", () => buyLoungeItem("wristTape"));
+    els.buyLanePolish.addEventListener("click", () => buyLoungeItem("lanePolish"));
+    els.buyFlameWax.addEventListener("click", () => buyLoungeItem("flameWax"));
+    els.buyPinSpotlight.addEventListener("click", () => buyLoungeItem("pinSpotlight"));
     els.newPool.addEventListener("click", () => {
       state.loungeMode = "pool";
       startPoolGame();
       switchLoungeMode("pool");
+    });
+    els.newBowling.addEventListener("click", () => {
+      state.loungeMode = "bowling";
+      startBowlingGame();
+      switchLoungeMode("bowling");
     });
     els.dartBoard.addEventListener("pointerdown", event => {
       const player = state.darts.players[state.darts.current];
@@ -8426,6 +9468,37 @@
       els.poolAim.style.width = "0%";
       drawPoolTable();
     });
+    els.bowlingLane.addEventListener("pointerdown", event => {
+      if (!humanBowlingTurn()) return;
+      state.bowling.dragging = true;
+      state.bowling.dragStart = bowlingPoint(event);
+      state.bowling.dragPoint = state.bowling.dragStart;
+      els.bowlingLane.setPointerCapture(event.pointerId);
+    });
+    els.bowlingLane.addEventListener("pointermove", event => {
+      if (!state.bowling.dragging) return;
+      state.bowling.dragPoint = bowlingPoint(event);
+      const start = state.bowling.dragStart;
+      const point = state.bowling.dragPoint;
+      const upward = Math.max(0, start.y - point.y);
+      const spin = Math.min(100, Math.abs(point.x - start.x) / 1.4);
+      els.bowlingPower.style.width = `${Math.min(100, upward / 3.8)}%`;
+      els.bowlingSpin.style.width = `${spin}%`;
+      drawBowlingLane({ x: point.x, y: point.y });
+    });
+    els.bowlingLane.addEventListener("pointerup", event => {
+      if (!state.bowling.dragging) return;
+      state.bowling.dragging = false;
+      finishHumanBowling(bowlingPoint(event));
+    });
+    els.bowlingLane.addEventListener("pointercancel", () => {
+      state.bowling.dragging = false;
+      state.bowling.dragStart = null;
+      state.bowling.dragPoint = null;
+      els.bowlingPower.style.width = "0%";
+      els.bowlingSpin.style.width = "0%";
+      drawBowlingLane();
+    });
     els.buyCigar.addEventListener("click", buyCigar);
     els.buyBeer.addEventListener("click", buyBeer);
     els.buyChip.addEventListener("click", buyChip);
@@ -8453,6 +9526,15 @@
     });
     document.querySelectorAll("[data-table-skin]").forEach(button => {
       button.addEventListener("click", () => selectTableSkin(button.dataset.tableSkin));
+    });
+    document.querySelectorAll("[data-bowling-cosmetic]").forEach(button => {
+      button.addEventListener("click", () => {
+        state.bowlingCosmetic = button.dataset.bowlingCosmetic;
+        localStorage.setItem("satcasBowlingCosmetic", state.bowlingCosmetic);
+        renderLoungeShop();
+        drawBowlingLane();
+        sound("shop");
+      });
     });
 
     refreshTagline();
