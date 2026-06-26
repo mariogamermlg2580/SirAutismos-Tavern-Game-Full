@@ -73,6 +73,97 @@
       mix-blend-mode: screen;
     }
 
+    .first-person-model {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: min(28vh, 230px);
+      z-index: 3;
+      pointer-events: none;
+      opacity: .9;
+      filter: drop-shadow(0 -10px 28px rgba(0, 0, 0, .42));
+    }
+
+    .first-person-model::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -44px;
+      width: min(520px, 72vw);
+      height: min(170px, 22vh);
+      transform: translateX(-50%);
+      border-radius: 44% 44% 0 0;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(255, 226, 135, .08), transparent 48%),
+        linear-gradient(180deg, rgba(22, 20, 26, .96), rgba(7, 7, 10, .98));
+      border: 1px solid rgba(255, 226, 135, .14);
+      box-shadow: inset 0 18px 38px rgba(255, 255, 255, .035), 0 -18px 60px rgba(0, 0, 0, .5);
+    }
+
+    .fp-arm,
+    .fp-hand {
+      position: absolute;
+      bottom: 0;
+    }
+
+    .fp-arm {
+      width: min(230px, 32vw);
+      height: min(105px, 14vh);
+      border-radius: 999px 999px 18px 18px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, .07), transparent 38%),
+        linear-gradient(90deg, #0b0b10, #252433 48%, #0b0b10);
+      border: 1px solid rgba(255, 226, 135, .12);
+      box-shadow: inset 0 12px 18px rgba(255, 255, 255, .04), 0 12px 24px rgba(0, 0, 0, .42);
+    }
+
+    .fp-arm.left {
+      left: max(7vw, 44px);
+      transform: rotate(12deg);
+    }
+
+    .fp-arm.right {
+      right: max(7vw, 44px);
+      transform: rotate(-12deg);
+    }
+
+    .fp-hand {
+      width: min(78px, 13vw);
+      height: min(58px, 8vh);
+      bottom: min(58px, 7vh);
+      border-radius: 45% 42% 48% 42%;
+      background:
+        radial-gradient(circle at 35% 26%, rgba(255, 245, 209, .5), transparent 28%),
+        linear-gradient(180deg, #d7a070, #8b5538);
+      border: 1px solid rgba(255, 226, 135, .18);
+      box-shadow: inset 0 -8px 12px rgba(67, 32, 18, .34), 0 8px 18px rgba(0, 0, 0, .36);
+    }
+
+    .fp-hand.left {
+      left: max(22vw, 84px);
+      transform: rotate(6deg);
+    }
+
+    .fp-hand.right {
+      right: max(22vw, 84px);
+      transform: rotate(-6deg);
+    }
+
+    .fp-hand::before,
+    .fp-hand::after {
+      content: "";
+      position: absolute;
+      top: 12%;
+      width: 18%;
+      height: 56%;
+      border-radius: 999px;
+      background: rgba(255, 220, 184, .36);
+    }
+
+    .fp-hand::before { left: 18%; }
+    .fp-hand::after { right: 18%; }
+
     button, select {
       font: inherit;
     }
@@ -122,6 +213,7 @@
       padding-bottom: max(18px, env(safe-area-inset-bottom));
       display: grid;
       gap: 16px;
+      perspective: 1300px;
     }
 
     body:not(.game-started) .app {
@@ -891,6 +983,13 @@
       position: relative;
     }
 
+    .topbar,
+    .shop,
+    .hand-area {
+      transform: perspective(1200px) rotateX(.9deg);
+      transform-origin: center top;
+    }
+
     .app::before {
       content: "";
       position: fixed;
@@ -961,9 +1060,9 @@
     }
 
     .table {
-      min-height: 400px;
+      min-height: 520px;
       border-radius: 8px;
-      padding: 16px;
+      padding: 24px 18px 120px;
       display: grid;
       grid-template-columns: 1fr minmax(260px, 420px) 1fr;
       gap: 18px;
@@ -971,6 +1070,8 @@
       position: relative;
       overflow: hidden;
       transform-style: preserve-3d;
+      transform: perspective(1200px) rotateX(3deg);
+      transform-origin: center bottom;
       background:
         radial-gradient(circle at 12% 16%, rgba(255, 203, 69, .15), transparent 9rem),
         radial-gradient(circle at 84% 18%, rgba(255, 56, 93, .12), transparent 10rem),
@@ -1000,11 +1101,11 @@
     .table::before {
       content: "";
       position: absolute;
-      inset: 24px 11%;
+      inset: 58px 8% 22px;
       border-radius: 50%;
       background:
         radial-gradient(ellipse at 50% 42%, rgba(67, 166, 108, .66), rgba(9, 84, 55, .44) 42%, rgba(17, 52, 36, .2) 68%, transparent 72%);
-      transform: perspective(700px) rotateX(58deg) translateZ(-48px);
+      transform: perspective(700px) rotateX(62deg) translateZ(-70px);
       filter: drop-shadow(0 24px 25px rgba(0, 0, 0, .38));
       pointer-events: none;
       z-index: -1;
@@ -1020,6 +1121,11 @@
       box-shadow:
         inset 0 0 18px rgba(255, 216, 132, .12),
         inset 0 -24px 46px rgba(0, 0, 0, .24);
+    }
+
+    .table > * {
+      position: relative;
+      z-index: 1;
     }
 
     .players {
@@ -1192,6 +1298,15 @@
       padding: 14px;
       display: grid;
       gap: 12px;
+      margin-bottom: min(10vh, 72px);
+      background:
+        radial-gradient(ellipse at 50% 100%, rgba(255, 226, 135, .12), transparent 20rem),
+        linear-gradient(145deg, rgba(255, 255, 255, .04), transparent 42%),
+        rgba(21, 16, 15, .94);
+      box-shadow:
+        0 22px 45px rgba(0, 0, 0, .32),
+        inset 0 18px 34px rgba(255, 255, 255, .04),
+        inset 0 -18px 30px rgba(0, 0, 0, .22);
     }
 
     .shop {
@@ -1199,6 +1314,20 @@
       padding: 14px;
       display: grid;
       gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shop::before {
+      content: "CASINO COUNTER";
+      position: absolute;
+      right: 14px;
+      top: 10px;
+      color: rgba(255, 231, 168, .32);
+      font-size: .72rem;
+      font-weight: 950;
+      letter-spacing: 0;
+      pointer-events: none;
     }
 
     .shop-head {
@@ -1506,6 +1635,7 @@
       padding: 22px;
       position: relative;
       overflow-x: hidden;
+      perspective: 1300px;
       background:
         radial-gradient(ellipse at 9% 42%, rgba(65, 132, 85, .42), transparent 11rem),
         radial-gradient(ellipse at 92% 68%, rgba(44, 120, 78, .32), transparent 13rem),
@@ -1587,6 +1717,13 @@
       z-index: 1;
     }
 
+    .lounge-top,
+    .lounge-layout,
+    .lounge-shop {
+      transform: perspective(1200px) rotateX(.75deg);
+      transform-origin: center top;
+    }
+
     .lounge-layout {
       position: relative;
       overflow: hidden;
@@ -1643,6 +1780,7 @@
         linear-gradient(180deg, rgba(25, 16, 16, .68), rgba(9, 8, 8, .82));
       box-shadow: inset 0 0 34px rgba(0, 0, 0, .28), 0 14px 32px rgba(0, 0, 0, .3);
       overflow: hidden;
+      min-height: 560px;
     }
 
     .dart-stage::before, .pool-stage::before {
@@ -1715,6 +1853,7 @@
       position: relative;
       z-index: 1;
       transform: rotateX(4deg) rotateZ(-.4deg);
+      transform-origin: center 76%;
       filter: saturate(1.08) contrast(1.04);
       box-shadow:
         0 0 0 1px rgba(255, 226, 135, .18),
@@ -1991,6 +2130,11 @@
         padding-bottom: 110px;
       }
 
+      .first-person-model {
+        height: min(20vh, 150px);
+        opacity: .72;
+      }
+
       .hand {
         flex-wrap: nowrap;
         overflow-x: auto;
@@ -2043,7 +2187,19 @@
 
       .table {
         padding: 10px;
+        padding-bottom: 88px;
         gap: 12px;
+        min-height: 440px;
+        transform: none;
+      }
+
+      .topbar,
+      .shop,
+      .hand-area,
+      .lounge-top,
+      .lounge-layout,
+      .lounge-shop {
+        transform: none;
       }
 
       .status {
@@ -2091,6 +2247,12 @@
   </style>
 </head>
 <body>
+  <div class="first-person-model" aria-hidden="true">
+    <span class="fp-arm left"></span>
+    <span class="fp-arm right"></span>
+    <span class="fp-hand left"></span>
+    <span class="fp-hand right"></span>
+  </div>
   <section class="title-screen">
     <div class="friendly-sign">Autism Friendly Experience</div>
     <div class="casino-front">
@@ -3182,33 +3344,87 @@
       return state.multiplayer.socket && state.multiplayer.socket.readyState === WebSocket.OPEN;
     }
 
+    function normalizeMultiplayerUrl(raw) {
+      let url = (raw || "").trim();
+      if (!url) return "ws://localhost:3217";
+      if (/^https?:\/\//i.test(url)) url = url.replace(/^http/i, "ws");
+      if (!/^wss?:\/\//i.test(url)) {
+        const secure = location.protocol === "https:";
+        url = `${secure ? "wss" : "ws"}://${url}`;
+      }
+      return url;
+    }
+
+    function closeStaleMultiplayerSocket() {
+      const socket = state.multiplayer.socket;
+      if (!socket || socket.readyState === WebSocket.CLOSED) return;
+      try {
+        socket.close();
+      } catch {}
+    }
+
     function connectMultiplayer() {
       if (socketReady()) return Promise.resolve(state.multiplayer.socket);
-      const url = els.multiplayerUrl.value.trim() || "ws://localhost:3217";
+      const url = normalizeMultiplayerUrl(els.multiplayerUrl.value);
+      els.multiplayerUrl.value = url;
+      closeStaleMultiplayerSocket();
       return new Promise((resolve, reject) => {
         let settled = false;
+        let timeoutId = 0;
         setMultiplayerStatus(`Connecting to ${url}...`);
-        const socket = new WebSocket(url);
+        let socket;
+        try {
+          socket = new WebSocket(url);
+        } catch {
+          setMultiplayerStatus("That multiplayer URL is not valid. Use ws:// or wss://.", true);
+          reject(new Error("Invalid multiplayer URL."));
+          return;
+        }
         state.multiplayer.socket = socket;
+        timeoutId = window.setTimeout(() => {
+          if (settled) return;
+          settled = true;
+          setMultiplayerStatus("Multiplayer connection timed out. Check the server URL.", true);
+          try { socket.close(); } catch {}
+          reject(new Error("Multiplayer connection timed out."));
+        }, 8000);
         socket.addEventListener("open", () => {
+          if (state.multiplayer.socket !== socket) return;
           state.multiplayer.connected = true;
           state.multiplayer.role = "connected";
           sendMultiplayer("hello-client", { name: "Tavern Player" });
           setMultiplayerStatus("Connected. Host a room or type a room code to join.");
           settled = true;
+          window.clearTimeout(timeoutId);
           resolve(socket);
         });
-        socket.addEventListener("message", event => handleMultiplayerMessage(event.data));
+        socket.addEventListener("message", event => {
+          if (state.multiplayer.socket !== socket) return;
+          handleMultiplayerMessage(event.data);
+        });
         socket.addEventListener("close", () => {
+          if (state.multiplayer.socket !== socket) return;
+          window.clearTimeout(timeoutId);
           state.multiplayer.connected = false;
           state.multiplayer.roomCode = "";
           state.multiplayer.role = "offline";
           state.multiplayer.peers = 0;
-          setMultiplayerStatus("Offline. Run the server, then host or join a room.");
+          if (!settled) {
+            settled = true;
+            setMultiplayerStatus("Could not reach the multiplayer server.", true);
+            reject(new Error("Multiplayer connection closed."));
+          } else {
+            setMultiplayerStatus("Offline. Run the server, then host or join a room.");
+          }
         });
         socket.addEventListener("error", () => {
+          if (state.multiplayer.socket !== socket) return;
+          window.clearTimeout(timeoutId);
           setMultiplayerStatus("Could not reach the multiplayer server.", true);
-          if (!settled) reject(new Error("Multiplayer connection failed."));
+          if (!settled) {
+            settled = true;
+            reject(new Error("Multiplayer connection failed."));
+          }
         });
       });
     }

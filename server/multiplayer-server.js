@@ -66,6 +66,10 @@ function encodeFrame(payload) {
   return Buffer.concat([Buffer.from(header), data]);
 }
 
+function encodeCloseFrame() {
+  return Buffer.from([0x88, 0x00]);
+}
+
 function send(client, message) {
   if (!client || client.socket.destroyed) return;
   try {
@@ -81,6 +85,7 @@ function closeClient(client, reason = "closed") {
   leaveRoom(client, false);
   clients.delete(client.id);
   try {
+    if (!client.socket.destroyed && client.socket.writable) client.socket.write(encodeCloseFrame());
     client.socket.end();
   } catch {
     try {
