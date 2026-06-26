@@ -372,16 +372,38 @@ function tokenAllowed(req) {
   }
 }
 
+function corsHeaders(req) {
+  const origin = req.headers.origin || "";
+  const allowOrigin = originAllowed(origin) ? (origin || "*") : "null";
+  return {
+    "access-control-allow-origin": allowOrigin,
+    "access-control-allow-methods": "GET, OPTIONS",
+    "access-control-allow-headers": "content-type",
+    "vary": "Origin"
+  };
+}
+
 function rejectUpgrade(socket, status, message) {
   socket.write(`HTTP/1.1 ${status} ${message}\r\nConnection: close\r\n\r\n`);
   socket.destroy();
 }
 
 const server = http.createServer((req, res) => {
+  if (req.method === "OPTIONS") {
+    res.writeHead(204, corsHeaders(req));
+    res.end();
+    return;
+  }
+  if (req.headers.origin && !originAllowed(req.headers.origin)) {
+    res.writeHead(403, { ...corsHeaders(req), "content-type": "application/json" });
+    res.end(JSON.stringify({ ok: false, error: "Origin forbidden" }));
+    return;
+  }
   res.writeHead(200, {
     "content-type": "application/json",
     "cache-control": "no-store",
-    "x-content-type-options": "nosniff"
+    "x-content-type-options": "nosniff",
+    ...corsHeaders(req)
   });
   res.end(JSON.stringify({
     ok: true,

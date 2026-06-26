@@ -598,7 +598,7 @@
 
     .multiplayer-actions {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(78px, 1fr));
       gap: 8px;
     }
 
@@ -620,15 +620,15 @@
 
     .barkeep-panel {
       grid-column: 1 / -1;
-      grid-template-columns: minmax(220px, .75fr) minmax(300px, 1.25fr);
+      grid-template-columns: minmax(260px, .78fr) minmax(340px, 1.22fr);
       align-items: stretch;
     }
 
     .barkeep-card {
       border: 1px solid rgba(255, 58, 93, .32);
       border-radius: 8px;
-      min-height: 230px;
-      padding: 14px;
+      min-height: 350px;
+      padding: 16px;
       display: grid;
       grid-template-rows: 1fr auto;
       align-content: stretch;
@@ -653,8 +653,9 @@
     }
 
     .barkeep-figure {
-      width: min(190px, 82%);
-      min-height: 164px;
+      width: min(230px, 88%);
+      height: 252px;
+      min-height: 252px;
       position: relative;
       align-self: end;
     }
@@ -663,8 +664,8 @@
       position: absolute;
       left: 50%;
       top: 4px;
-      width: 72px;
-      height: 92px;
+      width: 84px;
+      height: 106px;
       transform: translateX(-50%);
       border-radius: 44% 44% 38% 38%;
       background: linear-gradient(180deg, #2a2522, #121010);
@@ -700,8 +701,8 @@
       position: absolute;
       left: 50%;
       bottom: 0;
-      width: 154px;
-      height: 104px;
+      width: 176px;
+      height: 166px;
       transform: translateX(-50%);
       clip-path: polygon(18% 0, 82% 0, 100% 100%, 0 100%);
       background:
@@ -715,9 +716,9 @@
     .barkeep-tie {
       position: absolute;
       left: 50%;
-      bottom: 24px;
-      width: 18px;
-      height: 68px;
+      bottom: 40px;
+      width: 20px;
+      height: 112px;
       transform: translateX(-50%);
       clip-path: polygon(50% 0, 100% 18%, 72% 100%, 28% 100%, 0 18%);
       background: linear-gradient(180deg, #ff385d, #8d1228);
@@ -1366,7 +1367,7 @@
 
     .shop-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
       gap: 10px;
     }
 
@@ -1825,9 +1826,13 @@
 
     .lounge-top {
       display: grid;
-      grid-template-columns: 1fr auto auto auto;
+      grid-template-columns: minmax(220px, 1fr) repeat(6, auto);
       gap: 10px;
       align-items: center;
+    }
+
+    .lounge-top button {
+      white-space: nowrap;
     }
 
     .lounge-top h1 {
@@ -2051,8 +2056,31 @@
 
     .lounge-shop {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
       gap: 10px;
+    }
+
+    .lounge-shop-head {
+      border: 1px solid rgba(255, 226, 135, .22);
+      border-radius: 8px;
+      background: rgba(7, 10, 9, .64);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      transform: perspective(1200px) rotateX(.75deg);
+      transform-origin: center top;
+    }
+
+    .lounge-shop-head h2 {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .lounge[data-area="darts"] .pool-shop,
+    .lounge[data-area="pool"] .darts-shop {
+      display: none;
     }
 
     .artifact-banner {
@@ -2423,12 +2451,14 @@
               <input type="text" id="roomCodeInput" placeholder="Host creates one">
             </label>
             <div class="multiplayer-actions">
+              <button id="connectServer">Connect</button>
+              <button id="testServer">Wake/Test</button>
               <button id="hostRoom">Host</button>
               <button id="joinRoom">Join</button>
               <button id="syncRoom">Sync</button>
               <button id="leaveRoom">Leave</button>
             </div>
-            <div class="connection-status" id="multiplayerStatus">Offline. Run the server, then host or join a room.</div>
+            <div class="connection-status" id="multiplayerStatus">Offline. Paste your Render URL, wake/test the server, then host or join a room.</div>
           </div>
           <div class="roulette-box">
             <h2>Deck Roulette</h2>
@@ -2469,7 +2499,7 @@
               <tr><td>Free Dice</td><td>Only straights and flushes earn a free dice roll.</td></tr>
               <tr><td>Dice Cost</td><td>Normal rolls draw half the die size. D12 unlocks on turn 10 and D20 unlocks on turn 20.</td></tr>
               <tr><td>Dice Target</td><td>Click or tap an opponent panel during your turn. Big target draws are capped so one roll cannot instantly end the table.</td></tr>
-              <tr><td>Shop</td><td>Cards earn 1 coin. Cigar 5, Beer 7, Poker Chip 20.</td></tr>
+              <tr><td>Shop</td><td>Cards, darts, and pool each have 5 different buyable items. Card table items use table coins; lounge games use table coins or a small bar wallet when played alone.</td></tr>
               <tr><td>Dealer</td><td>Optional chaos event: 1%, then 15% after turn 6, then 50% past turn 8.</td></tr>
               <tr><td>Deck Roulette</td><td>Gold starts everyone with 5 coins. Dragon starts everyone with 15 cards and disables dice. Blue creates a serene rumor-filled game.</td></tr>
               <tr><td>Win Payouts</td><td>Card wins pay by AI difficulty: Easy 1, Medium 3, Hard 6. Boss pass now costs 50 wins.</td></tr>
@@ -2655,6 +2685,16 @@
           <span>Buy a free dice roll.</span>
           <button id="buyChip">Buy Chip</button>
         </div>
+        <div class="shop-item">
+          <strong>Matchbook - 6</strong>
+          <span>Burn one weak card from your hand. Cannot remove your final card.</span>
+          <button id="buyMatchbook">Burn Card</button>
+        </div>
+        <div class="shop-item">
+          <strong>Insurance Stub - 8</strong>
+          <span>Blocks up to 2 cards from your next draw burst.</span>
+          <button id="buyInsurance">Buy Stub</button>
+        </div>
       </div>
     </section>
 
@@ -2723,7 +2763,11 @@
       </div>
     </div>
 
-    <div class="lounge-shop">
+    <div class="lounge-shop-head">
+      <h2 id="loungeShopTitle">Darts Shop</h2>
+      <div class="coins">Bar Coins: <span id="loungeCoinCount">0</span></div>
+    </div>
+    <div class="lounge-shop darts-shop">
       <div class="shop-item">
         <strong>Amber Beer · 3 coins</strong>
         <span>Adds a tiny confidence boost to your next dart throw.</span>
@@ -2735,9 +2779,46 @@
         <button id="buyPretzels">Buy Pretzels</button>
       </div>
       <div class="shop-item">
+        <strong>Chalk Line - 4 coins</strong>
+        <span>Pulls one dart tighter toward where you aimed.</span>
+        <button id="buyDartChalk">Buy Chalk</button>
+      </div>
+      <div class="shop-item">
+        <strong>Spare Flight - 6 coins</strong>
+        <span>Grants one bonus dart instead of ending your turn at three throws.</span>
+        <button id="buySpareFlight">Buy Flight</button>
+      </div>
+      <div class="shop-item">
         <strong>Barkeep Toast · 1 win</strong>
-        <span>Costs a win, starts darts with extra swagger and dialogue.</span>
+        <span>Costs a win, queues beer, pretzels, and one chalk line.</span>
         <button id="buyToast">Toast</button>
+      </div>
+    </div>
+    <div class="lounge-shop pool-shop">
+      <div class="shop-item">
+        <strong>Cue Chalk - 3 coins</strong>
+        <span>Your next shot carries speed longer across the felt.</span>
+        <button id="buyCueChalk">Buy Chalk</button>
+      </div>
+      <div class="shop-item">
+        <strong>Rail Wax - 4 coins</strong>
+        <span>Widens pockets slightly for your next shot.</span>
+        <button id="buyRailWax">Wax Rails</button>
+      </div>
+      <div class="shop-item">
+        <strong>Bridge Stick - 5 coins</strong>
+        <span>Lets your next pool shot hit with a stronger controlled stroke.</span>
+        <button id="buyBridgeStick">Buy Bridge</button>
+      </div>
+      <div class="shop-item">
+        <strong>Cue Reset - 6 coins</strong>
+        <span>Places the cue ball back at a clean kitchen spot when balls are still.</span>
+        <button id="buyCueReset">Reset Cue</button>
+      </div>
+      <div class="shop-item">
+        <strong>Spotter Lamp - 5 coins</strong>
+        <span>Highlights legal target balls for your next few shots.</span>
+        <button id="buySpotterLamp">Buy Lamp</button>
       </div>
     </div>
     <audio id="musicPlayer" loop></audio>
@@ -3228,6 +3309,8 @@
       multiplayerUrl: document.querySelector("#multiplayerUrl"),
       multiplayerToken: document.querySelector("#multiplayerToken"),
       roomCodeInput: document.querySelector("#roomCodeInput"),
+      connectServer: document.querySelector("#connectServer"),
+      testServer: document.querySelector("#testServer"),
       hostRoom: document.querySelector("#hostRoom"),
       joinRoom: document.querySelector("#joinRoom"),
       syncRoom: document.querySelector("#syncRoom"),
@@ -3288,6 +3371,8 @@
       buyCigar: document.querySelector("#buyCigar"),
       buyBeer: document.querySelector("#buyBeer"),
       buyChip: document.querySelector("#buyChip"),
+      buyMatchbook: document.querySelector("#buyMatchbook"),
+      buyInsurance: document.querySelector("#buyInsurance"),
       useCigar: document.querySelector("#useCigar"),
       useBeer: document.querySelector("#useBeer"),
       winner: document.querySelector("#winner"),
@@ -3317,9 +3402,18 @@
       loungeDialogue: document.querySelector("#loungeDialogue"),
       loungeLog: document.querySelector("#loungeLog"),
       loungeArtifactStatus: document.querySelector("#loungeArtifactStatus"),
+      loungeShopTitle: document.querySelector("#loungeShopTitle"),
+      loungeCoinCount: document.querySelector("#loungeCoinCount"),
       buyLoungeBeer: document.querySelector("#buyLoungeBeer"),
       buyPretzels: document.querySelector("#buyPretzels"),
+      buyDartChalk: document.querySelector("#buyDartChalk"),
+      buySpareFlight: document.querySelector("#buySpareFlight"),
       buyToast: document.querySelector("#buyToast"),
+      buyCueChalk: document.querySelector("#buyCueChalk"),
+      buyRailWax: document.querySelector("#buyRailWax"),
+      buyBridgeStick: document.querySelector("#buyBridgeStick"),
+      buyCueReset: document.querySelector("#buyCueReset"),
+      buySpotterLamp: document.querySelector("#buySpotterLamp"),
       musicPlayer: document.querySelector("#musicPlayer"),
       newPool: document.querySelector("#newPool"),
       poolTable: document.querySelector("#poolTable"),
@@ -3348,6 +3442,8 @@
       const value = localStorage.getItem(key);
       return value || fallback;
     }
+
+    els.multiplayerUrl.value = readSavedText("satcasMultiplayerUrl", els.multiplayerUrl.value);
 
     const state = {
       deck: [],
@@ -3381,8 +3477,16 @@
       audioEnabled: true,
       loungeOpen: false,
       loungeMode: "darts",
+      loungeCoins: 8,
       loungeBeer: 0,
       pretzels: 0,
+      dartChalk: 0,
+      dartExtraThrow: 0,
+      poolChalk: 0,
+      poolBridge: 0,
+      poolPocketBoost: 0,
+      poolSpotter: 0,
+      poolShotCarry: false,
       multiplayer: {
         socket: null,
         connected: false,
@@ -3647,23 +3751,56 @@
       els.multiplayerStatus.style.color = bad ? "#ffb3c0" : "#d8f8e9";
     }
 
+    function saveMultiplayerUrl(url) {
+      localStorage.setItem("satcasMultiplayerUrl", url);
+    }
+
     function socketReady() {
       return state.multiplayer.socket && state.multiplayer.socket.readyState === WebSocket.OPEN;
     }
 
-    function normalizeMultiplayerUrl(raw) {
+    function normalizeMultiplayerUrl(raw, options = {}) {
+      const includeToken = options.includeToken !== false;
       let url = (raw || "").trim();
-      if (!url) return "ws://localhost:3217";
-      if (/^https?:\/\//i.test(url)) url = url.replace(/^http/i, "ws");
+      if (!url) url = "ws://localhost:3217";
+      const noScheme = !/^[a-z][a-z0-9+.-]*:\/\//i.test(url);
+      const renderHost = /\.onrender\.com/i.test(url);
+      if (noScheme) {
+        url = `${renderHost || location.protocol === "https:" ? "wss" : "ws"}://${url}`;
+      } else if (/^https?:\/\//i.test(url)) {
+        url = url.replace(/^http/i, "ws");
+      }
       if (!/^wss?:\/\//i.test(url)) {
-        const secure = location.protocol === "https:";
-        url = `${secure ? "wss" : "ws"}://${url}`;
+        url = `ws://${url.replace(/^[a-z][a-z0-9+.-]*:\/\//i, "")}`;
+      }
+      try {
+        const parsed = new URL(url);
+        const embeddedToken = parsed.searchParams.get("token");
+        if (embeddedToken && !els.multiplayerToken.value.trim()) {
+          els.multiplayerToken.value = embeddedToken;
+        }
+        parsed.searchParams.delete("token");
+        parsed.hash = "";
+        url = parsed.toString().replace(/\/$/, "");
+      } catch {
+        return url;
       }
       const token = els.multiplayerToken?.value?.trim?.() || "";
-      if (token && !/[?&]token=/i.test(url)) {
+      if (includeToken && token) {
         url += `${url.includes("?") ? "&" : "?"}token=${encodeURIComponent(token)}`;
       }
       return url;
+    }
+
+    function displayMultiplayerUrl() {
+      const clean = normalizeMultiplayerUrl(els.multiplayerUrl.value, { includeToken: false });
+      els.multiplayerUrl.value = clean;
+      saveMultiplayerUrl(clean);
+      return clean;
+    }
+
+    function multiplayerHealthUrl() {
+      return normalizeMultiplayerUrl(els.multiplayerUrl.value, { includeToken: false }).replace(/^ws/i, "http");
     }
 
     function closeStaleMultiplayerSocket() {
@@ -3677,7 +3814,7 @@
     function connectMultiplayer() {
       if (socketReady()) return Promise.resolve(state.multiplayer.socket);
       const url = normalizeMultiplayerUrl(els.multiplayerUrl.value);
-      els.multiplayerUrl.value = url;
+      displayMultiplayerUrl();
       closeStaleMultiplayerSocket();
       return new Promise((resolve, reject) => {
         let settled = false;
@@ -3738,6 +3875,34 @@
           }
         });
       });
+    }
+
+    async function connectMultiplayerFromButton() {
+      try {
+        await connectMultiplayer();
+      } catch {
+        setMultiplayerStatus("Could not connect. For Render, use the public Web Service URL and the same SERVER_TOKEN you set in Environment.", true);
+      }
+      renderMultiplayerControls();
+    }
+
+    async function testMultiplayerServer() {
+      const healthUrl = multiplayerHealthUrl();
+      displayMultiplayerUrl();
+      const controller = new AbortController();
+      const timer = window.setTimeout(() => controller.abort(), 9000);
+      setMultiplayerStatus(`Waking/testing ${healthUrl}...`);
+      try {
+        const response = await fetch(healthUrl, { cache: "no-store", signal: controller.signal });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const info = await response.json();
+        setMultiplayerStatus(`Server awake: ${info.name || "multiplayer server"}. Secure mode ${info.secureMode ? "on" : "off"}. Now connect, host, or join.`);
+      } catch {
+        setMultiplayerStatus("Could not wake/test the server. Check the Render Web Service URL, wait for it to finish deploying, and add the token only if SERVER_TOKEN is set.", true);
+      } finally {
+        window.clearTimeout(timer);
+        renderMultiplayerControls();
+      }
     }
 
     function sendMultiplayer(type, payload = {}) {
@@ -3806,7 +3971,7 @@
         await connectMultiplayer();
         sendMultiplayer("create-room", {});
       } catch {
-        setMultiplayerStatus("Start the multiplayer server first, then host again.", true);
+        setMultiplayerStatus("Could not connect. Use Wake/Test for Render, check the URL/token, then host again.", true);
       }
     }
 
@@ -3820,7 +3985,7 @@
         await connectMultiplayer();
         sendMultiplayer("join-room", { roomCode });
       } catch {
-        setMultiplayerStatus("Start the multiplayer server first, then join again.", true);
+        setMultiplayerStatus("Could not connect. Use Wake/Test for Render, check the URL/token, then join again.", true);
       }
     }
 
@@ -3856,6 +4021,8 @@
 
     function renderMultiplayerControls() {
       const inRoom = Boolean(state.multiplayer.roomCode);
+      if (els.connectServer) els.connectServer.disabled = socketReady();
+      if (els.testServer) els.testServer.disabled = false;
       els.syncRoom.disabled = !inRoom || !socketReady();
       els.leaveRoom.disabled = !inRoom;
       els.hostRoom.disabled = inRoom;
@@ -4148,6 +4315,7 @@
         forfeited: false,
         coins: 0,
         diceBonus: 0,
+        drawShield: 0,
         cigars: 0,
         beers: 0
       };
@@ -4370,6 +4538,53 @@
       els.wagerStatus.textContent = state.winCurrency >= 2
         ? "Bet 2 wins before a new darts or 8-ball game. Win and collect 4."
         : "Wagers need at least 2 wins.";
+      renderLoungeShop();
+    }
+
+    function loungeWalletPlayer() {
+      const human = activeLocalPlayer();
+      return state.players.length && human && !human.ai ? human : null;
+    }
+
+    function loungeCoinBalance() {
+      return loungeWalletPlayer()?.coins ?? state.loungeCoins;
+    }
+
+    function spendLoungeCoins(cost, label) {
+      const holder = loungeWalletPlayer();
+      const balance = loungeCoinBalance();
+      if (balance < cost) {
+        addLoungeLog(`Need ${cost} coins for ${label}.`);
+        renderLoungeShop();
+        return false;
+      }
+      if (holder) holder.coins -= cost;
+      else state.loungeCoins -= cost;
+      renderLoungeShop();
+      return true;
+    }
+
+    function renderLoungeShop() {
+      if (!els.loungeCoinCount) return;
+      const coins = loungeCoinBalance();
+      const mode = state.loungeMode;
+      els.loungeCoinCount.textContent = coins;
+      els.loungeShopTitle.textContent = mode === "pool" ? "8-Ball Shop" : "Darts Shop";
+      const dartMode = mode === "darts";
+      const poolMode = mode === "pool";
+      const setDisabled = (button, disabled) => {
+        if (button) button.disabled = disabled;
+      };
+      setDisabled(els.buyLoungeBeer, !dartMode || coins < 3);
+      setDisabled(els.buyPretzels, !dartMode || coins < 2);
+      setDisabled(els.buyDartChalk, !dartMode || coins < 4);
+      setDisabled(els.buySpareFlight, !dartMode || coins < 6);
+      setDisabled(els.buyToast, !dartMode || state.winCurrency < 1);
+      setDisabled(els.buyCueChalk, !poolMode || coins < 3);
+      setDisabled(els.buyRailWax, !poolMode || coins < 4);
+      setDisabled(els.buyBridgeStick, !poolMode || coins < 5);
+      setDisabled(els.buyCueReset, !poolMode || coins < 6 || !state.pool.active || state.pool.over || ballsMoving());
+      setDisabled(els.buySpotterLamp, !poolMode || coins < 5);
     }
 
     function startLoungeWager(gameName) {
@@ -4832,8 +5047,14 @@
         }
         state.darts.started = false;
       } else if (state.darts.throwsThisTurn >= 3) {
-        state.darts.throwsThisTurn = 0;
-        state.darts.current = (state.darts.current + 1) % state.darts.players.length;
+        if (!player.ai && state.dartExtraThrow > 0) {
+          state.dartExtraThrow -= 1;
+          state.darts.throwsThisTurn = 2;
+          addLoungeLog("Spare Flight keeps your turn alive for one bonus dart.");
+        } else {
+          state.darts.throwsThisTurn = 0;
+          state.darts.current = (state.darts.current + 1) % state.darts.players.length;
+        }
       }
       drawDartBoard();
       renderDarts();
@@ -4851,8 +5072,9 @@
       const player = state.darts.players[state.darts.current];
       els.dartHint.textContent = player?.ai
         ? `${player.name} is lining up a throw.`
-        : `${player?.name || "Your"} throw ${state.darts.throwsThisTurn + 1}/3. Drag or use WASD to aim, Space to throw. Beer: ${state.loungeBeer}, Pretzels: ${state.pretzels}.`;
+        : `${player?.name || "Your"} throw ${state.darts.throwsThisTurn + 1}/3. Drag or use WASD to aim, Space to throw. Beer: ${state.loungeBeer}, Pretzels: ${state.pretzels}, Chalk: ${state.dartChalk}, Flights: ${state.dartExtraThrow}.`;
       renderBarkeep();
+      renderLoungeShop();
     }
 
     function runDartsAIIfNeeded() {
@@ -4896,7 +5118,8 @@
         drawDartBoard();
         return;
       }
-      let steadiness = (state.pretzels > 0 ? 26 : 42) - (state.loungeBeer > 0 ? 8 : 0);
+      const chalked = state.dartChalk > 0;
+      let steadiness = (state.pretzels > 0 ? 26 : 42) - (state.loungeBeer > 0 ? 8 : 0) - (chalked ? 14 : 0);
       if (artifactIs("soft-felt")) steadiness -= 6;
       if (artifactIs("weighted-moon")) steadiness -= 10;
       if (artifactIs("lucky-coaster")) steadiness -= 8;
@@ -4909,6 +5132,7 @@
       if (artifactIs("jackpot-soul") || artifactIs("emperor-chip") || artifactIs("timekeeper-ace") || artifactIs("chandelier-crown")) steadiness -= 24;
       if (state.pretzels > 0) state.pretzels -= 1;
       if (state.loungeBeer > 0) state.loungeBeer -= 1;
+      if (chalked) state.dartChalk -= 1;
       const noise = Math.max(8, steadiness - strength * .18);
       const x = start.x + dx * .18 + (Math.random() - .5) * noise;
       const y = start.y + dy * .18 + (Math.random() - .5) * noise;
@@ -4950,27 +5174,71 @@
     }
 
     function buyLoungeItem(kind) {
-      const human = activeLocalPlayer() || { coins: 0 };
       if (kind === "beer") {
-        if (human.coins < 3) return addLoungeLog("Need 3 coins for Amber Beer.");
-        human.coins -= 3;
+        if (!spendLoungeCoins(3, "Amber Beer")) return;
         state.loungeBeer += 1;
         addLoungeLog("Amber Beer bought. Your next dart has a little more swagger.");
       } else if (kind === "pretzels") {
-        if (human.coins < 2) return addLoungeLog("Need 2 coins for Jazz Pretzels.");
-        human.coins -= 2;
+        if (!spendLoungeCoins(2, "Jazz Pretzels")) return;
         state.pretzels += 1;
         addLoungeLog("Jazz Pretzels bought. One steadier throw is queued.");
+      } else if (kind === "dartChalk") {
+        if (!spendLoungeCoins(4, "Chalk Line")) return;
+        state.dartChalk += 1;
+        addLoungeLog("Chalk Line bought. Your next dart tightens toward the aim point.");
+      } else if (kind === "spareFlight") {
+        if (!spendLoungeCoins(6, "Spare Flight")) return;
+        state.dartExtraThrow += 1;
+        addLoungeLog("Spare Flight bought. Your next three-throw limit gets one bonus dart.");
       } else if (kind === "toast") {
         if (state.winCurrency < 1) return addLoungeLog("Need 1 win to toast the barkeep.");
         state.winCurrency -= 1;
         saveWins();
         state.loungeBeer += 1;
         state.pretzels += 1;
-        addLoungeLog("The barkeep accepts the toast. Beer and pretzels added.");
+        state.dartChalk += 1;
+        addLoungeLog("The barkeep accepts the toast. Beer, pretzels, and a chalk line added.");
+      } else if (kind === "cueChalk") {
+        if (!spendLoungeCoins(3, "Cue Chalk")) return;
+        state.poolChalk += 1;
+        addLoungeLog("Cue Chalk bought. Your next shot will carry speed longer.");
+      } else if (kind === "railWax") {
+        if (!spendLoungeCoins(4, "Rail Wax")) return;
+        state.poolPocketBoost += 1;
+        addLoungeLog("Rail Wax bought. Pockets widen slightly for your next shot.");
+        drawPoolTable();
+      } else if (kind === "bridgeStick") {
+        if (!spendLoungeCoins(5, "Bridge Stick")) return;
+        state.poolBridge += 1;
+        addLoungeLog("Bridge Stick bought. Your next shot can strike harder with control.");
+      } else if (kind === "cueReset") {
+        if (!state.pool.active || state.pool.over || ballsMoving()) {
+          addLoungeLog("Cue Reset needs a still, active pool table.");
+          renderLoungeShop();
+          return;
+        }
+        if (!spendLoungeCoins(6, "Cue Reset")) return;
+        const cue = state.pool.balls.find(ball => ball.id === "cue");
+        if (cue) {
+          cue.pocketed = false;
+          cue.x = els.poolTable.width * .27;
+          cue.y = els.poolTable.height * .5;
+          cue.vx = 0;
+          cue.vy = 0;
+          state.pool.scratch = false;
+          addLoungeLog("Cue ball reset to a clean kitchen spot.");
+          drawPoolTable();
+        }
+      } else if (kind === "spotterLamp") {
+        if (!spendLoungeCoins(5, "Spotter Lamp")) return;
+        state.poolSpotter = Math.max(state.poolSpotter, 3);
+        addLoungeLog("Spotter Lamp bought. Legal target balls glow for three shots.");
+        drawPoolTable();
       }
       sound("shop");
       renderDarts();
+      renderPoolStatus();
+      renderLoungeShop();
     }
 
     function startPoolGame() {
@@ -5043,12 +5311,14 @@
     }
 
     function poolPocketRadius() {
-      if (artifactIs("jackpot-soul") || artifactIs("emperor-chip") || artifactIs("timekeeper-ace") || artifactIs("chandelier-crown")) return 45;
-      if (artifactIs("red-eye-relic") || artifactIs("house-crown")) return 42;
-      if (artifactIs("master-key")) return 38;
-      if (artifactIs("phantom-rack") || artifactIs("casino-map") || artifactIs("brass-compass")) return 34;
-      if (artifactIs("soft-felt") || artifactIs("velvet-ledger") || artifactIs("lucky-coaster") || artifactIs("glass-oracle")) return 31;
-      return 30;
+      let radius = 30;
+      if (artifactIs("jackpot-soul") || artifactIs("emperor-chip") || artifactIs("timekeeper-ace") || artifactIs("chandelier-crown")) radius = 45;
+      else if (artifactIs("red-eye-relic") || artifactIs("house-crown")) radius = 42;
+      else if (artifactIs("master-key")) radius = 38;
+      else if (artifactIs("phantom-rack") || artifactIs("casino-map") || artifactIs("brass-compass")) radius = 34;
+      else if (artifactIs("soft-felt") || artifactIs("velvet-ledger") || artifactIs("lucky-coaster") || artifactIs("glass-oracle")) radius = 31;
+      if (state.poolPocketBoost > 0) radius += 6;
+      return radius;
     }
 
     function poolPocketCatchRadius(ball) {
@@ -5061,6 +5331,7 @@
       els.poolSecondLabel.textContent = playerLabel(1);
       els.poolAiGroup.textContent = state.pool.groups?.[1] || "open";
       els.poolTurnName.textContent = playerLabel(state.pool.turn);
+      renderLoungeShop();
     }
 
     function drawPoolTable(aimPoint) {
@@ -5210,6 +5481,16 @@
 
     function drawPoolBall(ctx, ball) {
       if (ball.pocketed) return;
+      if (state.poolSpotter > 0 && ball.n && legalPoolBalls(state.pool.turn).some(item => item.id === ball.id)) {
+        ctx.beginPath();
+        ctx.arc(ball.x, ball.y, ball.r + 9, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(255, 203, 69, .76)";
+        ctx.lineWidth = 4;
+        ctx.shadowColor = "rgba(255, 203, 69, .55)";
+        ctx.shadowBlur = 14;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
       ctx.beginPath();
       ctx.ellipse(ball.x + 6, ball.y + 10, ball.r * 1.28, ball.r * .62, 0, 0, Math.PI * 2);
       ctx.fillStyle = "rgba(0,0,0,.38)";
@@ -5267,10 +5548,20 @@
       if (!cue || cue.pocketed || ballsMoving() || aiTurn || state.pool.over) return;
       const dx = cue.x - point.x;
       const dy = cue.y - point.y;
-      const power = Math.min(28, Math.hypot(dx, dy) / 7);
+      const bridged = state.poolBridge > 0;
+      const chalked = state.poolChalk > 0;
+      const maxPower = bridged ? 34 : 28;
+      const power = Math.min(maxPower, Math.hypot(dx, dy) / 7 * (bridged ? 1.12 : 1));
       if (power < 2) {
         els.poolHint.textContent = "Pull farther back from the cue ball before releasing.";
         return;
+      }
+      if (bridged) state.poolBridge -= 1;
+      if (chalked) {
+        state.poolChalk -= 1;
+        state.poolShotCarry = true;
+      } else {
+        state.poolShotCarry = false;
       }
       state.pool.pottedThisTurn = [];
       state.pool.scratch = false;
@@ -5288,7 +5579,7 @@
       balls.forEach(ball => {
         ball.x += ball.vx;
         ball.y += ball.vy;
-        const friction = artifactIs("weighted-moon") || artifactIs("crooked-cue") || artifactIs("master-key") || artifactIs("red-eye-relic") || artifactIs("brass-compass") || artifactIs("phantom-rack") || artifactIs("casino-map") || artifactIs("emperor-chip") || artifactIs("chandelier-crown") ? .992 : .985;
+        const friction = state.poolShotCarry || artifactIs("weighted-moon") || artifactIs("crooked-cue") || artifactIs("master-key") || artifactIs("red-eye-relic") || artifactIs("brass-compass") || artifactIs("phantom-rack") || artifactIs("casino-map") || artifactIs("emperor-chip") || artifactIs("chandelier-crown") ? .992 : .985;
         ball.vx *= friction;
         ball.vy *= friction;
         if (Math.hypot(ball.vx, ball.vy) < .08) {
@@ -5389,6 +5680,9 @@
         cue.vy = 0;
       }
       const potted = state.pool.pottedThisTurn || [];
+      if (state.poolPocketBoost > 0) state.poolPocketBoost -= 1;
+      if (state.poolSpotter > 0) state.poolSpotter -= 1;
+      state.poolShotCarry = false;
       if (potted.includes(8)) {
         const wonLegally = poolGroupCleared(actor) && !state.pool.scratch;
         finishPoolGame(wonLegally ? actor : other, wonLegally ? "legally sank the 8 ball" : "lost on an illegal 8 ball");
@@ -5408,6 +5702,7 @@
       renderPoolStatus();
       drawPoolTable();
       renderBarkeep();
+      renderLoungeShop();
       if (state.pool.active && state.pool.turn === 1 && !state.friendMode) window.setTimeout(aiPoolShot, 850);
     }
 
@@ -5486,13 +5781,20 @@
     }
 
     function draw(player, count, announce = true) {
-      for (let i = 0; i < count; i++) {
+      let actualCount = count;
+      if (player?.drawShield > 0 && count > 1) {
+        const blocked = Math.min(player.drawShield, count);
+        player.drawShield -= blocked;
+        actualCount = Math.max(0, count - blocked);
+        addLog(`${player.name}'s Insurance Stub blocked ${blocked} card${blocked === 1 ? "" : "s"}.`);
+      }
+      for (let i = 0; i < actualCount; i++) {
         replenishDeck();
         if (state.deck.length === 0) break;
         player.hand.push(state.deck.pop());
       }
-      if (announce && count > 0) addLog(`${player.name} drew ${count} card${count === 1 ? "" : "s"}.`);
-      if (announce && count > 0) sound("draw");
+      if (announce && actualCount > 0) addLog(`${player.name} drew ${actualCount} card${actualCount === 1 ? "" : "s"}.`);
+      if (announce && actualCount > 0) sound("draw");
       checkForfeit(player);
     }
 
@@ -6202,8 +6504,8 @@
     }
 
     function spendCoins(player, cost) {
-      if (player.coins < cost) {
-        addLog(`${player.name} needs ${cost} coins for that.`);
+      if (!player || player.coins < cost) {
+        addLog(`${player?.name || "Player"} needs ${cost} coins for that.`);
         return false;
       }
       player.coins -= cost;
@@ -6285,6 +6587,31 @@
       state.freeRollAvailable = true;
       state.freeRollUsed = false;
       addLog("Poker chip cashed in: you get a free dice roll.");
+      sound("shop");
+      render();
+    }
+
+    function buyMatchbook() {
+      const player = activeLocalPlayer();
+      if (currentPlayer() !== player || state.gameOver || state.turnEnding || !spendCoins(player, 6)) {
+        render();
+        return;
+      }
+      const burned = discardExtras(player, 1);
+      addLog(burned ? "Matchbook used: one weak card burned away." : "Matchbook fizzled: you cannot burn your final card.");
+      sound("shop");
+      checkWin(player);
+      render();
+    }
+
+    function buyInsurance() {
+      const player = activeLocalPlayer();
+      if (currentPlayer() !== player || state.gameOver || state.turnEnding || !spendCoins(player, 8)) {
+        render();
+        return;
+      }
+      player.drawShield += 2;
+      addLog("Insurance Stub bought: your next draw burst blocks up to 2 cards.");
       sound("shop");
       render();
     }
@@ -6915,6 +7242,8 @@
       els.useCigar.disabled = !humanTurn || human.cigars <= 0;
       els.useBeer.disabled = !humanTurn || !state.diceEnabled || human.beers <= 0;
       els.buyChip.disabled = !humanTurn || !state.diceEnabled || human.coins < 20 || state.freeRollAvailable;
+      els.buyMatchbook.disabled = !humanTurn || human.coins < 6 || human.hand.length <= 1;
+      els.buyInsurance.disabled = !humanTurn || human.coins < 8;
       els.buyChip.textContent = "Buy Chip";
       els.soundToggle.textContent = state.audioEnabled ? "Music On" : "Music Off";
       els.playSelected.disabled = !humanTurn || state.freeRollAvailable || !combo.valid;
@@ -6969,7 +7298,7 @@
       els.drawCard.textContent = "Draw";
       els.soundToggle.textContent = state.audioEnabled ? "Music On" : "Music Off";
       setControls(false);
-      [els.buyCigar, els.buyBeer, els.buyChip, els.useCigar, els.useBeer].forEach(button => {
+      [els.buyCigar, els.buyBeer, els.buyChip, els.buyMatchbook, els.buyInsurance, els.useCigar, els.useBeer].forEach(button => {
         button.disabled = true;
       });
       document.querySelectorAll("[data-die]").forEach(button => {
@@ -7084,12 +7413,14 @@
       let noise = 18;
       if (state.pretzels > 0) noise -= 5;
       if (state.loungeBeer > 0) noise -= 4;
+      if (state.dartChalk > 0) noise -= 7;
       if (artifactIs("brass-compass") || artifactIs("velvet-dartboard") || artifactIs("casino-map")) noise -= 5;
       if (artifactIs("jackpot-soul") || artifactIs("emperor-chip") || artifactIs("timekeeper-ace") || artifactIs("chandelier-crown")) noise -= 8;
       const x = clampNumber(aim.x + (Math.random() - .5) * Math.max(4, noise), 0, els.dartBoard.width);
       const y = clampNumber(aim.y + (Math.random() - .5) * Math.max(4, noise), 0, els.dartBoard.height);
       if (state.pretzels > 0) state.pretzels -= 1;
       if (state.loungeBeer > 0) state.loungeBeer -= 1;
+      if (state.dartChalk > 0) state.dartChalk -= 1;
       throwDart(x, y, 68);
       els.dartStrength.style.width = "0%";
       els.dartDistance.style.width = "0%";
@@ -7254,6 +7585,9 @@
     els.hubBarkeep.addEventListener("click", approachBarkeep);
     els.titleFriendMode.addEventListener("change", () => setFriendMode(els.titleFriendMode.checked));
     els.friendMode.addEventListener("change", () => setFriendMode(els.friendMode.checked));
+    els.connectServer.addEventListener("click", connectMultiplayerFromButton);
+    els.testServer.addEventListener("click", testMultiplayerServer);
+    els.multiplayerUrl.addEventListener("change", displayMultiplayerUrl);
     els.hostRoom.addEventListener("click", hostMultiplayerRoom);
     els.joinRoom.addEventListener("click", joinMultiplayerRoom);
     els.syncRoom.addEventListener("click", () => syncMultiplayerRoom("manual"));
@@ -7284,7 +7618,14 @@
     els.loungeMusic.addEventListener("click", loadMusic);
     els.buyLoungeBeer.addEventListener("click", () => buyLoungeItem("beer"));
     els.buyPretzels.addEventListener("click", () => buyLoungeItem("pretzels"));
+    els.buyDartChalk.addEventListener("click", () => buyLoungeItem("dartChalk"));
+    els.buySpareFlight.addEventListener("click", () => buyLoungeItem("spareFlight"));
     els.buyToast.addEventListener("click", () => buyLoungeItem("toast"));
+    els.buyCueChalk.addEventListener("click", () => buyLoungeItem("cueChalk"));
+    els.buyRailWax.addEventListener("click", () => buyLoungeItem("railWax"));
+    els.buyBridgeStick.addEventListener("click", () => buyLoungeItem("bridgeStick"));
+    els.buyCueReset.addEventListener("click", () => buyLoungeItem("cueReset"));
+    els.buySpotterLamp.addEventListener("click", () => buyLoungeItem("spotterLamp"));
     els.newPool.addEventListener("click", () => {
       state.loungeMode = "pool";
       startPoolGame();
@@ -7358,6 +7699,8 @@
     els.buyCigar.addEventListener("click", buyCigar);
     els.buyBeer.addEventListener("click", buyBeer);
     els.buyChip.addEventListener("click", buyChip);
+    els.buyMatchbook.addEventListener("click", buyMatchbook);
+    els.buyInsurance.addEventListener("click", buyInsurance);
     els.useCigar.addEventListener("click", useCigar);
     els.useBeer.addEventListener("click", useBeer);
     els.buyRageJoker.addEventListener("click", () => spendWins(1, "rage", "Rage Joker"));
