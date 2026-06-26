@@ -101,6 +101,26 @@
       box-shadow: inset 0 18px 38px rgba(255, 255, 255, .035), 0 -18px 60px rgba(0, 0, 0, .5);
     }
 
+    .first-person-model.walking .fp-arm.left,
+    .first-person-model.walking .fp-hand.left {
+      animation: walkLeft .34s ease-in-out infinite alternate;
+    }
+
+    .first-person-model.walking .fp-arm.right,
+    .first-person-model.walking .fp-hand.right {
+      animation: walkRight .34s ease-in-out infinite alternate;
+    }
+
+    @keyframes walkLeft {
+      from { translate: 0 0; }
+      to { translate: 8px 8px; }
+    }
+
+    @keyframes walkRight {
+      from { translate: 0 6px; }
+      to { translate: -8px 0; }
+    }
+
     .fp-arm,
     .fp-hand {
       position: absolute;
@@ -163,6 +183,69 @@
 
     .fp-hand::before { left: 18%; }
     .fp-hand::after { right: 18%; }
+
+    .fp-hud {
+      position: fixed;
+      left: max(14px, env(safe-area-inset-left));
+      bottom: max(12px, env(safe-area-inset-bottom));
+      z-index: 4;
+      width: min(430px, calc(100vw - 28px));
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      pointer-events: none;
+      padding: 10px;
+      border: 1px solid rgba(255, 226, 135, .18);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(255, 226, 135, .09), transparent 48%),
+        rgba(8, 7, 9, .72);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, .36), inset 0 1px 0 rgba(255, 255, 255, .06);
+      backdrop-filter: blur(8px);
+    }
+
+    .fp-hud strong {
+      display: block;
+      color: #ffe7a8;
+      font-size: .98rem;
+      text-shadow: 0 0 12px rgba(255, 203, 69, .38);
+    }
+
+    .fp-hud span {
+      display: block;
+      color: var(--muted);
+      font-size: .82rem;
+      line-height: 1.25;
+    }
+
+    .fp-keys {
+      display: grid;
+      grid-template-columns: repeat(3, 28px);
+      grid-template-rows: repeat(2, 24px);
+      gap: 4px;
+      align-items: center;
+      justify-items: center;
+    }
+
+    .fp-keys kbd {
+      width: 28px;
+      min-height: 24px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 226, 135, .24);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, .08);
+      color: #fff2bd;
+      font: 800 .72rem/1 system-ui;
+      box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .25);
+    }
+
+    .fp-keys kbd:nth-child(1) { grid-column: 2; }
+    .fp-keys kbd:nth-child(2) { grid-column: 1; grid-row: 2; }
+    .fp-keys kbd:nth-child(3) { grid-column: 2; grid-row: 2; }
+    .fp-keys kbd:nth-child(4) { grid-column: 3; grid-row: 2; }
+    .fp-keys kbd:nth-child(5) { grid-column: 3; grid-row: 1; }
 
     button, select {
       font: inherit;
@@ -347,6 +430,9 @@
       padding: 18px 18px 14px;
       overflow: hidden;
       border-bottom: 1px solid rgba(255, 226, 135, .18);
+      --walk-x: 0;
+      --walk-z: 1;
+      --look-yaw: 0deg;
       background:
         radial-gradient(ellipse at 50% 6%, rgba(255, 226, 135, .24), transparent 14rem),
         linear-gradient(180deg, rgba(8, 6, 8, .38), rgba(8, 5, 6, .72));
@@ -390,6 +476,11 @@
       gap: 12px;
       align-items: end;
       transform-style: preserve-3d;
+      transform:
+        translateX(calc(var(--walk-x) * -44px))
+        translateY(calc(var(--walk-z) * 7px))
+        rotateY(var(--look-yaw));
+      transition: transform .16s ease;
     }
 
     .hub-hall::before {
@@ -1499,6 +1590,11 @@
       box-shadow: 0 5px 0 #b9ad8c, 0 18px 30px rgba(0, 0, 0, .36), 0 0 26px rgba(255, 203, 69, .28);
     }
 
+    .card.keyboard-focus {
+      outline: 3px solid rgba(100, 210, 163, .9);
+      box-shadow: 0 5px 0 #b9ad8c, 0 18px 30px rgba(0, 0, 0, .36), 0 0 28px rgba(100, 210, 163, .38);
+    }
+
     .card .corner { font-size: .9rem; }
     .card .pip { font-size: 2.15rem; }
 
@@ -2247,11 +2343,20 @@
   </style>
 </head>
 <body>
-  <div class="first-person-model" aria-hidden="true">
+  <div class="first-person-model" id="firstPersonModel" aria-hidden="true">
     <span class="fp-arm left"></span>
     <span class="fp-arm right"></span>
     <span class="fp-hand left"></span>
     <span class="fp-hand right"></span>
+  </div>
+  <div class="fp-hud" id="fpHud" aria-live="polite">
+    <div>
+      <strong id="fpMode">Casino Floor</strong>
+      <span id="fpPrompt">WASD moves. E enters the glowing station.</span>
+    </div>
+    <div class="fp-keys" aria-hidden="true">
+      <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><kbd>E</kbd>
+    </div>
   </div>
   <section class="title-screen">
     <div class="friendly-sign">Autism Friendly Experience</div>
@@ -2768,12 +2873,23 @@
       { id: "neon-clover", name: "Neon Clover", rarity: "uncommon", description: "Your rewards and lucky rolls improve." },
       { id: "crooked-cue", name: "Crooked Cue", rarity: "uncommon", description: "Pool shots carry strange extra force." },
       { id: "ember-card", name: "Ember Card", rarity: "uncommon", description: "Cards burn lighter in your hand." },
+      { id: "brass-compass", name: "Brass Compass", rarity: "uncommon", description: "First-person aim steadies across darts, pool, and dice." },
+      { id: "starlit-sleeve", name: "Starlit Sleeve", rarity: "uncommon", description: "A hidden sleeve drops one card and readies a risky free roll." },
+      { id: "lucky-fountain", name: "Lucky Fountain Token", rarity: "uncommon", description: "Coins splash across the table, with a better cut for you." },
+      { id: "velvet-dartboard", name: "Velvet Dartboard", rarity: "uncommon", description: "Darts and first-person throws begin closer to the mark." },
       { id: "glass-oracle", name: "Glass Oracle", rarity: "rare", description: "The game reveals easier routes and stronger rewards." },
       { id: "midnight-contract", name: "Midnight Contract", rarity: "rare", description: "The barkeep's contract sharpens every win." },
       { id: "dragon-coin", name: "Dragon Coin", rarity: "rare", description: "Coins and fire follow your plays." },
+      { id: "mirrored-shoe", name: "Mirrored Shoe", rarity: "rare", description: "Your opponents stumble into extra cards while you walk lighter." },
+      { id: "royal-receipt", name: "Royal Receipt", rarity: "rare", description: "The shop owes you coins, a cigar, and a beer before the match starts." },
+      { id: "phantom-rack", name: "Phantom Rack", rarity: "rare", description: "Pool pockets widen and your card hand starts cleaner." },
+      { id: "casino-map", name: "Casino Map", rarity: "rare", description: "The casino route is marked: better aim, more coins, and a free roll." },
       { id: "house-crown", name: "House Crown", rarity: "legendary", description: "The house bends. You collect more from everything." },
-      { id: "red-eye-relic", name: "Red Eye Relic", rarity: "legendary", description: "The barkeep's gaze makes all games violently generous."
-      }
+      { id: "red-eye-relic", name: "Red Eye Relic", rarity: "legendary", description: "The barkeep's gaze makes all games violently generous." },
+      { id: "jackpot-soul", name: "Jackpot Soul", rarity: "legendary", description: "The casino lights flare. Huge coins, huge pressure, huge reward." },
+      { id: "emperor-chip", name: "Emperor Chip", rarity: "legendary", description: "A royal chip bends cards, dice, darts, and pool in your favor." },
+      { id: "timekeeper-ace", name: "Timekeeper Ace", rarity: "legendary", description: "Opponents lose time while your turn economy becomes dangerous." },
+      { id: "chandelier-crown", name: "Chandelier Crown", rarity: "legendary", description: "Every game glows brighter. Pockets widen, dice climb, and rewards swell." }
     ];
     const artifactWeights = { common: 62, uncommon: 27, rare: 9, legendary: 2 };
     const achievementCatalog = [
@@ -2931,6 +3047,10 @@
 
     const els = {
       startGame: document.querySelector("#startGame"),
+      firstPersonModel: document.querySelector("#firstPersonModel"),
+      fpHud: document.querySelector("#fpHud"),
+      fpMode: document.querySelector("#fpMode"),
+      fpPrompt: document.querySelector("#fpPrompt"),
       titleLounge: document.querySelector("#titleLounge"),
       titleExitGame: document.querySelector("#titleExitGame"),
       titleTagline: document.querySelector("#titleTagline"),
@@ -3093,6 +3213,16 @@
       rouletteRotation: 0,
       rouletteSpinning: false,
       hubAreaIndex: 0,
+      keyboardCardIndex: 0,
+      fp: {
+        x: -1.5,
+        z: 1,
+        walking: false,
+        walkTimer: 0,
+        keys: new Set(),
+        movementLoop: 0,
+        lastMoveTick: 0
+      },
       aiEnraged: false,
       matchId: 0,
       gameStarting: false,
@@ -3136,6 +3266,7 @@
         dragPoint: null,
         lastHit: null,
         throwsThisTurn: 0,
+        keyboardAim: null,
         fx: [],
         wager: null
       },
@@ -3145,6 +3276,7 @@
         dragStart: null,
         dragPoint: null,
         balls: [],
+        keyboardAim: null,
         turn: 0,
         groups: [null, null],
         pottedThisTurn: [],
@@ -3601,6 +3733,7 @@
       state.direction = 1;
       state.turnNumber = 1;
       state.selected.clear();
+      state.keyboardCardIndex = 0;
       state.diceTargetIndex = 1;
       state.gameOver = false;
       state.freeRollAvailable = false;
@@ -3734,6 +3867,67 @@
         discardExtras(human, 5);
         state.players.slice(1).forEach(player => draw(player, 5, false));
         addLog("Red Eye Relic: the table bends hard. You gain 35 coins, shed 5 cards, and opponents draw 5.");
+      } else if (artifactIs("brass-compass")) {
+        human.coins += 4;
+        human.diceBonus += 1;
+        addLog("Brass Compass: +4 coins and +1 to your next dice roll.");
+      } else if (artifactIs("starlit-sleeve")) {
+        discardExtras(human, 1);
+        if (state.diceEnabled) state.freeRollAvailable = true;
+        addLog(state.diceEnabled
+          ? "Starlit Sleeve: you shed 1 card and ready a free dice roll."
+          : "Starlit Sleeve: you shed 1 card, but dice are sealed.");
+      } else if (artifactIs("lucky-fountain")) {
+        state.players.forEach(player => player.coins += 4);
+        human.coins += 3;
+        addLog("Lucky Fountain Token: everyone gains 4 coins. You take 3 extra from the splash.");
+      } else if (artifactIs("velvet-dartboard")) {
+        human.coins += 3;
+        addLog("Velvet Dartboard: +3 coins and steadier lounge throws.");
+      } else if (artifactIs("mirrored-shoe")) {
+        human.coins += 10;
+        state.players.slice(1).forEach(player => draw(player, 2, false));
+        addLog("Mirrored Shoe: +10 coins, and each opponent draws 2.");
+      } else if (artifactIs("royal-receipt")) {
+        human.coins += 16;
+        human.cigars += 1;
+        human.beers += 1;
+        addLog("Royal Receipt: +16 coins, 1 cigar, and 1 beer.");
+      } else if (artifactIs("phantom-rack")) {
+        discardExtras(human, 3);
+        state.players.slice(1).forEach(player => draw(player, 1, false));
+        addLog("Phantom Rack: you shed 3 cards, and each opponent draws 1.");
+      } else if (artifactIs("casino-map")) {
+        human.coins += 12;
+        if (state.diceEnabled) state.freeRollAvailable = true;
+        addLog(state.diceEnabled
+          ? "Casino Map: +12 coins and a marked free dice roll."
+          : "Casino Map: +12 coins. Dice remain sealed.");
+      } else if (artifactIs("jackpot-soul")) {
+        human.coins += 35;
+        discardExtras(human, 5);
+        state.players.slice(1).forEach(player => draw(player, 5, false));
+        if (state.diceEnabled) state.freeRollAvailable = true;
+        addLog("Jackpot Soul: +35 coins, shed 5 cards, opponents draw 5, and a free roll sparks.");
+      } else if (artifactIs("emperor-chip")) {
+        human.coins += 50;
+        human.cigars += 2;
+        human.beers += 2;
+        discardExtras(human, 4);
+        state.players.slice(1).forEach(player => draw(player, 6, false));
+        if (state.diceEnabled) state.freeRollAvailable = true;
+        addLog("Emperor Chip: +50 coins, 2 cigars, 2 beers, shed 4, opponents draw 6, and a free roll waits.");
+      } else if (artifactIs("timekeeper-ace")) {
+        human.coins += 20;
+        state.players.slice(1).forEach(player => {
+          player.skipTurns += 1;
+        });
+        addLog("Timekeeper Ace: +20 coins, and every opponent loses one turn to the clock.");
+      } else if (artifactIs("chandelier-crown")) {
+        human.coins += 30;
+        discardExtras(human, 6);
+        state.players.slice(1).forEach(player => draw(player, 3, false));
+        addLog("Chandelier Crown: +30 coins, shed 6 cards, and each opponent draws 3.");
       }
     }
 
@@ -3825,10 +4019,11 @@
     }
 
     function artifactWinBonus() {
-      if (artifactIs("red-eye-relic")) return 4;
-      if (artifactIs("house-crown") || artifactIs("master-key")) return 3;
-      if (artifactIs("midnight-contract") || artifactIs("dragon-coin")) return 2;
-      if (artifactIs("velvet-ledger") || artifactIs("glass-oracle") || artifactIs("neon-clover")) return 1;
+      if (artifactIs("emperor-chip") || artifactIs("jackpot-soul")) return 5;
+      if (artifactIs("red-eye-relic") || artifactIs("timekeeper-ace") || artifactIs("chandelier-crown")) return 4;
+      if (artifactIs("house-crown") || artifactIs("master-key") || artifactIs("royal-receipt") || artifactIs("casino-map")) return 3;
+      if (artifactIs("midnight-contract") || artifactIs("dragon-coin") || artifactIs("mirrored-shoe") || artifactIs("phantom-rack")) return 2;
+      if (artifactIs("velvet-ledger") || artifactIs("glass-oracle") || artifactIs("neon-clover") || artifactIs("brass-compass") || artifactIs("lucky-fountain") || artifactIs("velvet-dartboard")) return 1;
       return 0;
     }
 
@@ -3863,26 +4058,57 @@
     }
 
     const casinoAreas = [
-      { id: "cards", name: "Card Table", hint: "You are facing the main card and dice table." },
-      { id: "darts", name: "Darts Hall", hint: "You hear darts hitting cork under red casino lights." },
-      { id: "pool", name: "8-Ball Billiards", hint: "Green felt and brass lamps glow down the casino hallway." },
-      { id: "barkeep", name: "Barkeep Shop", hint: "Sir Autismos Barkeep waits behind the bar with jokers and artifacts." }
+      { id: "cards", name: "Card Table", x: -1.5, hint: "You are facing the main card and dice table." },
+      { id: "darts", name: "Darts Hall", x: -.5, hint: "You hear darts hitting cork under red casino lights." },
+      { id: "pool", name: "8-Ball Billiards", x: .5, hint: "Green felt and brass lamps glow down the casino hallway." },
+      { id: "barkeep", name: "Barkeep Shop", x: 1.5, hint: "Sir Autismos Barkeep waits behind the bar with jokers and artifacts." }
     ];
+
+    function clampNumber(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function nearestCasinoAreaIndex() {
+      let best = 0;
+      let distance = Infinity;
+      casinoAreas.forEach((area, index) => {
+        const score = Math.abs(state.fp.x - area.x);
+        if (score < distance) {
+          distance = score;
+          best = index;
+        }
+      });
+      return best;
+    }
+
+    function setFirstPersonHud(mode, prompt) {
+      if (els.fpMode) els.fpMode.textContent = mode;
+      if (els.fpPrompt) els.fpPrompt.textContent = prompt;
+    }
 
     function updateCasinoHub() {
       if (!els.casinoHub) return;
+      state.hubAreaIndex = nearestCasinoAreaIndex();
       const area = casinoAreas[state.hubAreaIndex] || casinoAreas[0];
       els.casinoHub.dataset.hubIndex = String(state.hubAreaIndex);
       els.casinoHub.dataset.hubArea = area.id;
+      els.casinoHub.style.setProperty("--walk-x", String(state.fp.x));
+      els.casinoHub.style.setProperty("--walk-z", String(state.fp.z));
+      els.casinoHub.style.setProperty("--look-yaw", `${clampNumber(state.fp.x * -4, -8, 8)}deg`);
+      els.firstPersonModel?.classList.toggle("walking", state.fp.walking);
+      if (els.firstPersonModel) els.firstPersonModel.dataset.station = area.id;
       if (els.hubAreaName) els.hubAreaName.textContent = area.name;
       if (els.hubHint) els.hubHint.textContent = area.hint;
       document.querySelectorAll(".hub-area[data-hub-area]").forEach(panel => {
         panel.classList.toggle("active", panel.dataset.hubArea === area.id);
       });
+      setFirstPersonHud("Casino Floor", `${area.name}: WASD moves. E enters.`);
     }
 
     function walkCasinoHub(delta) {
       state.hubAreaIndex = (state.hubAreaIndex + delta + casinoAreas.length) % casinoAreas.length;
+      state.fp.x = casinoAreas[state.hubAreaIndex].x;
+      state.fp.z = .9;
       updateCasinoHub();
       sound("shop");
     }
@@ -3891,8 +4117,69 @@
       const index = casinoAreas.findIndex(area => area.id === id);
       if (index >= 0) {
         state.hubAreaIndex = index;
+        state.fp.x = casinoAreas[index].x;
+        state.fp.z = .9;
         updateCasinoHub();
       }
+    }
+
+    function moveFirstPerson(dx, dz) {
+      state.fp.x = clampNumber(state.fp.x + dx, -1.7, 1.7);
+      state.fp.z = clampNumber(state.fp.z + dz, 0, 2.4);
+      state.fp.walking = true;
+      window.clearTimeout(state.fp.walkTimer);
+      state.fp.walkTimer = window.setTimeout(() => {
+        state.fp.walking = false;
+        updateCasinoHub();
+      }, 260);
+      updateCasinoHub();
+    }
+
+    function stepFirstPersonMovement(time) {
+      state.fp.movementLoop = 0;
+      if (document.body.classList.contains("game-started") || state.loungeOpen || !state.fp.keys.size) {
+        state.fp.keys.clear();
+        state.fp.walking = false;
+        updateCasinoHub();
+        return;
+      }
+      const elapsed = state.fp.lastMoveTick ? Math.min(48, time - state.fp.lastMoveTick) : 16;
+      state.fp.lastMoveTick = time;
+      const speed = elapsed / 16;
+      let dx = 0;
+      let dz = 0;
+      if (state.fp.keys.has("a") || state.fp.keys.has("arrowleft")) dx -= .035 * speed;
+      if (state.fp.keys.has("d") || state.fp.keys.has("arrowright")) dx += .035 * speed;
+      if (state.fp.keys.has("w") || state.fp.keys.has("arrowup")) dz -= .042 * speed;
+      if (state.fp.keys.has("s") || state.fp.keys.has("arrowdown")) dz += .042 * speed;
+      if (dx || dz) {
+        moveFirstPerson(dx, dz);
+        state.fp.movementLoop = window.requestAnimationFrame(stepFirstPersonMovement);
+      }
+    }
+
+    function startFirstPersonMovement(key) {
+      state.fp.keys.add(key);
+      if (!state.fp.movementLoop) {
+        state.fp.lastMoveTick = 0;
+        state.fp.movementLoop = window.requestAnimationFrame(stepFirstPersonMovement);
+      }
+    }
+
+    function stopFirstPersonMovement(key) {
+      state.fp.keys.delete(key);
+      if (!state.fp.keys.size) {
+        state.fp.walking = false;
+        updateCasinoHub();
+      }
+    }
+
+    function interactFirstPerson() {
+      const area = casinoAreas[state.hubAreaIndex] || casinoAreas[0];
+      if (area.id === "cards") startGameFromTitle();
+      else if (area.id === "darts") openLoungeArea("darts");
+      else if (area.id === "pool") openLoungeArea("pool");
+      else approachBarkeep();
     }
 
     function openLoungeArea(mode) {
@@ -4047,6 +4334,7 @@
       state.darts.started = true;
       state.darts.throwsThisTurn = 0;
       state.darts.lastHit = null;
+      state.darts.keyboardAim = null;
       state.darts.fx = [];
       els.loungeLog.innerHTML = "";
       state.darts.wager = startLoungeWager("Darts");
@@ -4068,6 +4356,15 @@
       } else if (artifactIs("master-key")) {
         human.score = Math.max(81, human.score - 75);
         addLoungeLog("Barkeep's Master Key: your darts score starts 75 closer to zero.");
+      } else if (artifactIs("velvet-dartboard") || artifactIs("brass-compass")) {
+        human.score = Math.max(151, human.score - 24);
+        addLoungeLog(`${state.activeArtifact.name}: your darts score starts 24 closer to zero.`);
+      } else if (artifactIs("casino-map") || artifactIs("royal-receipt")) {
+        human.score = Math.max(121, human.score - 40);
+        addLoungeLog(`${state.activeArtifact.name}: your darts score starts 40 closer to zero.`);
+      } else if (artifactIs("jackpot-soul") || artifactIs("emperor-chip") || artifactIs("timekeeper-ace") || artifactIs("chandelier-crown")) {
+        human.score = Math.max(61, human.score - 90);
+        addLoungeLog(`${state.activeArtifact.name}: your darts score starts 90 closer to zero.`);
       }
     }
 
@@ -4404,7 +4701,10 @@
       const player = state.darts.players[state.darts.current];
       els.dartHint.textContent = player?.ai
         ? `${player.name} is lining up a throw.`
-        : `${player?.name || "Your"} throw ${state.darts.throwsThisTurn + 1}/3. Drag from the board and release. Beer: ${state.loungeBeer}, Pretzels: ${state.pretzels}.`;
+        : `${player?.name || "Your"} throw ${state.darts.throwsThisTurn + 1}/3. Drag or use WASD to aim, Space to throw. Beer: ${state.loungeBeer}, Pretzels: ${state.pretzels}.`;
+      if (state.loungeOpen && state.loungeMode === "darts") {
+        setFirstPersonHud("Darts Hall", "WASD aims the dart. Space throws. Q backs out.");
+      }
       renderBarkeep();
     }
 
@@ -4454,8 +4754,12 @@
       if (artifactIs("weighted-moon")) steadiness -= 10;
       if (artifactIs("lucky-coaster")) steadiness -= 8;
       if (artifactIs("glass-oracle")) steadiness -= 12;
+      if (artifactIs("brass-compass")) steadiness -= 10;
+      if (artifactIs("velvet-dartboard")) steadiness -= 16;
+      if (artifactIs("casino-map")) steadiness -= 14;
       if (artifactIs("master-key")) steadiness -= 18;
       if (artifactIs("red-eye-relic")) steadiness -= 22;
+      if (artifactIs("jackpot-soul") || artifactIs("emperor-chip") || artifactIs("timekeeper-ace") || artifactIs("chandelier-crown")) steadiness -= 24;
       if (state.pretzels > 0) state.pretzels -= 1;
       if (state.loungeBeer > 0) state.loungeBeer -= 1;
       const noise = Math.max(8, steadiness - strength * .18);
@@ -4529,6 +4833,7 @@
       state.pool.dragging = false;
       state.pool.dragStart = null;
       state.pool.dragPoint = null;
+      state.pool.keyboardAim = null;
       state.pool.turn = 0;
       state.pool.groups = [null, null];
       state.pool.pottedThisTurn = [];
@@ -4589,8 +4894,10 @@
     }
 
     function poolPocketRadius() {
-      if (artifactIs("master-key")) return 38;
+      if (artifactIs("jackpot-soul") || artifactIs("emperor-chip") || artifactIs("timekeeper-ace") || artifactIs("chandelier-crown")) return 45;
       if (artifactIs("red-eye-relic") || artifactIs("house-crown")) return 42;
+      if (artifactIs("master-key")) return 38;
+      if (artifactIs("phantom-rack") || artifactIs("casino-map") || artifactIs("brass-compass")) return 34;
       if (artifactIs("soft-felt") || artifactIs("velvet-ledger") || artifactIs("lucky-coaster") || artifactIs("glass-oracle")) return 31;
       return 26;
     }
@@ -4601,6 +4908,9 @@
       els.poolSecondLabel.textContent = playerLabel(1);
       els.poolAiGroup.textContent = state.pool.groups?.[1] || "open";
       els.poolTurnName.textContent = playerLabel(state.pool.turn);
+      if (state.loungeOpen && state.loungeMode === "pool") {
+        setFirstPersonHud("8-Ball Billiards", "W/S sets power. A/D aims. Space shoots. Q backs out.");
+      }
     }
 
     function drawPoolTable(aimPoint) {
@@ -4828,7 +5138,7 @@
       balls.forEach(ball => {
         ball.x += ball.vx;
         ball.y += ball.vy;
-        const friction = artifactIs("weighted-moon") || artifactIs("crooked-cue") || artifactIs("master-key") || artifactIs("red-eye-relic") ? .992 : .985;
+        const friction = artifactIs("weighted-moon") || artifactIs("crooked-cue") || artifactIs("master-key") || artifactIs("red-eye-relic") || artifactIs("brass-compass") || artifactIs("phantom-rack") || artifactIs("casino-map") || artifactIs("emperor-chip") || artifactIs("chandelier-crown") ? .992 : .985;
         ball.vx *= friction;
         ball.vy *= friction;
         if (Math.hypot(ball.vx, ball.vy) < .08) {
@@ -4855,7 +5165,7 @@
         });
       });
       drawPoolTable();
-      els.poolHint.textContent = ballsMoving() ? "Balls rolling..." : "Drag from the cue ball and release to shoot.";
+      els.poolHint.textContent = ballsMoving() ? "Balls rolling..." : "Drag from the cue ball or use WASD to aim and Space to shoot.";
       if (state.pool.active && ballsMoving()) requestAnimationFrame(tickPool);
       else endPoolShot();
     }
@@ -5441,6 +5751,9 @@
       if (artifactIs("house-crown")) bonus += 3;
       if (artifactIs("master-key")) bonus += 4;
       if (artifactIs("red-eye-relic")) bonus += 5;
+      if (artifactIs("brass-compass")) bonus += 1;
+      if (artifactIs("casino-map") || artifactIs("royal-receipt")) bonus += 2;
+      if (artifactIs("jackpot-soul") || artifactIs("emperor-chip") || artifactIs("timekeeper-ace") || artifactIs("chandelier-crown")) bonus += 5;
       const roll = Math.min(sides, rawRoll + bonus);
       sound("dice");
       player.diceBonus = 0;
@@ -6294,9 +6607,12 @@
       const human = activeLocalPlayer();
       const humanTurn = currentPlayer() === human && !state.gameOver && !state.turnEnding;
       els.handTitle.textContent = `${human.name}'s Hand`;
-      human.hand.forEach(card => {
+      if (human.hand.length) state.keyboardCardIndex = clampNumber(state.keyboardCardIndex, 0, human.hand.length - 1);
+      else state.keyboardCardIndex = 0;
+      human.hand.forEach((card, index) => {
         const div = renderCard(card);
         if (state.selected.has(card.id)) div.classList.add("selected");
+        if (index === state.keyboardCardIndex) div.classList.add("keyboard-focus");
         if (humanTurn && !state.freeRollAvailable && isCardPlayable(card)) div.classList.add("playable");
         div.title = card.kind === "action"
           ? `${card.title}: skips 2 turns, then triggers its special effect.`
@@ -6342,6 +6658,7 @@
       renderHand();
       renderBarkeep();
       const humanTurn = isLocalTurn();
+      setFirstPersonHud("Card Table", humanTurn ? "A/D chooses cards. Space selects. E plays. R draws. F ends." : "Card Table: watching the turn move around the felt.");
       setControls(humanTurn);
       const player = currentPlayer();
       const human = activeLocalPlayer();
@@ -6450,6 +6767,191 @@
       });
     }
 
+    function isTextEntryTarget(target) {
+      return Boolean(target?.closest?.("input, textarea, select, [contenteditable='true']"));
+    }
+
+    function focusKeyboardCard(delta) {
+      const human = activeLocalPlayer();
+      if (!human.hand.length) return;
+      state.keyboardCardIndex = clampNumber(state.keyboardCardIndex + delta, 0, human.hand.length - 1);
+      render();
+      window.requestAnimationFrame(() => {
+        els.hand.children[state.keyboardCardIndex]?.scrollIntoView({ block: "nearest", inline: "center" });
+      });
+    }
+
+    function toggleKeyboardCard() {
+      const human = activeLocalPlayer();
+      const card = human.hand[state.keyboardCardIndex];
+      if (!card || !isLocalTurn() || state.gameOver || state.turnEnding) return;
+      if (state.selected.has(card.id)) state.selected.delete(card.id);
+      else state.selected.add(card.id);
+      render();
+    }
+
+    function ensureDartKeyboardAim() {
+      if (!state.darts.keyboardAim) {
+        const c = els.dartBoard.width / 2;
+        state.darts.keyboardAim = { x: c, y: c - els.dartBoard.width * .18 };
+      }
+      return state.darts.keyboardAim;
+    }
+
+    function humanDartTurn() {
+      const player = state.darts.players[state.darts.current];
+      return state.loungeOpen && state.loungeMode === "darts" && state.darts.started && player && !player.ai;
+    }
+
+    function moveDartKeyboardAim(dx, dy) {
+      if (!humanDartTurn()) return;
+      const aim = ensureDartKeyboardAim();
+      aim.x = clampNumber(aim.x + dx, 32, els.dartBoard.width - 32);
+      aim.y = clampNumber(aim.y + dy, 32, els.dartBoard.height - 32);
+      els.dartStrength.style.width = "68%";
+      els.dartDistance.style.width = `${Math.min(100, Math.hypot(aim.x - els.dartBoard.width / 2, aim.y - els.dartBoard.height / 2) / 3)}%`;
+      drawDartBoard(aim);
+    }
+
+    function throwKeyboardDart() {
+      if (!humanDartTurn()) return;
+      const aim = ensureDartKeyboardAim();
+      let noise = 18;
+      if (state.pretzels > 0) noise -= 5;
+      if (state.loungeBeer > 0) noise -= 4;
+      if (artifactIs("brass-compass") || artifactIs("velvet-dartboard") || artifactIs("casino-map")) noise -= 5;
+      if (artifactIs("jackpot-soul") || artifactIs("emperor-chip") || artifactIs("timekeeper-ace") || artifactIs("chandelier-crown")) noise -= 8;
+      const x = clampNumber(aim.x + (Math.random() - .5) * Math.max(4, noise), 0, els.dartBoard.width);
+      const y = clampNumber(aim.y + (Math.random() - .5) * Math.max(4, noise), 0, els.dartBoard.height);
+      if (state.pretzels > 0) state.pretzels -= 1;
+      if (state.loungeBeer > 0) state.loungeBeer -= 1;
+      throwDart(x, y, 68);
+      els.dartStrength.style.width = "0%";
+      els.dartDistance.style.width = "0%";
+    }
+
+    function humanPoolTurn() {
+      const aiTurn = state.pool.turn === 1 && !state.friendMode;
+      return state.loungeOpen && state.loungeMode === "pool" && state.pool.active && !state.pool.over && !ballsMoving() && !aiTurn;
+    }
+
+    function ensurePoolKeyboardAim() {
+      const cue = state.pool.balls.find(ball => ball.id === "cue");
+      if (!cue) return null;
+      if (!state.pool.keyboardAim) {
+        const target = legalPoolBalls(state.pool.turn)[0] || state.pool.balls.find(ball => ball.n === 8 && !ball.pocketed);
+        const angle = target ? Math.atan2(target.y - cue.y, target.x - cue.x) : 0;
+        state.pool.keyboardAim = { angle, power: 14 };
+      }
+      return state.pool.keyboardAim;
+    }
+
+    function poolKeyboardPoint() {
+      const cue = state.pool.balls.find(ball => ball.id === "cue");
+      const aim = ensurePoolKeyboardAim();
+      if (!cue || !aim) return null;
+      return {
+        x: cue.x - Math.cos(aim.angle) * aim.power * 7,
+        y: cue.y - Math.sin(aim.angle) * aim.power * 7
+      };
+    }
+
+    function movePoolKeyboardAim(angleDelta, powerDelta) {
+      if (!humanPoolTurn()) return;
+      const aim = ensurePoolKeyboardAim();
+      if (!aim) return;
+      aim.angle += angleDelta;
+      aim.power = clampNumber(aim.power + powerDelta, 4, 28);
+      els.poolPower.style.width = `${Math.min(100, aim.power * 3.6)}%`;
+      els.poolAim.style.width = `${Math.min(100, Math.abs(angleDelta) * 500 + 35)}%`;
+      drawPoolTable(poolKeyboardPoint());
+      els.poolHint.textContent = `Keyboard shot: power ${Math.round(aim.power)}. A/D aim, W/S power, Space shoot.`;
+    }
+
+    function shootKeyboardPool() {
+      if (!humanPoolTurn()) return;
+      const point = poolKeyboardPoint();
+      if (!point) return;
+      shootPool(point);
+      els.poolPower.style.width = "0%";
+      els.poolAim.style.width = "0%";
+    }
+
+    function handleCasinoKey(key) {
+      if (key === "w" || key === "arrowup") {
+        moveFirstPerson(0, -.18);
+        startFirstPersonMovement(key);
+      } else if (key === "s" || key === "arrowdown") {
+        moveFirstPerson(0, .18);
+        startFirstPersonMovement(key);
+      } else if (key === "a" || key === "arrowleft") {
+        moveFirstPerson(-.18, 0);
+        startFirstPersonMovement(key);
+      } else if (key === "d" || key === "arrowright") {
+        moveFirstPerson(.18, 0);
+        startFirstPersonMovement(key);
+      }
+      else if (key === "e" || key === "enter" || key === " ") interactFirstPerson();
+      else return false;
+      return true;
+    }
+
+    function handleCardKey(key) {
+      if (key === "a" || key === "arrowleft") focusKeyboardCard(-1);
+      else if (key === "d" || key === "arrowright") focusKeyboardCard(1);
+      else if (key === " " || key === "w" || key === "s") toggleKeyboardCard();
+      else if (key === "e" || key === "enter") els.playSelected.click();
+      else if (key === "r") els.drawCard.click();
+      else if (key === "f") els.endTurn.click();
+      else return false;
+      return true;
+    }
+
+    function handleDartKey(key) {
+      const step = key.startsWith("arrow") ? 14 : 18;
+      if (key === "w" || key === "arrowup") moveDartKeyboardAim(0, -step);
+      else if (key === "s" || key === "arrowdown") moveDartKeyboardAim(0, step);
+      else if (key === "a" || key === "arrowleft") moveDartKeyboardAim(-step, 0);
+      else if (key === "d" || key === "arrowright") moveDartKeyboardAim(step, 0);
+      else if (key === " " || key === "e" || key === "enter") throwKeyboardDart();
+      else return false;
+      return true;
+    }
+
+    function handlePoolKey(key) {
+      if (key === "a" || key === "arrowleft") movePoolKeyboardAim(-.08, 0);
+      else if (key === "d" || key === "arrowright") movePoolKeyboardAim(.08, 0);
+      else if (key === "w" || key === "arrowup") movePoolKeyboardAim(0, 1);
+      else if (key === "s" || key === "arrowdown") movePoolKeyboardAim(0, -1);
+      else if (key === " " || key === "e" || key === "enter") shootKeyboardPool();
+      else return false;
+      return true;
+    }
+
+    function handleFirstPersonKeys(event) {
+      if (isTextEntryTarget(event.target) || els.achievementsModal.classList.contains("show")) return;
+      const key = event.key.toLowerCase();
+      let handled = false;
+      if (!document.body.classList.contains("game-started") && !state.loungeOpen) {
+        handled = handleCasinoKey(key);
+      } else if (state.loungeOpen) {
+        if (key === "q" || key === "escape") {
+          leaveLounge();
+          handled = true;
+        } else {
+          handled = state.loungeMode === "darts" ? handleDartKey(key) : handlePoolKey(key);
+        }
+      } else if (document.body.classList.contains("game-started")) {
+        handled = handleCardKey(key);
+      }
+      if (handled) event.preventDefault();
+    }
+
+    document.addEventListener("keyup", event => {
+      const key = event.key.toLowerCase();
+      if (state.fp.keys.has(key)) stopFirstPersonMovement(key);
+    });
+
     els.playSelected.addEventListener("click", () => {
       if (playCards(currentPlayer(), selectedCards())) {
         render();
@@ -6472,6 +6974,8 @@
       player.hand.sort((a, b) => a.suit.localeCompare(b.suit) || (rankValue[a.rank] || 99) - (rankValue[b.rank] || 99));
       render();
     });
+
+    document.addEventListener("keydown", handleFirstPersonKeys);
 
     document.querySelectorAll("[data-die]").forEach(button => {
       button.addEventListener("click", () => {
