@@ -810,7 +810,16 @@
       border-radius: 50%;
       border: 5px solid #f3d06a;
       background:
-        conic-gradient(from -45deg, #172019 0 90deg, #c99b23 90deg 180deg, #b71934 180deg 270deg, #295cff 270deg 360deg);
+        conic-gradient(from -20deg,
+          #172019 0 40deg,
+          #c99b23 40deg 80deg,
+          #b71934 80deg 120deg,
+          #295cff 120deg 160deg,
+          #e87824 160deg 200deg,
+          #161616 200deg 240deg,
+          #7833c9 240deg 280deg,
+          #4cb8ba 280deg 320deg,
+          #24163d 320deg 360deg);
       box-shadow: inset 0 0 30px rgba(0, 0, 0, .55), 0 10px 25px rgba(0, 0, 0, .35);
       display: grid;
       place-items: center;
@@ -3320,6 +3329,17 @@
         quote: "Eclipse deck: the lights dim, and the discard pile starts listening."
       }
     };
+    const deckWheelColors = {
+      standard: "#172019",
+      gold: "#c99b23",
+      dragon: "#b71934",
+      blue: "#295cff",
+      orange: "#e87824",
+      strike: "#161616",
+      royal: "#7833c9",
+      mirror: "#4cb8ba",
+      eclipse: "#24163d"
+    };
     const championRumors = [
       "Rumor says the champion once won with one card and a very tired smile.",
       "Someone at the bar says the champion never rolls dice, only consequences.",
@@ -4155,6 +4175,8 @@
 
     function startGameFromTitle() {
       ensureAudio();
+      state.loungeOpen = false;
+      document.body.classList.remove("lounge-open");
       setFriendMode(els.titleFriendMode.checked);
       els.playerCount.value = els.titlePlayerCount.value;
       els.difficulty.value = els.titleDifficulty.value;
@@ -4640,6 +4662,10 @@
 
     function activateCasinoArea() {
       const area = casinoAreas[state.hubAreaIndex] || casinoAreas[0];
+      if (area.id === "cards") {
+        startGameFromTitle();
+        return;
+      }
       if (area.page) setMenuPage(area.page);
       else if (area.lounge) openLoungeArea(area.lounge);
     }
@@ -4671,10 +4697,21 @@
       renderDeckMode();
     }
 
+    function deckWheelGradient(modes) {
+      const slice = 360 / modes.length;
+      const stops = modes.map((mode, index) => {
+        const start = (index * slice).toFixed(3);
+        const end = ((index + 1) * slice).toFixed(3);
+        return `${deckWheelColors[mode] || "#243025"} ${start}deg ${end}deg`;
+      }).join(", ");
+      return `conic-gradient(from -${(slice / 2).toFixed(3)}deg, ${stops})`;
+    }
+
     function renderDeckMode() {
       els.deckStatus.textContent = deckModes[state.deckMode].description;
       els.spinDeck.disabled = state.rouletteSpinning;
       const modes = Object.keys(deckModes);
+      els.deckRoulette.style.background = deckWheelGradient(modes);
       document.querySelectorAll(".roulette-label").forEach(label => {
         const index = modes.indexOf(label.classList[1]);
         if (index < 0) return;
@@ -7928,7 +7965,7 @@
     els.menuAchievements.addEventListener("click", openAchievementsMenu);
     els.hubPrev.addEventListener("click", () => walkCasinoHub(-1));
     els.hubNext.addEventListener("click", () => walkCasinoHub(1));
-    els.hubCards.addEventListener("click", () => setMenuPage("cards"));
+    els.hubCards.addEventListener("click", startGameFromTitle);
     els.hubDarts.addEventListener("click", () => openLoungeArea("darts"));
     els.hubPool.addEventListener("click", () => openLoungeArea("pool"));
     els.hubBarkeep.addEventListener("click", approachBarkeep);
