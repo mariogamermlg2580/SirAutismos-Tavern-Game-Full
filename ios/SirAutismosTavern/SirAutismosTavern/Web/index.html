@@ -74,7 +74,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
       gap: 8px;
-      padding: 12px;
+      padding: 10px 12px;
       border-bottom: 1px solid rgba(255, 226, 135, .18);
       background:
         linear-gradient(90deg, rgba(255, 226, 135, .12), transparent 26%, transparent 74%, rgba(255, 226, 135, .12)),
@@ -85,6 +85,8 @@
       color: #ffe7a8;
       background: rgba(16, 13, 14, .84);
       border-color: rgba(255, 226, 135, .25);
+      min-height: 40px;
+      padding: .52rem .7rem;
     }
 
     .menu-nav button.active {
@@ -98,27 +100,72 @@
     }
 
     button {
-      border: 1px solid #6a764f;
+      border: 1px solid rgba(255, 226, 135, .36);
       border-radius: 8px;
-      background: #f2cf67;
-      color: #1b1b13;
+      background:
+        linear-gradient(180deg, rgba(255, 239, 176, .98), rgba(255, 203, 69, .92) 45%, rgba(174, 96, 29, .96)),
+        #f2cf67;
+      color: #1b1208;
       font-weight: 800;
-      padding: .68rem .85rem;
+      padding: .62rem .8rem;
       cursor: pointer;
-      transition: transform .15s ease, filter .15s ease, border-color .15s ease;
+      transition: transform .16s cubic-bezier(.2, .7, .2, 1), filter .16s ease, border-color .16s ease, box-shadow .16s ease, background .16s ease;
       min-height: 44px;
       touch-action: manipulation;
       -webkit-tap-highlight-color: rgba(255, 203, 69, .25);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .42),
+        inset 0 -2px 0 rgba(74, 35, 9, .28),
+        0 6px 14px rgba(0, 0, 0, .2);
     }
 
     button:hover:not(:disabled) {
       transform: translateY(-1px);
       filter: brightness(1.05);
+      border-color: rgba(255, 244, 190, .7);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .5),
+        inset 0 -2px 0 rgba(74, 35, 9, .26),
+        0 9px 20px rgba(0, 0, 0, .28),
+        0 0 16px rgba(255, 203, 69, .16);
+    }
+
+    button:active:not(:disabled) {
+      transform: translateY(1px) scale(.99);
+      filter: brightness(.96);
+    }
+
+    button:focus-visible,
+    select:focus-visible,
+    input:focus-visible {
+      outline: 3px solid rgba(100, 210, 163, .86);
+      outline-offset: 2px;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, .18),
+        0 0 18px rgba(100, 210, 163, .28);
     }
 
     button:disabled {
       opacity: .45;
       cursor: not-allowed;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16);
+    }
+
+    button.active,
+    .deck-buttons button.active,
+    .menu-nav button.active,
+    .lounge-mode button.active {
+      border-color: rgba(255, 244, 190, .78);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .44),
+        0 0 0 1px rgba(255, 203, 69, .22),
+        0 0 22px rgba(255, 203, 69, .28);
+    }
+
+    .modal-head button {
+      width: auto;
+      min-width: 96px;
+      justify-self: end;
     }
 
     select,
@@ -367,13 +414,14 @@
         inset 0 0 34px rgba(255, 203, 69, .04);
       transform: scale(.96);
       opacity: .66;
-      transition: transform .28s ease, opacity .28s ease, border-color .28s ease, box-shadow .28s ease;
+      transition: transform .34s cubic-bezier(.2, .8, .2, 1), opacity .28s ease, border-color .28s ease, box-shadow .28s ease, filter .28s ease;
       z-index: 1;
     }
 
     .hub-area.active {
       opacity: 1;
       transform: scale(1.03);
+      filter: saturate(1.1);
       border-color: rgba(255, 226, 135, .55);
       box-shadow:
         0 24px 54px rgba(0, 0, 0, .44),
@@ -480,6 +528,12 @@
     .hub-area button {
       position: relative;
       z-index: 1;
+    }
+
+    .hub-area button,
+    .hub-floor button {
+      width: 100%;
+      min-height: 42px;
     }
 
     .hub-area h2 {
@@ -596,8 +650,17 @@
 
     .multiplayer-actions {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(78px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
       gap: 8px;
+      padding: 8px;
+      border: 1px solid rgba(100, 210, 163, .16);
+      border-radius: 8px;
+      background: rgba(3, 12, 9, .34);
+    }
+
+    .multiplayer-actions button {
+      width: 100%;
+      min-height: 42px;
     }
 
     .connection-status {
@@ -752,9 +815,16 @@
       background: rgba(8, 12, 9, .5);
       padding: 10px;
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: minmax(0, 1fr) minmax(92px, .24fr);
       gap: 10px;
       align-items: center;
+      transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+    }
+
+    .joker-row:hover {
+      border-color: rgba(255, 226, 135, .32);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, .18);
+      transform: translateY(-1px);
     }
 
     .joker-row span {
@@ -835,7 +905,8 @@
       box-shadow: inset 0 0 30px rgba(0, 0, 0, .55), 0 10px 25px rgba(0, 0, 0, .35);
       display: grid;
       place-items: center;
-      transition: transform 1.4s cubic-bezier(.2, .7, .1, 1);
+      transition: transform 1.55s cubic-bezier(.16, .84, .18, 1);
+      will-change: transform;
       position: relative;
       overflow: hidden;
     }
@@ -865,14 +936,18 @@
 
     .deck-buttons {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
       gap: 7px;
     }
 
     .deck-buttons button {
-      background: #151c17;
+      background:
+        linear-gradient(180deg, rgba(31, 40, 34, .96), rgba(13, 17, 15, .96)),
+        #151c17;
       color: var(--text);
       padding: .55rem .45rem;
+      border-color: rgba(255, 226, 135, .2);
+      min-height: 40px;
     }
 
     .deck-buttons button.active {
@@ -973,6 +1048,24 @@
       backdrop-filter: blur(8px);
     }
 
+    .brand,
+    .controls,
+    .log,
+    .shop,
+    .hand-area,
+    .casino-front,
+    .front-panel,
+    .rules-panel,
+    .barkeep-panel,
+    .multiplayer-panel,
+    .lounge-top,
+    .lounge-layout,
+    .lounge-shop,
+    .lounge-shop-head,
+    .wager-panel {
+      animation: casinoPanelFade .34s ease both;
+    }
+
     .app {
       position: relative;
     }
@@ -1024,9 +1117,31 @@
       border-radius: 8px;
       padding: 14px;
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
       gap: 10px;
       align-items: end;
+    }
+
+    .controls button,
+    .primary-actions button,
+    .dice-row button,
+    .deck-buttons button,
+    .shop-item button,
+    .joker-row button,
+    .lounge-top button,
+    .lounge-mode button,
+    .lounge-shop-head button,
+    .winner button,
+    .modal button {
+      width: 100%;
+      min-width: 0;
+      white-space: normal;
+    }
+
+    .controls button,
+    .lounge-top button {
+      min-height: 42px;
+      padding-inline: .68rem;
     }
 
     .field {
@@ -1294,11 +1409,13 @@
         rgba(14, 20, 15, .58);
       padding: 10px;
       box-shadow: 0 10px 22px rgba(0, 0, 0, .18), inset 0 1px 0 rgba(255, 255, 255, .08);
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
     }
 
     .player.active {
       border-color: var(--accent);
       box-shadow: inset 0 0 0 1px rgba(255, 203, 69, .3), 0 0 26px rgba(255, 203, 69, .16);
+      transform: translateY(-1px);
     }
 
     .player.targetable {
@@ -1309,6 +1426,9 @@
     .player.targeted {
       border-color: var(--accent-2);
       box-shadow: inset 0 0 0 2px rgba(100, 210, 163, .45), 0 0 18px rgba(100, 210, 163, .18);
+      background:
+        linear-gradient(145deg, rgba(100, 210, 163, .12), transparent 46%),
+        rgba(14, 20, 15, .68);
     }
 
     .avatar {
@@ -1363,6 +1483,7 @@
       padding: 14px;
       font-weight: 950;
       transform: perspective(900px) rotateX(3deg) rotateZ(-1deg);
+      transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
     }
 
     .table-deck-row {
@@ -1387,6 +1508,7 @@
       margin: auto;
       transform: translate(var(--dx, 0), var(--dy, 0)) rotate(var(--tilt, 0deg));
       pointer-events: none;
+      transition: transform .28s ease, filter .28s ease;
     }
 
     .deck-stack .deck-back .pip {
@@ -1426,6 +1548,7 @@
       background: rgba(17, 24, 19, .68);
       padding: 10px;
       text-align: center;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
     }
 
     .stat b {
@@ -1455,13 +1578,31 @@
 
     .primary-actions, .dice-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(78px, 1fr));
       gap: 8px;
     }
 
     .dice-row button {
-      background: #202a22;
+      background:
+        linear-gradient(180deg, rgba(39, 51, 41, .96), rgba(19, 28, 21, .96)),
+        #202a22;
       color: var(--text);
+      border-color: rgba(100, 210, 163, .34);
+    }
+
+    .primary-actions {
+      padding: 8px;
+      border: 1px solid rgba(255, 226, 135, .16);
+      border-radius: 8px;
+      background: rgba(9, 8, 8, .34);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
+    }
+
+    .dice-row {
+      padding: 8px;
+      border: 1px solid rgba(100, 210, 163, .14);
+      border-radius: 8px;
+      background: rgba(5, 12, 9, .36);
     }
 
     .notice {
@@ -1539,7 +1680,12 @@
       padding: 12px;
       display: grid;
       gap: 9px;
+      grid-template-rows: auto 1fr auto;
       transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    .shop-item button + button {
+      margin-top: -3px;
     }
 
     .shop-item:hover {
@@ -1782,10 +1928,15 @@
       50% { background-position: 60% 50%, 60px 60px, -70px 40px, 0 0; }
       100% { background-position: 240% 50%, 150px 150px, 220px 220px, 0 0; }
     }
+    @keyframes casinoPanelGlow {
+      from { box-shadow: inset 0 0 0 1px rgba(255, 203, 69, .22), 0 0 0 rgba(255, 203, 69, 0); }
+      to { box-shadow: inset 0 0 0 1px rgba(255, 203, 69, .34), 0 0 18px rgba(255, 203, 69, .18); }
+    }
     .card.selected {
       transform: translateY(-12px) rotateZ(1deg);
       outline: 3px solid var(--accent);
       box-shadow: 0 5px 0 #b9ad8c, 0 18px 30px rgba(0, 0, 0, .36), 0 0 26px rgba(255, 203, 69, .28);
+      animation: casinoPanelGlow 1.7s ease-in-out infinite alternate;
     }
 
     .card.keyboard-focus {
@@ -2077,13 +2228,19 @@
     }
 
     .lounge-top {
-      display: grid;
-      grid-template-columns: minmax(220px, 1fr) repeat(6, auto);
+      display: flex;
+      flex-wrap: wrap;
       gap: 10px;
       align-items: center;
     }
 
+    .lounge-top > div:first-child {
+      flex: 1 1 280px;
+      min-width: min(100%, 260px);
+    }
+
     .lounge-top button {
+      flex: 0 1 128px;
       white-space: nowrap;
     }
 
@@ -2128,14 +2285,20 @@
     }
 
     .lounge-mode {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
+      align-items: center;
+      padding: 8px;
+      border: 1px solid rgba(255, 226, 135, .16);
+      border-radius: 8px;
+      background: rgba(8, 7, 8, .52);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
     }
 
     .lounge-mode button.active {
-      background: #64d2a3;
+      background:
+        linear-gradient(180deg, #94f5cb, #64d2a3 55%, #278b60);
       color: #092015;
       box-shadow: 0 0 18px rgba(100, 210, 163, .28);
     }
@@ -2265,6 +2428,8 @@
       border-radius: 999px;
       background: linear-gradient(90deg, var(--accent-2), var(--accent));
       width: 0%;
+      transition: width .14s ease-out;
+      box-shadow: 0 0 12px rgba(255, 203, 69, .18);
     }
 
     .darts-panel {
@@ -2345,6 +2510,7 @@
     .dart-player.active {
       border-color: var(--accent);
       box-shadow: inset 0 0 0 1px rgba(255, 203, 69, .26);
+      animation: casinoPanelGlow 1.8s ease-in-out infinite alternate;
     }
 
     .lounge-log {
@@ -2471,6 +2637,11 @@
       to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
+    @keyframes casinoPanelFade {
+      from { opacity: .82; filter: saturate(.92) brightness(.94); }
+      to { opacity: 1; filter: saturate(1) brightness(1); }
+    }
+
     @keyframes vsCurtain {
       from { transform: translateX(0); }
       to { transform: translateX(-96%); }
@@ -2479,6 +2650,17 @@
     @keyframes vsCurtainRight {
       from { transform: translateX(0); }
       to { transform: translateX(96%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
     }
 
     @media (max-width: 980px) {
@@ -2496,6 +2678,10 @@
 
       .lounge-top, .lounge-layout {
         grid-template-columns: 1fr;
+      }
+
+      .lounge-top button {
+        flex: 1 1 132px;
       }
 
       .lounge-shop {
@@ -2531,6 +2717,10 @@
 
       .controls {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .menu-nav {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
       .status {
@@ -2728,10 +2918,12 @@
 
       .lounge-top > div:first-child {
         grid-column: 1 / -1;
+        flex-basis: 100%;
       }
 
       .lounge-top button {
         width: 100%;
+        flex: 1 1 calc(50% - 8px);
         white-space: normal;
       }
 
