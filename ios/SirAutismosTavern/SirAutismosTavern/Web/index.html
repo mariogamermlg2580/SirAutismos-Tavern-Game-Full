@@ -4207,6 +4207,7 @@
         current: 0,
         pins: [],
         ball: null,
+        rollId: 0,
         rolling: false,
         dragging: false,
         dragStart: null,
@@ -6220,7 +6221,7 @@
     }
 
     function bowlingStandingPins() {
-      return state.bowling.pins.filter(pin => !pin.fallen);
+      return state.bowling.pins.filter(pin => !pin.fallen && !pin.removed);
     }
 
     function resetBowlingPins() {
@@ -6240,6 +6241,9 @@
             y,
             fallen: false,
             fall: 0,
+            fallAt: 0,
+            removeAt: 0,
+            removed: false,
             tilt: (Math.random() - .5) * .45
           });
         }
@@ -6247,16 +6251,33 @@
       state.bowling.pins = pins;
     }
 
-    function drawBowlingLane(aimPoint) {
+    function removeFallenBowlingPins() {
+      state.bowling.pins = state.bowling.pins.filter(pin => !pin.fallen && !pin.removed);
+    }
+
+    function drawBowlingLane(aimPoint, fastFrame = false) {
       const canvas = els.bowlingLane;
       if (!canvas) return;
       const ctx = canvas.getContext("2d");
       const w = canvas.width;
       const h = canvas.height;
       ctx.clearRect(0, 0, w, h);
-      drawLoungeBackdrop(ctx, w, h, "bowling");
-      drawPixelPatrons(ctx, w, h);
-      drawHangingLights(ctx, w, h);
+      if (fastFrame) {
+        const quickBackdrop = ctx.createLinearGradient(0, 0, 0, h);
+        quickBackdrop.addColorStop(0, "#120813");
+        quickBackdrop.addColorStop(.5, "#08070c");
+        quickBackdrop.addColorStop(1, "#030306");
+        ctx.fillStyle = quickBackdrop;
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = "rgba(255, 204, 83, .1)";
+        ctx.fillRect(0, h * .08, w, 8);
+        ctx.fillStyle = "rgba(104, 232, 255, .08)";
+        ctx.fillRect(0, h * .13, w, 5);
+      } else {
+        drawLoungeBackdrop(ctx, w, h, "bowling");
+        drawPixelPatrons(ctx, w, h);
+        drawHangingLights(ctx, w, h);
+      }
       const galactic = state.bowlingCosmetic === "galactic";
       const lane = ctx.createLinearGradient(0, h * .12, 0, h);
       lane.addColorStop(0, galactic ? "#1b1f4f" : "#d7a762");
@@ -6310,7 +6331,10 @@
         ctx.fill();
       }
       if (state.bowlingSpotlight > 0 || aimPoint) drawBowlingAimGuide(ctx, aimPoint);
-      [...state.bowling.pins].sort((a, b) => a.y - b.y).forEach(pin => drawBowlingPin(ctx, pin));
+      state.bowling.pins
+        .filter(pin => !pin.removed)
+        .sort((a, b) => a.y - b.y)
+        .forEach(pin => drawBowlingPin(ctx, pin));
       if (state.bowling.ball) {
         const ball = state.bowling.ball;
         drawBowlingBall(ctx, ball.x, ball.y, ball.radius || 22, ball.flame);
@@ -6340,14 +6364,18 @@
     }
 
     function drawBowlingPin(ctx, pin) {
+      if (pin.removed) return;
       const neon = state.bowlingCosmetic === "neonpins";
       const pulse = neon ? .75 + Math.sin(performance.now() / 180 + pin.id) * .25 : 0;
       ctx.save();
       ctx.translate(pin.x, pin.y);
       if (pin.fallen) {
-        pin.fall = Math.min(1, (pin.fall || 0) + .08);
-        ctx.rotate((Math.PI / 2.6) * pin.fall + pin.tilt);
-        ctx.translate(10 * pin.fall, 8 * pin.fall);
+        const started = pin.fallAt || performance.now();
+        const fall = clampNumber((performance.now() - started) / 430, 0, 1);
+        const lift = Math.sin(fall * Math.PI) * 8;
+        ctx.globalAlpha = 1 - Math.max(0, fall - .72) / .28;
+        ctx.rotate((Math.PI / 2.4) * fall + pin.tilt);
+        ctx.translate((pin.flyX || 10) * fall, ((pin.flyY || 14) * fall) - lift);
       }
       ctx.fillStyle = "rgba(0,0,0,.35)";
       ctx.beginPath();
@@ -6467,6 +6495,7 @@
       const w = els.bowlingLane.width;
       const h = els.bowlingLane.height;
       const hits = resolveBowlingHit(targetX, power, spin, player);
+      state.bowling.rollId += 1;
       state.bowling.ball = {
         x: w / 2,
         y: h * .84,
@@ -6475,6 +6504,7 @@
         spin,
         hits,
         player,
+        rollId: state.bowling.rollId,
         t: 0,
         radius: 24,
         flame: state.bowlingCosmetic === "fireball"
@@ -6494,25 +6524,52 @@
       ball.x = w / 2 + (ball.targetX - w / 2) * ease + Math.sin(ball.t * Math.PI) * ball.spin * .04;
       ball.y = h * .84 + (h * .31 - h * .84) * ease;
       ball.radius = 24 - ease * 6;
-      drawBowlingLane();
+      drawBowlingLane(null, true);
       if (ball.t < 1) {
         requestAnimationFrame(tickBowlingRoll);
         return;
       }
       const hitIds = new Set(ball.hits.map(pin => pin.id));
       let knocked = 0;
+      const now = performance.now();
       state.bowling.pins.forEach(pin => {
         if (!pin.fallen && hitIds.has(pin.id)) {
           pin.fallen = true;
           pin.fall = 0;
+          pin.fallAt = now;
+          pin.removeAt = now + 430;
+          pin.flyX = (Math.random() - .5) * 36;
+          pin.flyY = 12 + Math.random() * 20;
           knocked += 1;
         }
       });
       const player = ball.player;
+      const rollId = ball.rollId;
       state.bowling.ball = null;
-      drawBowlingLane();
+      drawBowlingLane(null, true);
       sound(knocked ? "card" : "draw");
-      window.setTimeout(() => finishBowlingRoll(player, knocked), 520);
+      animateBowlingPinsThenFinish(player, knocked, rollId);
+    }
+
+    function animateBowlingPinsThenFinish(player, knocked, rollId) {
+      if (!state.bowling.active || state.bowling.over || state.bowling.rollId !== rollId) return;
+      const now = performance.now();
+      let animating = false;
+      state.bowling.pins.forEach(pin => {
+        if (!pin.fallen || pin.removed) return;
+        if (now >= (pin.removeAt || 0)) {
+          pin.removed = true;
+          return;
+        }
+        animating = true;
+      });
+      drawBowlingLane(null, true);
+      if (animating) {
+        requestAnimationFrame(() => animateBowlingPinsThenFinish(player, knocked, rollId));
+        return;
+      }
+      removeFallenBowlingPins();
+      finishBowlingRoll(player, knocked);
     }
 
     function finishBowlingRoll(player, knocked) {
@@ -9209,7 +9266,7 @@
       aim.spin = clampNumber(aim.spin + spinDelta, -110, 110);
       els.bowlingPower.style.width = `${aim.power}%`;
       els.bowlingSpin.style.width = `${Math.min(100, Math.abs(aim.spin))}%`;
-      drawBowlingLane({ x: aim.targetX, y: els.bowlingLane.height * .3 });
+      drawBowlingLane({ x: aim.targetX, y: els.bowlingLane.height * .3 }, true);
       els.bowlingHint.textContent = `Keyboard roll: power ${Math.round(aim.power)}, spin ${Math.round(aim.spin)}. A/D aim, Z/X spin, W/S power, Space roll.`;
     }
 
@@ -9484,7 +9541,7 @@
       const spin = Math.min(100, Math.abs(point.x - start.x) / 1.4);
       els.bowlingPower.style.width = `${Math.min(100, upward / 3.8)}%`;
       els.bowlingSpin.style.width = `${spin}%`;
-      drawBowlingLane({ x: point.x, y: point.y });
+      drawBowlingLane({ x: point.x, y: point.y }, true);
     });
     els.bowlingLane.addEventListener("pointerup", event => {
       if (!state.bowling.dragging) return;
