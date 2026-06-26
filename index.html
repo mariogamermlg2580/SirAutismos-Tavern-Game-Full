@@ -247,6 +247,14 @@
       display: none;
     }
 
+    body.game-started .topbar .controls label.field,
+    body.game-started .topbar .controls label.toggle-row,
+    body.game-started #newGame,
+    body.game-started #openLounge,
+    body.game-started #tableAchievements {
+      display: none;
+    }
+
     .casino-front {
       width: min(1240px, 100%);
       border: 1px solid rgba(255, 226, 135, .35);
@@ -2579,7 +2587,7 @@
         <button id="openLounge">Bar Lounge</button>
         <button id="tableAchievements">Achievements</button>
         <button id="mainMenu">Main Menu</button>
-        <button id="soundToggle">Sound On</button>
+        <button id="soundToggle">Music On</button>
         <button id="exitGame">Exit</button>
       </div>
 
@@ -2669,6 +2677,8 @@
       <button id="newDarts">New Darts</button>
       <button id="newPool">New Pool</button>
       <button id="loungeMusic">Load Music</button>
+      <button id="loungeMainMenu">Main Menu</button>
+      <button id="loungeExitGame">Exit</button>
       <button id="leaveLounge">Back</button>
     </div>
     <div class="lounge-mode">
@@ -2996,6 +3006,118 @@
         description: "Have the Black Market Dealer crash the table.",
         colors: ["#ff385d", "#151713"],
         art: ["111111", "100001", "110011", "101101", "100001", "111111"]
+      },
+      {
+        key: "games5",
+        name: "Regular Customer",
+        description: "Start 5 games across cards, darts, and pool.",
+        colors: ["#ffcb45", "#f8ead1"],
+        art: ["111111", "100001", "111101", "100001", "111111", "001100"]
+      },
+      {
+        key: "games20",
+        name: "House Familiar",
+        description: "Start 20 total games.",
+        colors: ["#64d2a3", "#ffcb45"],
+        art: ["101101", "111111", "100001", "111111", "101101", "001100"]
+      },
+      {
+        key: "games50",
+        name: "Tavern Fixture",
+        description: "Start 50 total games.",
+        colors: ["#b276ff", "#f5dcff"],
+        art: ["111111", "110011", "101101", "110011", "111111", "010010"]
+      },
+      {
+        key: "games100",
+        name: "Casino Citizen",
+        description: "Start 100 total games.",
+        colors: ["#ff385d", "#ffcb45"],
+        art: ["101101", "111111", "110011", "111111", "101101", "111111"]
+      },
+      {
+        key: "cards50",
+        name: "Fifty Card Floor",
+        description: "Play 50 cards at the card table.",
+        colors: ["#f8ead1", "#64d2a3"],
+        art: ["111000", "101100", "111110", "001011", "000111", "001100"]
+      },
+      {
+        key: "cards200",
+        name: "Two Hundred Hands",
+        description: "Play 200 cards at the card table.",
+        colors: ["#ffcb45", "#ff385d"],
+        art: ["110011", "111111", "010010", "111111", "110011", "001100"]
+      },
+      {
+        key: "cards500",
+        name: "Deck Grinder",
+        description: "Play 500 cards at the card table.",
+        colors: ["#ff6b24", "#ffd35a"],
+        art: ["111111", "101101", "111111", "011110", "111111", "100001"]
+      },
+      {
+        key: "cards1000",
+        name: "Thousand Card Storm",
+        description: "Play 1,000 cards at the card table.",
+        colors: ["#b276ff", "#64d2a3"],
+        art: ["111111", "010010", "111111", "101101", "111111", "010010"]
+      },
+      {
+        key: "wins10",
+        name: "Ten Win Tab",
+        description: "Earn 10 wins for the barkeep.",
+        colors: ["#ffcb45", "#7a4d0f"],
+        art: ["011110", "111111", "110011", "111111", "011110", "111111"]
+      },
+      {
+        key: "wins25",
+        name: "Twenty Five Tallies",
+        description: "Earn 25 wins for the barkeep.",
+        colors: ["#64d2a3", "#f8ead1"],
+        art: ["001100", "111111", "101101", "111111", "001100", "111111"]
+      },
+      {
+        key: "wins75",
+        name: "Velvet Ledger Legend",
+        description: "Earn 75 wins for the barkeep.",
+        colors: ["#b276ff", "#ffcb45"],
+        art: ["111111", "100001", "111101", "101101", "100001", "111111"]
+      },
+      {
+        key: "wins150",
+        name: "High Roller Tab",
+        description: "Earn 150 wins for the barkeep.",
+        colors: ["#ffcb45", "#f8ead1"],
+        art: ["011110", "111111", "101101", "111111", "011110", "101101"]
+      },
+      {
+        key: "cardWins5",
+        name: "Five Card Finishes",
+        description: "Win 5 card-table matches.",
+        colors: ["#f8ead1", "#ffcb45"],
+        art: ["111111", "100001", "111111", "001100", "111111", "100001"]
+      },
+      {
+        key: "loungeWins5",
+        name: "Lounge Regular",
+        description: "Win 5 total darts or pool games.",
+        colors: ["#64d2a3", "#ff385d"],
+        art: ["101101", "011110", "111111", "011110", "101101", "010010"]
+      },
+      {
+        key: "dartsWins3",
+        name: "Sharp Thrower",
+        description: "Win 3 darts games.",
+        colors: ["#ff385d", "#f8ead1"],
+        art: ["001100", "011110", "111111", "001100", "011110", "111111"]
+      },
+      {
+        key: "poolWins3",
+        name: "Corner Pocket Crew",
+        description: "Win 3 billiards games.",
+        colors: ["#64d2a3", "#0f6b4a"],
+        art: ["111111", "100001", "101101", "100001", "111111", "001100"]
       }
     ];
     const deckModes = {
@@ -3176,6 +3298,8 @@
       vsText: document.querySelector("#vsText"),
       lounge: document.querySelector("#lounge"),
       leaveLounge: document.querySelector("#leaveLounge"),
+      loungeMainMenu: document.querySelector("#loungeMainMenu"),
+      loungeExitGame: document.querySelector("#loungeExitGame"),
       newDarts: document.querySelector("#newDarts"),
       showDartsMode: document.querySelector("#showDartsMode"),
       showPoolMode: document.querySelector("#showPoolMode"),
@@ -3272,6 +3396,21 @@
       shopMessage: "",
       cardSkin: readSavedText("satcasCardSkin", "classic"),
       achievements: readSavedObject("satcasAchievements"),
+      stats: {
+        ...{
+          cardGamesPlayed: 0,
+          dartsGamesPlayed: 0,
+          poolGamesPlayed: 0,
+          totalGamesPlayed: 0,
+          cardsPlayed: 0,
+          winsEarned: 0,
+          cardWins: 0,
+          dartsWins: 0,
+          poolWins: 0
+        },
+        ...readSavedObject("satcasStats")
+      },
+      devBuffer: "",
       cheats: {
         ...{
           loadedSleeve: 0,
@@ -3392,7 +3531,7 @@
 
     function toggleSound() {
       state.audioEnabled = !state.audioEnabled;
-      els.soundToggle.textContent = state.audioEnabled ? "Sound On" : "Sound Off";
+      els.soundToggle.textContent = state.audioEnabled ? "Music On" : "Music Off";
       if (state.audioEnabled) {
         sound("shop");
       } else {
@@ -3430,7 +3569,8 @@
       els.winnerNewGame.textContent = "Play Again";
       els.vsScreen.classList.remove("show");
       els.curtains.classList.remove("show", "closed");
-      document.body.classList.remove("game-started");
+      state.loungeOpen = false;
+      document.body.classList.remove("game-started", "lounge-open");
       setMenuPage("main");
       renderEmptyTable();
       refreshTagline();
@@ -3763,6 +3903,8 @@
     function newGame() {
       setFriendMode(els.friendMode.checked);
       state.matchId += 1;
+      addStat("cardGamesPlayed", 1);
+      addStat("totalGamesPlayed", 1);
       rollArtifact("cards");
       refreshTagline();
       state.deck = shuffle(makeDeck());
@@ -4249,6 +4391,7 @@
       if (humanWon) {
         const earned = wager?.active ? wager.payout : artifactWinValue();
         state.winCurrency += earned;
+        addStat("winsEarned", earned);
         saveWins();
         renderBarkeep();
         renderWagerStatus();
@@ -4284,6 +4427,8 @@
 
     function startDartsGame() {
       rollArtifact("darts");
+      addStat("dartsGamesPlayed", 1);
+      addStat("totalGamesPlayed", 1);
       setFriendMode(els.friendMode.checked || els.titleFriendMode.checked);
       const count = Number(els.playerCount.value || els.titlePlayerCount.value || 2);
       const friendMode = !state.boss.active && state.friendMode;
@@ -4679,6 +4824,7 @@
       if (player.score === 0) {
         addLoungeLog(`${player.name} wins darts. Barkeep marks the board with one quiet nod.`);
         if (!player.ai) {
+          addStat("dartsWins", 1);
           unlockAchievement("dartWinner", "Darts Winner");
           resolveLoungeWager(state.darts.wager, true, "Darts");
         } else {
@@ -4829,6 +4975,8 @@
 
     function startPoolGame() {
       rollArtifact("pool");
+      addStat("poolGamesPlayed", 1);
+      addStat("totalGamesPlayed", 1);
       setFriendMode(els.friendMode.checked || els.titleFriendMode.checked);
       state.pool.active = true;
       state.pool.dragging = false;
@@ -5269,6 +5417,7 @@
       const humanWon = winner === 0 || (state.friendMode && winner === 1);
       addLoungeLog(`${playerLabel(winner)} won 8-ball: ${reason}.`);
       if (humanWon) {
+        addStat("poolWins", 1);
         unlockAchievement("poolWinner", "Pool Winner");
         resolveLoungeWager(state.pool.wager, true, "8-Ball");
         sound("win");
@@ -5412,6 +5561,7 @@
       const combo = classifyCombo(cards);
       if (!combo.valid) return false;
       const earned = discardCards(player, cards);
+      if (!player.ai) addStat("cardsPlayed", earned);
       const comboName = combo.type === "single" ? cardName(cards[0]) : combo.type;
       addLog(`${player.name} played ${comboName} and earned ${earned} coin${earned === 1 ? "" : "s"}.`);
       sound(combo.type === "action" ? "action" : "card");
@@ -5549,6 +5699,42 @@
 
     function saveAchievements() {
       localStorage.setItem("satcasAchievements", JSON.stringify(state.achievements));
+    }
+
+    function saveStats() {
+      localStorage.setItem("satcasStats", JSON.stringify(state.stats));
+    }
+
+    function addStat(key, amount = 1) {
+      state.stats[key] = Number(state.stats[key] || 0) + amount;
+      saveStats();
+      checkStatAchievements();
+    }
+
+    function checkStatAchievements() {
+      const totalGames = Number(state.stats.totalGamesPlayed || 0);
+      const cardsPlayed = Number(state.stats.cardsPlayed || 0);
+      const winsEarned = Number(state.stats.winsEarned || 0);
+      const cardWins = Number(state.stats.cardWins || 0);
+      const dartsWins = Number(state.stats.dartsWins || 0);
+      const poolWins = Number(state.stats.poolWins || 0);
+      const loungeWins = Number(state.stats.dartsWins || 0) + Number(state.stats.poolWins || 0);
+      if (totalGames >= 5) unlockAchievement("games5", "Regular Customer");
+      if (totalGames >= 20) unlockAchievement("games20", "House Familiar");
+      if (totalGames >= 50) unlockAchievement("games50", "Tavern Fixture");
+      if (totalGames >= 100) unlockAchievement("games100", "Casino Citizen");
+      if (cardsPlayed >= 50) unlockAchievement("cards50", "Fifty Card Floor");
+      if (cardsPlayed >= 200) unlockAchievement("cards200", "Two Hundred Hands");
+      if (cardsPlayed >= 500) unlockAchievement("cards500", "Deck Grinder");
+      if (cardsPlayed >= 1000) unlockAchievement("cards1000", "Thousand Card Storm");
+      if (winsEarned >= 10) unlockAchievement("wins10", "Ten Win Tab");
+      if (winsEarned >= 25) unlockAchievement("wins25", "Twenty Five Tallies");
+      if (winsEarned >= 75) unlockAchievement("wins75", "Velvet Ledger Legend");
+      if (winsEarned >= 150) unlockAchievement("wins150", "High Roller Tab");
+      if (cardWins >= 5) unlockAchievement("cardWins5", "Five Card Finishes");
+      if (loungeWins >= 5) unlockAchievement("loungeWins5", "Lounge Regular");
+      if (dartsWins >= 3) unlockAchievement("dartsWins3", "Sharp Thrower");
+      if (poolWins >= 3) unlockAchievement("poolWins3", "Corner Pocket Crew");
     }
 
     function unlockAchievement(key, label) {
@@ -6171,6 +6357,8 @@
       if (localHumanWon) {
         const earnedWins = artifactWinValue();
         state.winCurrency += earnedWins;
+        addStat("winsEarned", earnedWins);
+        addStat("cardWins", 1);
         saveWins();
         addLog(`${winner.name} earned ${earnedWins} win${earnedWins === 1 ? "" : "s"} for Sir Autismos Barkeep.`);
         unlockAchievement("firstCardWin", "Card Table Winner");
@@ -6728,7 +6916,7 @@
       els.useBeer.disabled = !humanTurn || !state.diceEnabled || human.beers <= 0;
       els.buyChip.disabled = !humanTurn || !state.diceEnabled || human.coins < 20 || state.freeRollAvailable;
       els.buyChip.textContent = "Buy Chip";
-      els.soundToggle.textContent = state.audioEnabled ? "Sound On" : "Sound Off";
+      els.soundToggle.textContent = state.audioEnabled ? "Music On" : "Music Off";
       els.playSelected.disabled = !humanTurn || state.freeRollAvailable || !combo.valid;
       els.drawCard.disabled = !humanTurn || state.freeRollAvailable || state.turnDrew;
       els.hintMove.disabled = !humanTurn || state.freeRollAvailable;
@@ -6779,7 +6967,7 @@
       els.notice.textContent = "";
       els.dialogue.textContent = "";
       els.drawCard.textContent = "Draw";
-      els.soundToggle.textContent = state.audioEnabled ? "Sound On" : "Sound Off";
+      els.soundToggle.textContent = state.audioEnabled ? "Music On" : "Music Off";
       setControls(false);
       [els.buyCigar, els.buyBeer, els.buyChip, els.useCigar, els.useBeer].forEach(button => {
         button.disabled = true;
@@ -6826,6 +7014,26 @@
 
     function isTextEntryTarget(target) {
       return Boolean(target?.closest?.("input, textarea, select, [contenteditable='true']"));
+    }
+
+    function handleSecretWinGrant(event) {
+      if (event.ctrlKey || event.metaKey || event.altKey) return false;
+      const key = event.key || "";
+      if (/^[A-Z]$/.test(key)) {
+        state.devBuffer = `${state.devBuffer}${key}`.slice(-7);
+        if (state.devBuffer === "AUTISMO") {
+          state.devBuffer = "";
+          state.winCurrency += 40;
+          addStat("winsEarned", 40);
+          saveWins();
+          renderBarkeep();
+          sound("win");
+          return true;
+        }
+      } else if (key.length === 1) {
+        state.devBuffer = "";
+      }
+      return false;
     }
 
     function focusKeyboardCard(delta) {
@@ -6977,6 +7185,10 @@
 
     function handleGlobalKeys(event) {
       if (isTextEntryTarget(event.target) || els.achievementsModal.classList.contains("show")) return;
+      if (handleSecretWinGrant(event)) {
+        event.preventDefault();
+        return;
+      }
       const key = event.key.toLowerCase();
       let handled = false;
       if (!document.body.classList.contains("game-started") && !state.loungeOpen) {
@@ -7060,6 +7272,8 @@
     els.exitGame.addEventListener("click", exitGame);
     els.winnerNewGame.addEventListener("click", startGameWithCurtains);
     els.leaveLounge.addEventListener("click", leaveLounge);
+    els.loungeMainMenu.addEventListener("click", returnToMainMenu);
+    els.loungeExitGame.addEventListener("click", exitGame);
     els.newDarts.addEventListener("click", () => {
       state.loungeMode = "darts";
       startDartsGame();
