@@ -12,6 +12,7 @@ const MAX_MESSAGES_PER_WINDOW = Number(process.env.MAX_MESSAGES_PER_WINDOW || 40
 const MAX_UPGRADES_PER_MINUTE = Number(process.env.MAX_UPGRADES_PER_MINUTE || 30);
 const CLIENT_IDLE_MS = Number(process.env.CLIENT_IDLE_MS || 30 * 60 * 1000);
 const SERVER_TOKEN = process.env.SERVER_TOKEN || "";
+const STRICT_ORIGINS = /^true$/i.test(process.env.STRICT_ORIGINS || "");
 const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || "")
   .split(",")
   .map(origin => origin.trim())
@@ -358,6 +359,13 @@ function checkUpgradeRate(ip) {
 
 function originAllowed(origin) {
   if (!ALLOWED_ORIGINS.length) return true;
+  if (!STRICT_ORIGINS) {
+    if (!origin || origin === "null" || origin.startsWith("file://")) return true;
+    try {
+      const parsed = new URL(origin);
+      if (parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1" || parsed.hostname === "::1") return true;
+    } catch {}
+  }
   if (!origin && ALLOWED_ORIGINS.includes("null")) return true;
   return ALLOWED_ORIGINS.includes(origin);
 }

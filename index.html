@@ -905,7 +905,7 @@
     }
 
     .curtains.show {
-      display: block;
+      display: grid;
       opacity: 1;
     }
 
@@ -931,7 +931,7 @@
         repeating-linear-gradient(90deg, rgba(255, 255, 255, .08) 0 2px, transparent 2px 58px),
         linear-gradient(90deg, #4e0617, #8d1228 48%, #4b0616);
       box-shadow: inset 0 0 80px rgba(0, 0, 0, .55);
-      transition: transform 1.25s cubic-bezier(.72, 0, .18, 1);
+      transition: transform .82s cubic-bezier(.22, .9, .2, 1);
       will-change: transform;
     }
 
@@ -1495,11 +1495,16 @@
     }
     .card.skin-dragon, .discard-card.skin-dragon {
       background:
-        linear-gradient(45deg, transparent 0 18%, rgba(255, 210, 112, .22) 19% 21%, transparent 22% 39%, rgba(255, 91, 42, .24) 40% 42%, transparent 43%),
-        linear-gradient(145deg, #111, #2e1010 40%, #d44826 63%, #111);
+        radial-gradient(circle at 18% 18%, rgba(255, 255, 255, .92), transparent 10%),
+        conic-gradient(from 45deg at 50% 50%, rgba(255, 49, 49, .9), rgba(255, 205, 45, .82), rgba(63, 231, 155, .82), rgba(76, 145, 255, .86), rgba(188, 88, 255, .88), rgba(255, 49, 49, .9)),
+        repeating-linear-gradient(45deg, transparent 0 18%, rgba(255, 255, 255, .22) 19% 21%, transparent 22% 39%, rgba(255, 203, 69, .22) 40% 42%, transparent 43%),
+        repeating-linear-gradient(135deg, transparent 0 16%, rgba(255, 95, 42, .28) 17% 20%, transparent 21% 37%, rgba(100, 210, 163, .18) 38% 40%, transparent 41%),
+        linear-gradient(145deg, #0b0810, #2e1010 35%, #d44826 57%, #111);
+      background-size: 240% 240%, 180% 180%, 150% 150%, 150% 150%, 100% 100%;
       color: #fff4c8;
-      border-color: #ff6f3c;
-      box-shadow: 0 0 18px rgba(255, 80, 32, .35), inset 0 0 18px rgba(255, 203, 69, .12);
+      border-color: #fff0a8;
+      animation: dragonRgbFlame 1.6s linear infinite;
+      box-shadow: 0 0 24px rgba(255, 80, 32, .42), 0 0 34px rgba(100, 210, 163, .16), inset 0 0 20px rgba(255, 255, 255, .18);
       text-shadow: 0 1px 3px rgba(0, 0, 0, .9);
     }
     .card.skin-crystal, .discard-card.skin-crystal {
@@ -1532,6 +1537,11 @@
     @keyframes rainbowSlide {
       from { background-position: 0% 50%; }
       to { background-position: 240% 50%; }
+    }
+    @keyframes dragonRgbFlame {
+      0% { background-position: 0% 50%, 0% 50%, 0 0, 100% 0, 0 0; filter: brightness(1.08) saturate(1.15); }
+      50% { background-position: 100% 50%, 80% 50%, 80px -80px, -80px -80px, 0 0; filter: brightness(1.28) saturate(1.45); }
+      100% { background-position: 200% 50%, 160% 50%, 160px -160px, -160px -160px, 0 0; filter: brightness(1.08) saturate(1.15); }
     }
     @keyframes crystalSparkle {
       0%, 100% { filter: brightness(1); }
@@ -2469,6 +2479,11 @@
                 <span class="roulette-label gold">Gold</span>
                 <span class="roulette-label dragon">Dragon</span>
                 <span class="roulette-label blue">Blue</span>
+                <span class="roulette-label orange">Orange</span>
+                <span class="roulette-label strike">Strike</span>
+                <span class="roulette-label royal">Royal</span>
+                <span class="roulette-label mirror">Mirror</span>
+                <span class="roulette-label eclipse">Eclipse</span>
               </div>
             </div>
             <button id="spinDeck">Spin Deck</button>
@@ -2477,6 +2492,11 @@
               <button data-deck="gold">Gold</button>
               <button data-deck="dragon">Dragon</button>
               <button data-deck="blue">Blue</button>
+              <button data-deck="orange">Orange</button>
+              <button data-deck="strike">Strike</button>
+              <button data-deck="royal">Royal</button>
+              <button data-deck="mirror">Mirror</button>
+              <button data-deck="eclipse">Eclipse</button>
             </div>
             <div class="selected-info" id="deckStatus">Standard deck: tavern chaos as usual.</div>
           </div>
@@ -2501,7 +2521,7 @@
               <tr><td>Dice Target</td><td>Click or tap an opponent panel during your turn. Big target draws are capped so one roll cannot instantly end the table.</td></tr>
               <tr><td>Shop</td><td>Cards, darts, and pool each have 5 different buyable items. Card table items use table coins; lounge games use table coins or a small bar wallet when played alone.</td></tr>
               <tr><td>Dealer</td><td>Optional chaos event: 1%, then 15% after turn 6, then 50% past turn 8.</td></tr>
-              <tr><td>Deck Roulette</td><td>Gold starts everyone with 5 coins. Dragon starts everyone with 15 cards and disables dice. Blue creates a serene rumor-filled game.</td></tr>
+              <tr><td>Deck Roulette</td><td>Gold adds coins. Dragon starts with 15 cards and no dice. Blue adds rumors. Orange starts at 5 cards, caps at 15, uses D4 only, and has no action cards. Strike is a black-suit speed deck with no coins or action cards. Royal, Mirror, and Eclipse add stronger table twists.</td></tr>
               <tr><td>Win Payouts</td><td>Card wins pay by AI difficulty: Easy 1, Medium 3, Hard 6. Boss pass now costs 50 wins.</td></tr>
             </tbody>
           </table>
@@ -2900,9 +2920,9 @@
       "One more roll, said everyone moments before learning a lesson."
     ];
     const actionCardNames = {
-      dice: ["Backroom Dice", "Moonlit Roll", "Borrowed Bones"],
-      decrease: ["Cut the Hand", "Cut the Hand", "Ledger Burn", "Ledger Burn", "Vanishing Stack"],
-      chip: ["House Chip", "Velvet Favor", "Marked Token"]
+      dice: ["Backroom Dice", "Moonlit Roll", "Borrowed Bones", "Thunder Tumbler", "Lucky Fuse"],
+      decrease: ["Cut the Hand", "Cut the Hand", "Ledger Burn", "Ledger Burn", "Vanishing Stack", "Ash Sweep", "Mirror Slip"],
+      chip: ["House Chip", "Velvet Favor", "Marked Token", "Dragon Scale Chip", "Neon IOU"]
     };
     const artifacts = [
       {
@@ -3221,6 +3241,31 @@
         label: "Blue",
         description: "Blue deck: a serene game with quiet rumors about the champion.",
         quote: "Blue deck: calm cards, soft rumors, dangerous patience."
+      },
+      orange: {
+        label: "Orange",
+        description: "Orange deck: start with 5 cards, forfeit over 15, only D4 rolls, and no action cards.",
+        quote: "Orange deck: tiny hands, hot lights, and no room for hoarding."
+      },
+      strike: {
+        label: "Strike",
+        description: "Strike deck: no coins, no action cards, and every card is a spade or club for fast matching.",
+        quote: "Strike deck: black suits only, no shop money, no excuses."
+      },
+      royal: {
+        label: "Royal",
+        description: "Royal deck: more face cards, richer combo rewards, and dramatic table pressure.",
+        quote: "Royal deck: the face cards arrived overdressed."
+      },
+      mirror: {
+        label: "Mirror",
+        description: "Mirror deck: opponents copy small draws and the table swings back at messy turns.",
+        quote: "Mirror deck: every mistake has a reflection."
+      },
+      eclipse: {
+        label: "Eclipse",
+        description: "Eclipse deck: darker hands, fewer dice turns, and higher rewards for clean poker plays.",
+        quote: "Eclipse deck: the lights dim, and the discard pile starts listening."
       }
     };
     const championRumors = [
@@ -3465,6 +3510,7 @@
       actionCardsEnabled: true,
       dealerEnabled: true,
       deckMode: "standard",
+      handLimit: 25,
       rouletteRotation: 0,
       rouletteSpinning: false,
       menuPage: "main",
@@ -3698,7 +3744,13 @@
 
     function makeDeck() {
       cardId = 0;
-      const standard = suits.flatMap(suit => ranks.map(rank => ({
+      const modeSuits = state.deckMode === "strike"
+        ? suits.filter(suit => suit.id === "S" || suit.id === "C")
+        : suits;
+      const modeRanks = state.deckMode === "royal"
+        ? [...ranks, "10", "J", "Q", "K", "A"]
+        : ranks;
+      const standard = modeSuits.flatMap(suit => modeRanks.map(rank => ({
         suit: suit.id,
         suitName: suit.name,
         symbol: suit.symbol,
@@ -3706,7 +3758,8 @@
         rank,
         id: `${rank}${suit.id}-${cardId++}`
       })));
-      return state.actionCardsEnabled ? [...standard, ...makeActionCards()] : standard;
+      const allowActions = state.actionCardsEnabled && !["orange", "strike"].includes(state.deckMode);
+      return allowActions ? [...standard, ...makeActionCards()] : standard;
     }
 
     function makeActionCards() {
@@ -3969,7 +4022,9 @@
     async function hostMultiplayerRoom() {
       try {
         await connectMultiplayer();
-        sendMultiplayer("create-room", {});
+        if (sendMultiplayer("create-room", {})) {
+          setMultiplayerStatus("Host request sent. Waiting for the room code...");
+        }
       } catch {
         setMultiplayerStatus("Could not connect. Use Wake/Test for Render, check the URL/token, then host again.", true);
       }
@@ -4038,7 +4093,15 @@
       state.diceEnabled = els.titleDiceEnabled.checked;
       state.actionCardsEnabled = els.titleActionCardsEnabled.checked;
       state.dealerEnabled = els.titleDealerEnabled.checked;
-      if (state.deckMode === "dragon") {
+      if (state.deckMode === "orange") {
+        state.diceEnabled = true;
+        state.actionCardsEnabled = false;
+        els.titleDiceEnabled.checked = true;
+        els.titleActionCardsEnabled.checked = false;
+      } else if (state.deckMode === "strike") {
+        state.actionCardsEnabled = false;
+        els.titleActionCardsEnabled.checked = false;
+      } else if (state.deckMode === "dragon") {
         state.diceEnabled = false;
         els.titleDiceEnabled.checked = false;
         els.startCards.value = "15";
@@ -4054,6 +4117,10 @@
       state.gameStarting = true;
       els.curtains.classList.add("show");
       requestAnimationFrame(() => els.curtains.classList.add("closed"));
+      const curtainFailSafe = window.setTimeout(() => {
+        els.curtains.classList.remove("show", "closed");
+        state.gameStarting = false;
+      }, 4200);
       window.setTimeout(() => {
         document.body.classList.add("game-started");
         newGame();
@@ -4062,9 +4129,10 @@
           window.setTimeout(() => {
             els.curtains.classList.remove("show");
             state.gameStarting = false;
-          }, 1350);
+            window.clearTimeout(curtainFailSafe);
+          }, 950);
         }, 320);
-      }, 1280);
+      }, 900);
     }
 
     function newGame() {
@@ -4080,6 +4148,7 @@
       state.current = 0;
       state.direction = 1;
       state.turnNumber = 1;
+      state.handLimit = state.deckMode === "orange" ? 15 : 25;
       state.selected.clear();
       state.keyboardCardIndex = 0;
       state.diceTargetIndex = 1;
@@ -4098,7 +4167,7 @@
       const total = Number(els.playerCount.value);
       const friendMode = !state.boss.active && state.friendMode;
       const playerTotal = friendMode ? 2 : state.boss.active ? 2 : total === 1 ? 2 : total;
-      const startCards = state.deckMode === "dragon" ? 15 : Number(els.startCards.value);
+      const startCards = state.deckMode === "dragon" ? 15 : state.deckMode === "orange" || state.deckMode === "strike" ? 5 : Number(els.startCards.value);
       state.players.push(makePlayer("You", false));
       const usedNames = new Set(["You", "Friend"]);
       if (friendMode) {
@@ -4121,14 +4190,22 @@
       applyShiftyCheats();
 
       let first = state.deck.pop();
-      while (first.rank === "8" || first.kind === "action") {
+      if (!first) {
+        state.players.forEach(player => {
+          if (player.hand.length > 1) state.deck.push(player.hand.pop());
+        });
+        shuffle(state.deck);
+        first = state.deck.pop();
+      }
+      while (first && (first.rank === "8" || first.kind === "action")) {
         state.deck.unshift(first);
         shuffle(state.deck);
         first = state.deck.pop();
       }
+      if (!first) first = { suit: "S", suitName: "Spades", symbol: "♠", color: "black", rank: "A", id: `fallback-${cardId++}` };
       state.discard.push(first);
 
-      addLog("New match started. Get rid of every card before your hand hits 26.");
+      addLog(`New match started. Get rid of every card before your hand hits ${state.handLimit + 1}.`);
       addLog(deckModes[state.deckMode].quote);
       if (friendMode) addLog("Friend Mode: two local players. Pass the controls when the turn name changes.");
       if (total === 1) addLog("Practice mode adds one AI opponent so the table still has teeth.");
@@ -4152,6 +4229,28 @@
         const rumor = pick(championRumors);
         addLog(`Blue deck rumor: ${rumor}`);
         els.dialogue.textContent = `"${rumor}"`;
+      } else if (state.deckMode === "orange") {
+        state.diceEnabled = true;
+        state.actionCardsEnabled = false;
+        addLog("Orange deck: 5-card start, 15-card forfeit cap, D4 only, and no action cards.");
+      } else if (state.deckMode === "strike") {
+        state.actionCardsEnabled = false;
+        state.players.forEach(player => {
+          player.coins = 0;
+        });
+        addLog("Strike deck: spades and clubs only. No coins, no shop economy, no action cards.");
+      } else if (state.deckMode === "royal") {
+        state.players.forEach(player => {
+          player.coins += 2;
+        });
+        addLog("Royal deck: extra face cards and 2 starting coins for every player.");
+      } else if (state.deckMode === "mirror") {
+        addLog("Mirror deck: draw bursts reflect one card onto the next opponent.");
+      } else if (state.deckMode === "eclipse") {
+        state.players.forEach(player => {
+          player.rollLock += 1;
+        });
+        addLog("Eclipse deck: dice start locked for 1 turn, but poker plays pay brighter.");
       }
     }
 
@@ -4477,6 +4576,12 @@
       state.deckMode = mode;
       if (mode === "dragon") {
         els.titleDiceEnabled.checked = false;
+      } else if (mode === "orange") {
+        els.titleDiceEnabled.checked = true;
+        els.titleActionCardsEnabled.checked = false;
+        els.titleStartCards.value = "7";
+      } else if (mode === "strike") {
+        els.titleActionCardsEnabled.checked = false;
       }
       renderDeckMode();
     }
@@ -4484,6 +4589,15 @@
     function renderDeckMode() {
       els.deckStatus.textContent = deckModes[state.deckMode].description;
       els.spinDeck.disabled = state.rouletteSpinning;
+      const modes = Object.keys(deckModes);
+      document.querySelectorAll(".roulette-label").forEach(label => {
+        const index = modes.indexOf(label.classList[1]);
+        if (index < 0) return;
+        const angle = index * 360 / modes.length;
+        label.style.left = `${50 + Math.cos((angle - 90) * Math.PI / 180) * 34}%`;
+        label.style.top = `${50 + Math.sin((angle - 90) * Math.PI / 180) * 34}%`;
+        label.style.transform = "translate(-50%, -50%)";
+      });
       document.querySelectorAll("[data-deck]").forEach(button => {
         button.classList.toggle("active", button.dataset.deck === state.deckMode);
         button.disabled = state.rouletteSpinning;
@@ -5305,13 +5419,13 @@
       const w = els.poolTable.width;
       const h = els.poolTable.height;
       return [
-        { x: 22, y: 22 }, { x: w / 2, y: 16 }, { x: w - 22, y: 22 },
-        { x: 22, y: h - 22 }, { x: w / 2, y: h - 16 }, { x: w - 22, y: h - 22 }
+        { x: 48, y: 48 }, { x: w / 2, y: 38 }, { x: w - 48, y: 48 },
+        { x: 48, y: h - 48 }, { x: w / 2, y: h - 38 }, { x: w - 48, y: h - 48 }
       ];
     }
 
     function poolPocketRadius() {
-      let radius = 30;
+      let radius = 34;
       if (artifactIs("jackpot-soul") || artifactIs("emperor-chip") || artifactIs("timekeeper-ace") || artifactIs("chandelier-crown")) radius = 45;
       else if (artifactIs("red-eye-relic") || artifactIs("house-crown")) radius = 42;
       else if (artifactIs("master-key")) radius = 38;
@@ -5322,7 +5436,7 @@
     }
 
     function poolPocketCatchRadius(ball) {
-      return poolPocketRadius() + (ball?.r || 13) * .95;
+      return poolPocketRadius() + (ball?.r || 13) * 1.35;
     }
 
     function renderPoolStatus() {
@@ -5551,7 +5665,7 @@
       const bridged = state.poolBridge > 0;
       const chalked = state.poolChalk > 0;
       const maxPower = bridged ? 34 : 28;
-      const power = Math.min(maxPower, Math.hypot(dx, dy) / 7 * (bridged ? 1.12 : 1));
+      const power = Math.min(maxPower, Math.hypot(dx, dy) / 6 * (bridged ? 1.12 : 1));
       if (power < 2) {
         els.poolHint.textContent = "Pull farther back from the cue ball before releasing.";
         return;
@@ -5750,14 +5864,9 @@
       const modes = Object.keys(deckModes);
       const mode = pick(modes);
       const index = modes.indexOf(mode);
-      const centerAngles = {
-        standard: 0,
-        gold: 90,
-        dragon: 180,
-        blue: 270
-      };
+      const centerAngle = index * 360 / modes.length;
       const currentNormalized = ((state.rouletteRotation % 360) + 360) % 360;
-      const targetNormalized = (360 - centerAngles[mode]) % 360;
+      const targetNormalized = (360 - centerAngle) % 360;
       const delta = (targetNormalized - currentNormalized + 360) % 360;
       state.rouletteRotation += 1440 + delta;
       els.deckRoulette.style.transform = `rotate(${state.rouletteRotation}deg)`;
@@ -5795,6 +5904,13 @@
       }
       if (announce && actualCount > 0) addLog(`${player.name} drew ${actualCount} card${actualCount === 1 ? "" : "s"}.`);
       if (announce && actualCount > 0) sound("draw");
+      if (state.deckMode === "mirror" && announce && actualCount >= 2) {
+        const target = nextActivePlayerFrom(state.players.indexOf(player));
+        if (target && target !== player) {
+          draw(target, 1, false);
+          addLog(`Mirror deck reflected 1 card onto ${target.name}.`);
+        }
+      }
       checkForfeit(player);
     }
 
@@ -5807,7 +5923,11 @@
           discarded += 1;
         }
       });
-      if (discarded > 0) player.coins += discarded;
+      if (discarded > 0 && state.deckMode !== "strike") {
+        const comboBoost = state.deckMode === "royal" && discarded >= 3 ? 1 : 0;
+        const eclipseBoost = state.deckMode === "eclipse" && discarded >= 4 ? 2 : 0;
+        player.coins += discarded + comboBoost + eclipseBoost;
+      }
       return discarded;
     }
 
@@ -5928,9 +6048,16 @@
       addLog(`${player.name} triggered ${card.title} and must skip 2 turns.`);
 
       if (card.actionKind === "decrease") {
-        const maxRemove = card.title === "Vanishing Stack" ? balance.vanishingStackDiscard : balance.discardActionCards;
+        const maxRemove = card.title === "Vanishing Stack" ? balance.vanishingStackDiscard : card.title === "Ash Sweep" ? 3 : balance.discardActionCards;
         const removed = discardExtras(player, maxRemove);
         addLog(`${card.title} cut ${removed} card${removed === 1 ? "" : "s"} from ${player.name}'s hand.`);
+        if (card.title === "Mirror Slip") {
+          const target = nextActivePlayerFrom(state.players.indexOf(player));
+          if (target && target !== player) {
+            draw(target, 1, false);
+            addLog(`Mirror Slip reflected 1 card onto ${target.name}.`);
+          }
+        }
         els.dialogue.textContent = `"${card.title}. The hand got lighter, the bill got stranger."`;
       } else if (card.actionKind === "dice") {
         if (state.diceEnabled) {
@@ -6257,6 +6384,10 @@
     function rollDie(sides, player, free = false) {
       if (!state.diceEnabled) {
         addLog("Dice are disabled for this match.");
+        return false;
+      }
+      if (state.deckMode === "orange" && sides !== 4) {
+        addLog("Orange deck allows D4 rolls only.");
         return false;
       }
       if (!isDieUnlocked(sides)) {
@@ -6617,7 +6748,7 @@
     }
 
     function checkForfeit(player) {
-      if (player.hand.length <= 25 || player.forfeited || state.gameOver) return;
+      if (player.hand.length <= state.handLimit || player.forfeited || state.gameOver) return;
       player.forfeited = true;
       addLog(`${player.name} forfeited with ${player.hand.length} cards.`);
       sound("forfeit");
@@ -7187,7 +7318,8 @@
       });
 
       const combo = classifyCombo(selectedCards());
-      const danger = human.hand.length >= 22 ? ` Danger: ${26 - human.hand.length} card${26 - human.hand.length === 1 ? "" : "s"} from forfeit.` : "";
+      const dangerLine = state.handLimit + 1;
+      const danger = human.hand.length >= Math.max(1, state.handLimit - 3) ? ` Danger: ${dangerLine - human.hand.length} card${dangerLine - human.hand.length === 1 ? "" : "s"} from forfeit.` : "";
       if (state.selected.size === 0) {
         els.selectedInfo.textContent = `${human.name}'s hand: ${human.hand.length} cards. Select a glowing card, an 8, or a poker hand.${danger}`;
       } else {
@@ -7255,11 +7387,14 @@
         const locked = isDiceLocked(player);
         const canFree = state.freeRollAvailable && !state.freeRollUsed;
         const unlocked = isDieUnlocked(sides);
+        const deckBlocked = state.deckMode === "orange" && sides !== 4;
         const targetDraw = diceTargetDrawCap(sides, canFree);
-        button.disabled = !humanTurn || !state.diceEnabled || locked || !unlocked || (state.freeRollUsed && canFree);
-        button.textContent = !state.diceEnabled ? `D${sides} off` : !unlocked ? `D${sides} T${dieUnlockTurn(sides)}` : canFree ? `D${sides} free` : `D${sides} +${sides / 2}`;
+        button.disabled = !humanTurn || !state.diceEnabled || locked || deckBlocked || !unlocked || (state.freeRollUsed && canFree);
+        button.textContent = !state.diceEnabled ? `D${sides} off` : deckBlocked ? `D${sides} locked` : !unlocked ? `D${sides} T${dieUnlockTurn(sides)}` : canFree ? `D${sides} free` : `D${sides} +${sides / 2}`;
         button.title = !state.diceEnabled
           ? "Dice rules are off."
+          : deckBlocked
+            ? "Orange deck allows D4 rolls only."
           : !unlocked
             ? `D${sides} unlocks on turn ${dieUnlockTurn(sides)}.`
             : canFree
