@@ -131,6 +131,36 @@
         radial-gradient(circle at 50% 18%, rgba(255, 228, 136, .28), transparent 15rem);
     }
 
+    .title-screen::before,
+    .title-screen::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      pointer-events: none;
+    }
+
+    .title-screen::before {
+      height: 34vh;
+      background:
+        linear-gradient(90deg, rgba(255, 226, 135, .08) 0 1px, transparent 1px 68px),
+        linear-gradient(0deg, rgba(255, 226, 135, .08) 0 1px, transparent 1px 42px),
+        linear-gradient(180deg, rgba(60, 29, 20, .12), rgba(22, 10, 8, .88));
+      transform: perspective(900px) rotateX(62deg);
+      transform-origin: bottom;
+      filter: drop-shadow(0 -18px 40px rgba(0, 0, 0, .28));
+    }
+
+    .title-screen::after {
+      top: 0;
+      height: 100%;
+      background:
+        radial-gradient(circle at 16% 20%, rgba(255, 203, 69, .16), transparent 9rem),
+        radial-gradient(circle at 84% 22%, rgba(255, 56, 93, .13), transparent 10rem),
+        linear-gradient(90deg, rgba(0, 0, 0, .38), transparent 22%, transparent 78%, rgba(0, 0, 0, .38));
+      mix-blend-mode: screen;
+      opacity: .75;
+    }
+
     .friendly-sign {
       position: absolute;
       top: 22px;
@@ -179,6 +209,9 @@
         rgba(20, 16, 18, .94);
       box-shadow: 0 28px 90px rgba(0, 0, 0, .52), inset 0 0 60px rgba(255, 203, 69, .08);
       overflow: hidden;
+      position: relative;
+      z-index: 1;
+      transform: perspective(1400px) rotateX(.8deg);
     }
 
     .marquee {
@@ -207,10 +240,16 @@
     .front-panel, .rules-panel, .barkeep-panel {
       border: 1px solid rgba(255, 255, 255, .13);
       border-radius: 8px;
-      background: rgba(17, 24, 19, .78);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, .045), transparent 38%),
+        rgba(17, 24, 19, .84);
       padding: 16px;
       display: grid;
       gap: 12px;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .08),
+        inset 0 -18px 40px rgba(0, 0, 0, .16),
+        0 16px 32px rgba(0, 0, 0, .22);
     }
 
     .multiplayer-panel {
@@ -586,8 +625,10 @@
 
     .brand, .controls, .log, .table, .hand-area, .shop {
       border: 1px solid rgba(255, 255, 255, .12);
-      background: rgba(27, 31, 24, .9);
-      box-shadow: 0 18px 45px rgba(0, 0, 0, .28), inset 0 0 30px rgba(255, 203, 69, .04);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, .04), transparent 42%),
+        rgba(27, 31, 24, .92);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, .28), inset 0 0 30px rgba(255, 203, 69, .04), inset 0 1px 0 rgba(255, 255, 255, .07);
       backdrop-filter: blur(8px);
     }
 
@@ -673,8 +714,12 @@
       position: relative;
       overflow: hidden;
       transform-style: preserve-3d;
+      background:
+        radial-gradient(ellipse at 50% 45%, rgba(43, 135, 88, .25), transparent 32rem),
+        linear-gradient(180deg, rgba(73, 34, 21, .34), rgba(18, 24, 18, .94));
       box-shadow:
         0 34px 70px rgba(0, 0, 0, .48),
+        0 18px 0 rgba(38, 18, 10, .86),
         inset 0 0 0 8px rgba(95, 45, 26, .34),
         inset 0 0 60px rgba(255, 203, 69, .06);
     }
@@ -685,7 +730,7 @@
       inset: 24px 11%;
       border-radius: 50%;
       background:
-        radial-gradient(ellipse at center, rgba(31, 117, 77, .5), rgba(9, 55, 39, .2) 58%, transparent 70%);
+        radial-gradient(ellipse at 50% 42%, rgba(67, 166, 108, .66), rgba(9, 84, 55, .44) 42%, rgba(17, 52, 36, .2) 68%, transparent 72%);
       transform: perspective(700px) rotateX(58deg) translateZ(-48px);
       filter: drop-shadow(0 24px 25px rgba(0, 0, 0, .38));
       pointer-events: none;
@@ -699,7 +744,9 @@
       border: 10px solid rgba(106, 54, 28, .42);
       border-radius: 16px;
       pointer-events: none;
-      box-shadow: inset 0 0 18px rgba(255, 216, 132, .12);
+      box-shadow:
+        inset 0 0 18px rgba(255, 216, 132, .12),
+        inset 0 -24px 46px rgba(0, 0, 0, .24);
     }
 
     .players {
@@ -715,13 +762,16 @@
       align-items: center;
       border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 8px;
-      background: rgba(14, 20, 15, .42);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, .055), transparent 46%),
+        rgba(14, 20, 15, .58);
       padding: 10px;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, .18), inset 0 1px 0 rgba(255, 255, 255, .08);
     }
 
     .player.active {
       border-color: var(--accent);
-      box-shadow: inset 0 0 0 1px rgba(255, 203, 69, .3);
+      box-shadow: inset 0 0 0 1px rgba(255, 203, 69, .3), 0 0 26px rgba(255, 203, 69, .16);
     }
 
     .player.targetable {
@@ -778,11 +828,12 @@
       background: #faf7eb;
       color: var(--black);
       border: 4px solid #e8dfc0;
-      box-shadow: 0 22px 45px rgba(0, 0, 0, .34);
+      box-shadow: 0 8px 0 #b7aa86, 0 26px 48px rgba(0, 0, 0, .42);
       display: grid;
       grid-template-rows: auto 1fr auto;
       padding: 14px;
       font-weight: 950;
+      transform: perspective(900px) rotateX(3deg) rotateZ(-1deg);
     }
 
     .discard-card.red { color: var(--red); }
@@ -828,6 +879,11 @@
       display: grid;
       gap: 10px;
       width: 100%;
+      border: 1px solid rgba(255, 226, 135, .12);
+      border-radius: 8px;
+      padding: 10px;
+      background: rgba(8, 12, 9, .48);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 14px 30px rgba(0, 0, 0, .2);
     }
 
     .touch-help {
@@ -948,9 +1004,11 @@
       aspect-ratio: 2.5 / 3.5;
       border: 2px solid #e8dfc0;
       border-radius: 8px;
-      background: #faf7eb;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, .9), rgba(250, 247, 235, .96) 46%, rgba(218, 205, 171, .88)),
+        #faf7eb;
       color: var(--black);
-      box-shadow: 0 7px 16px rgba(0, 0, 0, .24);
+      box-shadow: 0 4px 0 #b9ad8c, 0 12px 22px rgba(0, 0, 0, .26);
       display: grid;
       grid-template-rows: auto 1fr auto;
       padding: 7px;
@@ -959,6 +1017,8 @@
       position: relative;
       overflow: hidden;
       touch-action: manipulation;
+      transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+      transform: translateZ(0);
     }
 
     .card::after, .discard-card::after {
@@ -976,6 +1036,11 @@
     .card.playable:not(.selected) {
       box-shadow: 0 0 0 2px rgba(100, 210, 163, .55), 0 0 18px rgba(100, 210, 163, .2);
       cursor: pointer;
+    }
+
+    .card.playable:hover {
+      transform: translateY(-6px) rotateZ(-1deg);
+      box-shadow: 0 5px 0 #b9ad8c, 0 16px 30px rgba(0, 0, 0, .32), 0 0 24px rgba(100, 210, 163, .22);
     }
     .card.action, .discard-card.action {
       background: linear-gradient(145deg, #171217, #f6d77a 50%, #181116 51%);
@@ -1025,9 +1090,9 @@
       to { background-position: 240% 50%; }
     }
     .card.selected {
-      transform: translateY(-10px);
+      transform: translateY(-12px) rotateZ(1deg);
       outline: 3px solid var(--accent);
-      box-shadow: 0 15px 26px rgba(255, 203, 69, .22);
+      box-shadow: 0 5px 0 #b9ad8c, 0 18px 30px rgba(0, 0, 0, .36), 0 0 26px rgba(255, 203, 69, .28);
     }
 
     .card .corner { font-size: .9rem; }
@@ -1164,6 +1229,8 @@
       display: none;
       min-height: 100vh;
       padding: 22px;
+      position: relative;
+      overflow-x: hidden;
       background:
         radial-gradient(ellipse at 9% 42%, rgba(65, 132, 85, .34), transparent 11rem),
         radial-gradient(ellipse at 92% 68%, rgba(44, 120, 78, .26), transparent 13rem),
@@ -1186,6 +1253,22 @@
       opacity: .7;
     }
 
+    .lounge::after {
+      content: "";
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: min(26vh, 230px);
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 18% 100%, rgba(26, 128, 79, .26), transparent 14rem),
+        radial-gradient(ellipse at 82% 100%, rgba(120, 41, 63, .28), transparent 13rem),
+        linear-gradient(180deg, transparent, rgba(0, 0, 0, .38) 38%, rgba(0, 0, 0, .72)),
+        repeating-linear-gradient(90deg, rgba(255, 226, 135, .07) 0 1px, transparent 1px 76px);
+      opacity: .85;
+    }
+
     body.lounge-open .lounge {
       display: grid;
       gap: 14px;
@@ -1194,9 +1277,17 @@
     .lounge-top, .lounge-layout, .lounge-shop {
       border: 1px solid rgba(255, 226, 135, .22);
       border-radius: 8px;
-      background: rgba(14, 10, 11, .78);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, .38), inset 0 0 40px rgba(255, 203, 69, .04);
+      background:
+        linear-gradient(135deg, rgba(255, 226, 135, .08), transparent 38%),
+        linear-gradient(180deg, rgba(255, 255, 255, .035), transparent 46%),
+        rgba(14, 10, 11, .82);
+      box-shadow:
+        0 20px 50px rgba(0, 0, 0, .38),
+        inset 0 1px 0 rgba(255, 255, 255, .07),
+        inset 0 0 40px rgba(255, 203, 69, .04);
       padding: 14px;
+      position: relative;
+      z-index: 1;
     }
 
     .lounge-layout {
@@ -1244,6 +1335,27 @@
       display: grid;
       gap: 10px;
       justify-items: center;
+      position: relative;
+      perspective: 1200px;
+      border: 1px solid rgba(255, 226, 135, .12);
+      border-radius: 8px;
+      padding: 12px;
+      background:
+        radial-gradient(ellipse at 50% 8%, rgba(255, 226, 135, .11), transparent 16rem),
+        radial-gradient(ellipse at 10% 92%, rgba(54, 128, 85, .18), transparent 12rem),
+        linear-gradient(180deg, rgba(25, 16, 16, .68), rgba(9, 8, 8, .82));
+      box-shadow: inset 0 0 34px rgba(0, 0, 0, .28), 0 14px 32px rgba(0, 0, 0, .3);
+      overflow: hidden;
+    }
+
+    .dart-stage::before, .pool-stage::before {
+      content: "";
+      position: absolute;
+      inset: auto 8% 0;
+      height: 22%;
+      border-radius: 50% 50% 0 0;
+      background: radial-gradient(ellipse, rgba(255, 203, 69, .12), transparent 70%);
+      pointer-events: none;
     }
 
     .lounge-mode {
@@ -1303,10 +1415,15 @@
       background: #090909;
       cursor: crosshair;
       touch-action: none;
-      transform: perspective(1100px) rotateX(2deg);
+      position: relative;
+      z-index: 1;
+      transform: rotateX(4deg) rotateZ(-.4deg);
+      filter: saturate(1.08) contrast(1.04);
       box-shadow:
+        0 0 0 1px rgba(255, 226, 135, .18),
         inset 0 0 45px rgba(0, 0, 0, .52),
         0 18px 0 #21120d,
+        0 24px 0 rgba(0, 0, 0, .22),
         0 34px 58px rgba(0, 0, 0, .5);
     }
 
@@ -1318,10 +1435,16 @@
       background: #0b7b4a;
       cursor: crosshair;
       touch-action: none;
-      transform: perspective(1200px) rotateX(5deg);
+      position: relative;
+      z-index: 1;
+      transform: rotateX(7deg);
+      transform-origin: center 72%;
+      filter: saturate(1.08) contrast(1.03);
       box-shadow:
+        0 0 0 1px rgba(255, 226, 135, .2),
         inset 0 0 35px rgba(0, 0, 0, .42),
         0 18px 0 #25120b,
+        0 25px 0 rgba(0, 0, 0, .22),
         0 34px 62px rgba(0, 0, 0, .48);
     }
 
@@ -1335,10 +1458,13 @@
     .meter {
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: rgba(255, 255, 255, .05);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, .055), rgba(0, 0, 0, .08)),
+        rgba(255, 255, 255, .05);
       padding: 8px;
       color: var(--muted);
       font-weight: 800;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
     }
 
     .meter span {
@@ -1365,11 +1491,14 @@
     .pool-status div {
       border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 8px;
-      background: rgba(255, 255, 255, .045);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, .07), transparent),
+        rgba(255, 255, 255, .045);
       padding: 10px;
       text-align: center;
       font-weight: 900;
       color: var(--accent);
+      box-shadow: inset 0 0 18px rgba(0, 0, 0, .18);
     }
 
     .pool-status span {
@@ -1388,7 +1517,10 @@
       padding: 10px;
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, .12);
-      background: rgba(255, 255, 255, .045);
+      background:
+        linear-gradient(90deg, rgba(255, 203, 69, .08), transparent),
+        rgba(255, 255, 255, .045);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
     }
 
     .dart-player.active {
@@ -1727,10 +1859,10 @@
               <tr><td>Card Play</td><td>Match rank/suit like UNO, or play an 8 as wild.</td></tr>
               <tr><td>Ace Effects</td><td>Hearts: next player draws 3. Spades: your dice lock for 1 turn. Clubs: all players get 2 coins, you get 5. Diamonds: skip the next player.</td></tr>
               <tr><td>Poker Discards</td><td>Two pair, three of a kind, full house, straight, and flush can be played.</td></tr>
-              <tr><td>Action Cards</td><td>Optional rare randomized cards. They cost 2 skipped turns and can trigger a free dice roll, discard several cards, or cash in a free chip.</td></tr>
+              <tr><td>Action Cards</td><td>Optional rare randomized cards. Usually 1 per deck, sometimes 2. They cost 2 skipped turns and can trigger a free dice roll, discard cards, or cash in a free chip.</td></tr>
               <tr><td>Free Dice</td><td>Only straights and flushes earn a free dice roll.</td></tr>
               <tr><td>Dice Cost</td><td>Normal rolls draw half the die size. D12 unlocks on turn 10 and D20 unlocks on turn 20.</td></tr>
-              <tr><td>Dice Target</td><td>Click or tap an opponent panel during your turn to choose who draws from your dice roll.</td></tr>
+              <tr><td>Dice Target</td><td>Click or tap an opponent panel during your turn. Big target draws are capped so one roll cannot instantly end the table.</td></tr>
               <tr><td>Shop</td><td>Cards earn 1 coin. Cigar 5, Beer 7, Poker Chip 20.</td></tr>
               <tr><td>Dealer</td><td>Optional chaos event: 1%, then 15% after turn 6, then 50% past turn 8.</td></tr>
               <tr><td>Deck Roulette</td><td>Gold starts everyone with 5 coins. Dragon starts everyone with 15 cards and disables dice. Blue creates a serene rumor-filled game.</td></tr>
@@ -2033,6 +2165,16 @@
     ];
     const ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
     const rankValue = Object.fromEntries(ranks.map((rank, index) => [rank, index + 1]));
+    const balance = {
+      actionCardCommonCount: 1,
+      actionCardRareCount: 2,
+      actionCardRareChance: .28,
+      discardActionCards: 6,
+      vanishingStackDiscard: 4,
+      diceSelfDiscardDivisor: 5,
+      freeRollCost: 2,
+      diceTargetCaps: { 4: 4, 6: 6, 12: 8, 20: 10 }
+    };
     let cardId = 0;
     const characterParts = {
       first: ["Marlow", "Pip", "Rocco", "Vera", "Bix", "Juniper", "Sal", "Mina", "Otto", "Tess", "Nico", "Dottie"],
@@ -2618,8 +2760,8 @@
     }
 
     function makeActionCards() {
-      const kinds = state.diceEnabled ? ["dice", "dice", "dice", "decrease", "chip"] : ["decrease", "decrease", "decrease"];
-      const count = Math.floor(Math.random() * 2) + 2;
+      const kinds = state.diceEnabled ? ["dice", "dice", "decrease", "chip"] : ["decrease", "decrease"];
+      const count = Math.random() < balance.actionCardRareChance ? balance.actionCardRareCount : balance.actionCardCommonCount;
       return Array.from({ length: count }, () => {
         const actionKind = pick(kinds);
         return {
@@ -3299,28 +3441,37 @@
       const w = canvas.width;
       const c = w / 2;
       ctx.clearRect(0, 0, w, w);
-      const wall = ctx.createLinearGradient(0, 0, 0, w);
-      wall.addColorStop(0, "#2a1620");
-      wall.addColorStop(1, "#090608");
-      ctx.fillStyle = wall;
-      ctx.fillRect(0, 0, w, w);
+      drawLoungeBackdrop(ctx, w, w, "darts");
       drawPixelPatrons(ctx, w, w);
-      ctx.fillStyle = "rgba(255, 203, 69, .08)";
-      for (let i = 0; i < 8; i++) {
-        ctx.fillRect(i * 90 - 20, 0, 18, w);
-      }
+      drawHangingLights(ctx, w, w);
       const r = w * .42;
       ctx.save();
-      ctx.translate(c, c + 18);
-      ctx.scale(1.05, .93);
+      ctx.translate(c, c + 24);
+      ctx.scale(1.1, .9);
       ctx.beginPath();
-      ctx.arc(0, 0, r + 42, 0, Math.PI * 2);
-      ctx.fillStyle = "#351a10";
+      ctx.arc(0, 0, r + 58, 0, Math.PI * 2);
+      ctx.fillStyle = "#140b08";
       ctx.shadowColor = "rgba(0,0,0,.7)";
-      ctx.shadowBlur = 30;
-      ctx.shadowOffsetY = 25;
+      ctx.shadowBlur = 36;
+      ctx.shadowOffsetY = 34;
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(0, -12, r + 48, 0, Math.PI * 2);
+      const wood = ctx.createRadialGradient(-r * .35, -r * .35, 40, 0, 0, r + 58);
+      wood.addColorStop(0, "#8b4a26");
+      wood.addColorStop(.45, "#4a2414");
+      wood.addColorStop(1, "#1d0d08");
+      ctx.fillStyle = wood;
       ctx.fill();
       ctx.restore();
+      const boardGlow = ctx.createRadialGradient(c, c, r * .1, c, c, r * 1.18);
+      boardGlow.addColorStop(0, "rgba(255,245,190,.28)");
+      boardGlow.addColorStop(.56, "rgba(255,203,69,.06)");
+      boardGlow.addColorStop(1, "rgba(0,0,0,.3)");
+      ctx.fillStyle = boardGlow;
+      ctx.beginPath();
+      ctx.arc(c, c, r + 12, 0, Math.PI * 2);
+      ctx.fill();
       for (let i = 0; i < 20; i++) {
         const start = (-90 + i * 18 - 9) * Math.PI / 180;
         const end = (-90 + i * 18 + 9) * Math.PI / 180;
@@ -3328,8 +3479,11 @@
         ctx.moveTo(c, c);
         ctx.arc(c, c, r, start, end);
         ctx.closePath();
-        ctx.fillStyle = i % 2 ? "#e8dfc0" : "#222";
+        ctx.fillStyle = i % 2 ? "#eadfbf" : "#1b1b19";
         ctx.fill();
+        ctx.strokeStyle = "rgba(0,0,0,.42)";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
         drawRingSlice(ctx, c, r * .58, r * .66, start, end, i % 2 ? "#2c9b70" : "#b71934");
         drawRingSlice(ctx, c, r * .9, r, start, end, i % 2 ? "#2c9b70" : "#b71934");
         const labelAngle = (-90 + i * 18) * Math.PI / 180;
@@ -3339,6 +3493,16 @@
         ctx.textBaseline = "middle";
         ctx.fillText(dartNumbers[i], c + Math.cos(labelAngle) * (r + 28), c + Math.sin(labelAngle) * (r + 28));
       }
+      ctx.beginPath();
+      ctx.arc(c, c, r + 4, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(255, 226, 135, .34)";
+      ctx.lineWidth = 7;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(c, c, r * .72, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(0,0,0,.22)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
       ctx.beginPath();
       ctx.arc(c, c, r * .1, 0, Math.PI * 2);
       ctx.fillStyle = "#2c9b70";
@@ -3352,16 +3516,114 @@
       drawDartFlights(ctx);
     }
 
+    function drawLoungeBackdrop(ctx, w, h, mode) {
+      const wall = ctx.createLinearGradient(0, 0, 0, h);
+      wall.addColorStop(0, mode === "pool" ? "#25131b" : "#2a1620");
+      wall.addColorStop(.58, "#130b0e");
+      wall.addColorStop(1, "#060405");
+      ctx.fillStyle = wall;
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = "rgba(255, 203, 69, .06)";
+      for (let i = 0; i < 10; i++) ctx.fillRect(i * (w / 9) - 12, 0, 18, h);
+      const floor = ctx.createLinearGradient(0, h * .68, 0, h);
+      floor.addColorStop(0, "rgba(74, 39, 23, .42)");
+      floor.addColorStop(.52, "rgba(39, 20, 13, .66)");
+      floor.addColorStop(1, "rgba(9, 5, 4, .92)");
+      ctx.fillStyle = floor;
+      ctx.fillRect(0, h * .68, w, h * .32);
+      ctx.strokeStyle = "rgba(255, 226, 135, .08)";
+      ctx.lineWidth = 1;
+      for (let y = h * .72; y < h; y += 18) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y + 10);
+        ctx.stroke();
+      }
+      ctx.fillStyle = "rgba(22, 12, 9, .72)";
+      roundRect(ctx, w * .08, h * .18, w * .84, h * .14, 10);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255, 226, 135, .16)";
+      ctx.fillRect(w * .1, h * .2, w * .8, 3);
+      for (let i = 0; i < 13; i++) {
+        const x = w * .12 + i * w * .064;
+        const bottleH = h * (.035 + (i % 4) * .012);
+        ctx.fillStyle = i % 3 === 0 ? "rgba(100,210,163,.34)" : i % 3 === 1 ? "rgba(255,203,69,.32)" : "rgba(255,56,93,.3)";
+        roundRect(ctx, x, h * .25 - bottleH, 8, bottleH, 2);
+        ctx.fill();
+      }
+      ctx.strokeStyle = "rgba(255, 226, 135, .18)";
+      ctx.lineWidth = 3;
+      roundRect(ctx, mode === "pool" ? w * .7 : w * .1, h * .39, w * .18, h * .12, 4);
+      ctx.stroke();
+      ctx.fillStyle = "rgba(255, 226, 135, .12)";
+      ctx.font = `${Math.max(12, Math.floor(w * .022))}px system-ui`;
+      ctx.textAlign = "center";
+      ctx.fillText(mode === "pool" ? "8 BALL" : "DARTS", mode === "pool" ? w * .79 : w * .19, h * .465);
+      if (mode === "darts") {
+        ctx.fillStyle = "rgba(0,0,0,.34)";
+        roundRect(ctx, w * .68, h * .58, w * .18, h * .08, 8);
+        ctx.fill();
+        ctx.fillStyle = "rgba(37, 104, 72, .5)";
+        roundRect(ctx, w * .71, h * .6, w * .12, h * .035, 6);
+        ctx.fill();
+      } else {
+        ctx.fillStyle = "rgba(0,0,0,.32)";
+        roundRect(ctx, w * .08, h * .56, w * .2, h * .07, 8);
+        ctx.fill();
+        ctx.fillStyle = "rgba(28, 120, 78, .45)";
+        roundRect(ctx, w * .11, h * .575, w * .14, h * .032, 6);
+        ctx.fill();
+      }
+      ctx.fillStyle = "rgba(34, 113, 69, .22)";
+      for (let i = 0; i < 4; i++) {
+        const x = 45 + i * (w - 90) / 3;
+        roundRect(ctx, x - 18, h * .72, 36, h * .22, 6);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x - 12, h * .7, 22, 0, Math.PI * 2);
+        ctx.arc(x + 10, h * .69, 24, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function drawHangingLights(ctx, w, h) {
+      for (let i = 0; i < 4; i++) {
+        const x = w * (.2 + i * .2);
+        ctx.strokeStyle = "rgba(255,226,135,.22)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h * .12);
+        ctx.stroke();
+        const glow = ctx.createRadialGradient(x, h * .14, 3, x, h * .14, h * .16);
+        glow.addColorStop(0, "rgba(255,226,135,.34)");
+        glow.addColorStop(1, "rgba(255,226,135,0)");
+        ctx.fillStyle = glow;
+        ctx.fillRect(x - h * .16, 0, h * .32, h * .32);
+        ctx.fillStyle = "#ffdf7f";
+        ctx.beginPath();
+        ctx.ellipse(x, h * .13, 18, 9, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
     function drawPixelPatrons(ctx, w, h) {
       for (let i = 0; i < 9; i++) {
         const x = (w / 10) * (i + 1);
         const y = h * .08 + (i % 2) * 14;
-        ctx.fillStyle = "rgba(0,0,0,.42)";
-        ctx.fillRect(x - 9, y + 18, 18, 40);
+        ctx.fillStyle = i % 3 === 0 ? "rgba(8,8,10,.58)" : "rgba(0,0,0,.42)";
+        roundRect(ctx, x - 10, y + 18, 20, 42, 5);
+        ctx.fill();
         ctx.fillRect(x - 7, y + 8, 14, 14);
-        ctx.fillStyle = "rgba(255,56,93,.82)";
+        if (i % 4 === 0) {
+          ctx.fillRect(x - 14, y + 6, 28, 4);
+          ctx.fillRect(x - 8, y, 16, 8);
+        }
+        ctx.fillStyle = i % 2 ? "rgba(100,210,163,.72)" : "rgba(255,56,93,.82)";
         ctx.fillRect(x - 4, y + 13, 3, 3);
         ctx.fillRect(x + 3, y + 13, 3, 3);
+        ctx.fillStyle = "rgba(255,226,135,.16)";
+        ctx.fillRect(x - 8, y + 35, 16, 2);
       }
     }
 
@@ -3390,6 +3652,13 @@
         ctx.moveTo(x - 30, y + 10);
         ctx.lineTo(x, y);
         ctx.stroke();
+        ctx.fillStyle = "rgba(100, 210, 163, .86)";
+        ctx.beginPath();
+        ctx.moveTo(x - 32, y + 11);
+        ctx.lineTo(x - 44, y + 2);
+        ctx.lineTo(x - 38, y + 18);
+        ctx.closePath();
+        ctx.fill();
         ctx.fillStyle = "#ff385d";
         ctx.beginPath();
         ctx.arc(x, y, 4, 0, Math.PI * 2);
@@ -3408,14 +3677,32 @@
     }
 
     function drawDartMarker(ctx, x, y, color) {
+      ctx.save();
+      ctx.strokeStyle = "rgba(0,0,0,.55)";
+      ctx.lineWidth = 8;
+      ctx.beginPath();
+      ctx.moveTo(x - 22, y + 14);
+      ctx.lineTo(x + 2, y - 1);
+      ctx.stroke();
       ctx.strokeStyle = color;
       ctx.lineWidth = 4;
       ctx.beginPath();
-      ctx.moveTo(x - 10, y - 10);
-      ctx.lineTo(x + 10, y + 10);
-      ctx.moveTo(x + 10, y - 10);
-      ctx.lineTo(x - 10, y + 10);
+      ctx.moveTo(x - 24, y + 16);
+      ctx.lineTo(x + 3, y - 2);
       ctx.stroke();
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(x - 24, y + 16);
+      ctx.lineTo(x - 38, y + 10);
+      ctx.lineTo(x - 32, y + 24);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255,255,255,.42)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(x, y, 11, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
     }
 
     function scoreDart(x, y) {
@@ -3684,22 +3971,66 @@
       const w = canvas.width;
       const h = canvas.height;
       ctx.clearRect(0, 0, w, h);
-      const floor = ctx.createLinearGradient(0, 0, 0, h);
-      floor.addColorStop(0, "#24131a");
-      floor.addColorStop(1, "#070506");
-      ctx.fillStyle = floor;
-      ctx.fillRect(0, 0, w, h);
+      drawLoungeBackdrop(ctx, w, h, "pool");
       drawPixelPatrons(ctx, w, h);
-      ctx.fillStyle = "#4d2818";
-      roundRect(ctx, 18, 18, w - 36, h - 36, 28);
+      ctx.save();
+      ctx.fillStyle = "rgba(0,0,0,.38)";
+      ctx.beginPath();
+      ctx.ellipse(w / 2, h - 24, w * .43, 42, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+      const rail = ctx.createLinearGradient(18, 18, w - 18, h - 18);
+      rail.addColorStop(0, "#8b4b25");
+      rail.addColorStop(.28, "#4d2818");
+      rail.addColorStop(.62, "#2a120a");
+      rail.addColorStop(1, "#9c5b2b");
+      ctx.fillStyle = rail;
+      roundRect(ctx, 18, 18, w - 36, h - 36, 30);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255, 226, 135, .18)";
+      ctx.lineWidth = 4;
+      roundRect(ctx, 24, 24, w - 48, h - 48, 26);
+      ctx.stroke();
+      const railShine = ctx.createLinearGradient(26, 26, w - 26, 26);
+      railShine.addColorStop(0, "rgba(255,255,255,.18)");
+      railShine.addColorStop(.45, "rgba(255,255,255,.04)");
+      railShine.addColorStop(1, "rgba(255,255,255,.14)");
+      ctx.strokeStyle = railShine;
+      ctx.lineWidth = 3;
+      roundRect(ctx, 34, 32, w - 68, h - 62, 24);
+      ctx.stroke();
+      ctx.fillStyle = "#231009";
+      roundRect(ctx, 28, 38, w - 56, h - 48, 24);
       ctx.fill();
       const felt = ctx.createLinearGradient(46, 46, w - 46, h - 46);
-      felt.addColorStop(0, "#16885e");
-      felt.addColorStop(.5, "#0f6b4a");
-      felt.addColorStop(1, "#063b2d");
+      felt.addColorStop(0, "#22a973");
+      felt.addColorStop(.48, "#0f6b4a");
+      felt.addColorStop(1, "#053524");
       ctx.fillStyle = felt;
       roundRect(ctx, 46, 46, w - 92, h - 92, 18);
       ctx.fill();
+      const feltGlow = ctx.createRadialGradient(w * .38, h * .35, 20, w * .45, h * .42, w * .62);
+      feltGlow.addColorStop(0, "rgba(255,255,210,.14)");
+      feltGlow.addColorStop(.62, "rgba(255,255,210,.03)");
+      feltGlow.addColorStop(1, "rgba(0,0,0,.18)");
+      ctx.fillStyle = feltGlow;
+      roundRect(ctx, 46, 46, w - 92, h - 92, 18);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255,255,255,.055)";
+      ctx.lineWidth = 1;
+      for (let y = 58; y < h - 58; y += 16) {
+        ctx.beginPath();
+        ctx.moveTo(54, y);
+        ctx.lineTo(w - 54, y + 4);
+        ctx.stroke();
+      }
+      ctx.strokeStyle = "rgba(0,0,0,.12)";
+      for (let x = 62; x < w - 62; x += 20) {
+        ctx.beginPath();
+        ctx.moveTo(x, 54);
+        ctx.lineTo(x - 4, h - 54);
+        ctx.stroke();
+      }
       ctx.strokeStyle = "rgba(255,255,255,.10)";
       ctx.lineWidth = 2;
       for (let i = 1; i < 5; i++) {
@@ -3708,20 +4039,58 @@
         ctx.lineTo((w / 5) * i, h - 46);
         ctx.stroke();
       }
+      ctx.fillStyle = "rgba(255, 226, 135, .55)";
+      for (let i = 1; i < 9; i++) {
+        ctx.beginPath();
+        ctx.arc(46 + i * (w - 92) / 9, 32, 4, 0, Math.PI * 2);
+        ctx.arc(46 + i * (w - 92) / 9, h - 32, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
       poolPockets().forEach(pocket => {
+        ctx.beginPath();
+        ctx.arc(pocket.x, pocket.y, poolPocketRadius() + 8, 0, Math.PI * 2);
+        ctx.fillStyle = "#1a0b06";
+        ctx.fill();
         ctx.beginPath();
         ctx.arc(pocket.x, pocket.y, poolPocketRadius(), 0, Math.PI * 2);
         ctx.fillStyle = "#070505";
         ctx.fill();
+        ctx.strokeStyle = "rgba(255, 226, 135, .22)";
+        ctx.lineWidth = 3;
+        ctx.stroke();
       });
       const cue = state.pool.balls.find(ball => ball.id === "cue");
       if (cue && aimPoint && !cue.pocketed) {
+        const dx = cue.x - aimPoint.x;
+        const dy = cue.y - aimPoint.y;
+        const distance = Math.max(1, Math.hypot(dx, dy));
+        const shotLength = Math.min(260, distance * 1.65);
+        const shotX = cue.x + dx / distance * shotLength;
+        const shotY = cue.y + dy / distance * shotLength;
+        ctx.strokeStyle = "rgba(255,255,255,.55)";
+        ctx.lineWidth = 7;
+        ctx.lineCap = "round";
+        ctx.beginPath();
+        ctx.moveTo(aimPoint.x, aimPoint.y);
+        ctx.lineTo(cue.x - dx / distance * 18, cue.y - dy / distance * 18);
+        ctx.stroke();
         ctx.beginPath();
         ctx.moveTo(cue.x, cue.y);
-        ctx.lineTo(aimPoint.x, aimPoint.y);
-        ctx.strokeStyle = "#ffcb45";
-        ctx.lineWidth = 3;
+        ctx.lineTo(shotX, shotY);
+        ctx.strokeStyle = "rgba(255,203,69,.92)";
+        ctx.lineWidth = 4;
+        ctx.setLineDash([12, 8]);
         ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.lineCap = "butt";
+        ctx.beginPath();
+        ctx.arc(shotX, shotY, 8, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,203,69,.45)";
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(aimPoint.x, aimPoint.y, 7, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(100,210,163,.36)";
+        ctx.fill();
       }
       state.pool.balls.forEach(ball => drawPoolBall(ctx, ball));
       renderPoolStatus();
@@ -3744,12 +4113,16 @@
     function drawPoolBall(ctx, ball) {
       if (ball.pocketed) return;
       ctx.beginPath();
-      ctx.ellipse(ball.x + 5, ball.y + 9, ball.r * 1.15, ball.r * .55, 0, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(0,0,0,.32)";
+      ctx.ellipse(ball.x + 6, ball.y + 10, ball.r * 1.28, ball.r * .62, 0, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(0,0,0,.38)";
       ctx.fill();
       ctx.beginPath();
       ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
-      ctx.fillStyle = ball.n === 0 ? "#f7f0d9" : poolColors[ball.n];
+      const fill = ctx.createRadialGradient(ball.x - ball.r * .35, ball.y - ball.r * .45, 2, ball.x, ball.y, ball.r * 1.15);
+      fill.addColorStop(0, "#fff8df");
+      fill.addColorStop(.28, ball.n === 0 ? "#f7f0d9" : poolColors[ball.n]);
+      fill.addColorStop(1, ball.n === 0 ? "#cfc5aa" : "#160807");
+      ctx.fillStyle = fill;
       ctx.fill();
       if (ball.n > 8) {
         ctx.save();
@@ -3763,6 +4136,10 @@
       ctx.strokeStyle = "rgba(0,0,0,.5)";
       ctx.lineWidth = 2;
       ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(ball.x - ball.r * .36, ball.y - ball.r * .4, ball.r * .24, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(255,255,255,.5)";
+      ctx.fill();
       if (ball.n) {
         ctx.beginPath();
         ctx.arc(ball.x, ball.y, 6, 0, Math.PI * 2);
@@ -4141,7 +4518,7 @@
       addLog(`${player.name} triggered ${card.title} and must skip 2 turns.`);
 
       if (card.actionKind === "decrease") {
-        const maxRemove = card.title === "Vanishing Stack" ? 6 : 8;
+        const maxRemove = card.title === "Vanishing Stack" ? balance.vanishingStackDiscard : balance.discardActionCards;
         const removed = discardExtras(player, maxRemove);
         addLog(`${card.title} cut ${removed} card${removed === 1 ? "" : "s"} from ${player.name}'s hand.`);
         els.dialogue.textContent = `"${card.title}. The hand got lighter, the bill got stranger."`;
@@ -4415,7 +4792,7 @@
         addLog(`${player.name} cannot roll this turn because of an Ace.`);
         return false;
       }
-      const cost = free ? 2 : sides / 2;
+      const cost = free ? balance.freeRollCost : sides / 2;
       draw(player, cost, false);
       if (player.forfeited || state.gameOver) return true;
       const rawRoll = Math.floor(Math.random() * sides) + 1;
@@ -4430,12 +4807,13 @@
       sound("dice");
       player.diceBonus = 0;
       const target = diceTargetFor(player);
+      const targetDraw = Math.min(roll, diceTargetDrawCap(sides, free));
       if (target && target !== player) {
-        draw(target, roll, false);
-        addLog(`${target.name} had to draw ${roll} from ${player.name}'s D${sides} roll.`);
+        draw(target, targetDraw, false);
+        addLog(`${target.name} had to draw ${targetDraw} from ${player.name}'s D${sides} roll${targetDraw < roll ? ` (capped from ${roll})` : ""}.`);
         if (state.gameOver) return true;
       }
-      const discardCount = Math.min(player.hand.length, Math.max(1, Math.ceil(roll / 4)));
+      const discardCount = Math.min(player.hand.length, Math.max(1, Math.ceil(roll / balance.diceSelfDiscardDivisor)));
       const removedCards = player.ai ? pickWorstCards(player.hand, discardCount) : player.hand.slice(0, discardCount);
       discardCards(player, removedCards);
       const rollText = bonus > 0 ? `${rawRoll}+${bonus} = ${roll}` : roll;
@@ -4453,6 +4831,11 @@
       state.freeRollUsed = true;
       checkWin(player);
       return true;
+    }
+
+    function diceTargetDrawCap(sides, free) {
+      if (free) return Math.max(3, Math.ceil(sides / 3));
+      return balance.diceTargetCaps[sides] || sides;
     }
 
     function diceTargetFor(player) {
@@ -5344,6 +5727,7 @@
         const locked = isDiceLocked(player);
         const canFree = state.freeRollAvailable && !state.freeRollUsed;
         const unlocked = isDieUnlocked(sides);
+        const targetDraw = diceTargetDrawCap(sides, canFree);
         button.disabled = !humanTurn || !state.diceEnabled || locked || !unlocked || (state.freeRollUsed && canFree);
         button.textContent = !state.diceEnabled ? `D${sides} off` : !unlocked ? `D${sides} T${dieUnlockTurn(sides)}` : canFree ? `D${sides} free` : `D${sides} +${sides / 2}`;
         button.title = !state.diceEnabled
@@ -5351,8 +5735,8 @@
           : !unlocked
             ? `D${sides} unlocks on turn ${dieUnlockTurn(sides)}.`
             : canFree
-              ? `Free D${sides} roll. You still draw 2 cards.`
-              : `Roll D${sides}. You draw ${sides / 2}, then ${diceTarget ? diceTarget.name : "an opponent"} draws your roll.`;
+              ? `Free D${sides} roll. You still draw 2 cards. Target draw caps at ${targetDraw}.`
+              : `Roll D${sides}. You draw ${sides / 2}, then ${diceTarget ? diceTarget.name : "an opponent"} draws up to ${targetDraw}.`;
       });
       els.notice.textContent = !state.diceEnabled && humanTurn
         ? "Dice rules are off for this match."
