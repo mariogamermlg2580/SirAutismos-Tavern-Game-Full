@@ -2385,6 +2385,10 @@
     }
 
     @media (max-width: 580px) {
+      body {
+        overflow-x: hidden;
+      }
+
       .app {
         padding: 10px;
         padding-left: max(10px, env(safe-area-inset-left));
@@ -2396,6 +2400,29 @@
         padding: 12px;
         padding-left: max(12px, env(safe-area-inset-left));
         padding-right: max(12px, env(safe-area-inset-right));
+      }
+
+      .casino-front,
+      .front-panel,
+      .rules-panel,
+      .barkeep-panel,
+      .shop,
+      .hand-area,
+      .lounge-top,
+      .lounge-layout,
+      .lounge-shop {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .marquee h1 {
+        font-size: clamp(1.65rem, 9vw, 2.4rem);
+      }
+
+      .subtitle,
+      .selected-info,
+      .touch-help {
+        overflow-wrap: anywhere;
       }
 
       .controls, .primary-actions, .dice-row {
@@ -2411,11 +2438,25 @@
       }
 
       .card {
-        width: clamp(72px, 21vw, 92px);
+        width: clamp(66px, 20vw, 86px);
       }
 
       .discard-card {
-        width: min(42vw, 150px);
+        width: min(40vw, 138px);
+        padding: 10px;
+      }
+
+      .deck-stack {
+        width: 86px;
+        height: 118px;
+      }
+
+      .deck-stack .card {
+        width: 70px;
+      }
+
+      .table-deck-row {
+        gap: 10px;
       }
 
       .table {
@@ -2437,6 +2478,11 @@
 
       .status {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .log {
+        max-height: 160px;
+        overflow-y: auto;
       }
 
       .primary-actions button, .dice-row button {
@@ -2464,17 +2510,52 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .cosmetic-preview .card {
+        width: 52px;
+      }
+
+      .rules-panel {
+        overflow-x: auto;
+      }
+
       .rules-table {
         font-size: .84rem;
+        min-width: 520px;
+      }
+
+      .lounge {
+        padding: 10px;
+        padding-left: max(10px, env(safe-area-inset-left));
+        padding-right: max(10px, env(safe-area-inset-right));
+        padding-bottom: max(10px, env(safe-area-inset-bottom));
+      }
+
+      .lounge-top {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .lounge-top > div:first-child {
+        grid-column: 1 / -1;
+      }
+
+      .lounge-top button {
+        width: 100%;
+        white-space: normal;
+      }
+
+      .pool-status {
+        grid-template-columns: 1fr;
       }
 
       #dartBoard, #poolTable {
-        width: min(92vw, 520px);
+        width: min(92vw, 420px);
+        max-width: 100%;
+        border-width: 8px;
       }
 
       .throw-meters {
         grid-template-columns: 1fr;
-        width: min(92vw, 520px);
+        width: min(92vw, 420px);
       }
     }
   </style>
