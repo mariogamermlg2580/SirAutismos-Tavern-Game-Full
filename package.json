@@ -1,0 +1,38 @@
+{
+  "name": "sir-autismos-tavern-cards-and-stuff",
+  "version": "1.0.0",
+  "description": "A tavern card and dice game.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "server": "node server/multiplayer-server.js",
+    "dist": "electron-builder --win portable"
+  },
+  "build": {
+    "appId": "com.sirautismos.taverncards",
+    "productName": "Sir Autismos Tavern Cards and Stuff",
+    "npmRebuild": false,
+    "nodeGypRebuild": false,
+    "buildDependenciesFromSource": false,
+    "files": [
+      "index.html",
+      "main.js",
+      "preload.js",
+      "server/multiplayer-server.js",
+      "assets/icon.ico"
+    ],
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [
+        "portable"
+      ]
+    },
+    "directories": {
+      "output": "dist"
+    }
+  },
+  "devDependencies": {
+    "electron": "^42.5.0",
+    "electron-builder": "^26.15.3"
+  }
+}

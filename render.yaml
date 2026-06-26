@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: sir-autismos-multiplayer
+    runtime: node
+    plan: free
+    buildCommand: npm install --omit=dev
+    startCommand: npm run server
+    envVars:
+      - key: SERVER_TOKEN
+        sync: false
+      - key: MAX_CLIENTS
+        value: "40"
+      - key: MAX_ROOMS
+        value: "20"
+      - key: MAX_ROOM_CLIENTS
+        value: "4"
+      - key: MAX_MESSAGES_PER_WINDOW
+        value: "40"
+      - key: RATE_WINDOW_MS
+        value: "10000"
+      - key: MAX_MESSAGE_BYTES
+        value: "8192"
