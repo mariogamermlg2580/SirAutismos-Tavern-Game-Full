@@ -73,179 +73,28 @@
       mix-blend-mode: screen;
     }
 
-    .first-person-model {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: min(28vh, 230px);
-      z-index: 3;
-      pointer-events: none;
-      opacity: .9;
-      filter: drop-shadow(0 -10px 28px rgba(0, 0, 0, .42));
-    }
-
-    .first-person-model::before {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: -44px;
-      width: min(520px, 72vw);
-      height: min(170px, 22vh);
-      transform: translateX(-50%);
-      border-radius: 44% 44% 0 0;
-      background:
-        radial-gradient(ellipse at 50% 0%, rgba(255, 226, 135, .08), transparent 48%),
-        linear-gradient(180deg, rgba(22, 20, 26, .96), rgba(7, 7, 10, .98));
-      border: 1px solid rgba(255, 226, 135, .14);
-      box-shadow: inset 0 18px 38px rgba(255, 255, 255, .035), 0 -18px 60px rgba(0, 0, 0, .5);
-    }
-
-    .first-person-model.walking .fp-arm.left,
-    .first-person-model.walking .fp-hand.left {
-      animation: walkLeft .34s ease-in-out infinite alternate;
-    }
-
-    .first-person-model.walking .fp-arm.right,
-    .first-person-model.walking .fp-hand.right {
-      animation: walkRight .34s ease-in-out infinite alternate;
-    }
-
-    @keyframes walkLeft {
-      from { translate: 0 0; }
-      to { translate: 8px 8px; }
-    }
-
-    @keyframes walkRight {
-      from { translate: 0 6px; }
-      to { translate: -8px 0; }
-    }
-
-    .fp-arm,
-    .fp-hand {
-      position: absolute;
-      bottom: 0;
-    }
-
-    .fp-arm {
-      width: min(230px, 32vw);
-      height: min(105px, 14vh);
-      border-radius: 999px 999px 18px 18px;
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, .07), transparent 38%),
-        linear-gradient(90deg, #0b0b10, #252433 48%, #0b0b10);
-      border: 1px solid rgba(255, 226, 135, .12);
-      box-shadow: inset 0 12px 18px rgba(255, 255, 255, .04), 0 12px 24px rgba(0, 0, 0, .42);
-    }
-
-    .fp-arm.left {
-      left: max(7vw, 44px);
-      transform: rotate(12deg);
-    }
-
-    .fp-arm.right {
-      right: max(7vw, 44px);
-      transform: rotate(-12deg);
-    }
-
-    .fp-hand {
-      width: min(78px, 13vw);
-      height: min(58px, 8vh);
-      bottom: min(58px, 7vh);
-      border-radius: 45% 42% 48% 42%;
-      background:
-        radial-gradient(circle at 35% 26%, rgba(255, 245, 209, .5), transparent 28%),
-        linear-gradient(180deg, #d7a070, #8b5538);
-      border: 1px solid rgba(255, 226, 135, .18);
-      box-shadow: inset 0 -8px 12px rgba(67, 32, 18, .34), 0 8px 18px rgba(0, 0, 0, .36);
-    }
-
-    .fp-hand.left {
-      left: max(22vw, 84px);
-      transform: rotate(6deg);
-    }
-
-    .fp-hand.right {
-      right: max(22vw, 84px);
-      transform: rotate(-6deg);
-    }
-
-    .fp-hand::before,
-    .fp-hand::after {
-      content: "";
-      position: absolute;
-      top: 12%;
-      width: 18%;
-      height: 56%;
-      border-radius: 999px;
-      background: rgba(255, 220, 184, .36);
-    }
-
-    .fp-hand::before { left: 18%; }
-    .fp-hand::after { right: 18%; }
-
-    .fp-hud {
-      position: fixed;
-      left: max(14px, env(safe-area-inset-left));
-      bottom: max(12px, env(safe-area-inset-bottom));
-      z-index: 4;
-      width: min(430px, calc(100vw - 28px));
+    .menu-nav {
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: center;
-      pointer-events: none;
-      padding: 10px;
-      border: 1px solid rgba(255, 226, 135, .18);
-      border-radius: 8px;
+      grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+      gap: 8px;
+      padding: 12px;
+      border-bottom: 1px solid rgba(255, 226, 135, .18);
       background:
-        linear-gradient(135deg, rgba(255, 226, 135, .09), transparent 48%),
-        rgba(8, 7, 9, .72);
-      box-shadow: 0 18px 42px rgba(0, 0, 0, .36), inset 0 1px 0 rgba(255, 255, 255, .06);
-      backdrop-filter: blur(8px);
+        radial-gradient(circle, rgba(255, 226, 135, .48) 0 1.5px, transparent 2.5px) 0 0 / 34px 22px,
+        rgba(8, 6, 8, .62);
     }
 
-    .fp-hud strong {
-      display: block;
+    .menu-nav button {
       color: #ffe7a8;
-      font-size: .98rem;
-      text-shadow: 0 0 12px rgba(255, 203, 69, .38);
+      background: rgba(16, 13, 14, .84);
+      border-color: rgba(255, 226, 135, .25);
     }
 
-    .fp-hud span {
-      display: block;
-      color: var(--muted);
-      font-size: .82rem;
-      line-height: 1.25;
+    .menu-nav button.active {
+      background: linear-gradient(180deg, #ffdf7f, #b66f23);
+      color: #1b1208;
+      box-shadow: 0 0 22px rgba(255, 203, 69, .28);
     }
-
-    .fp-keys {
-      display: grid;
-      grid-template-columns: repeat(3, 28px);
-      grid-template-rows: repeat(2, 24px);
-      gap: 4px;
-      align-items: center;
-      justify-items: center;
-    }
-
-    .fp-keys kbd {
-      width: 28px;
-      min-height: 24px;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(255, 226, 135, .24);
-      border-radius: 6px;
-      background: rgba(255, 255, 255, .08);
-      color: #fff2bd;
-      font: 800 .72rem/1 system-ui;
-      box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .25);
-    }
-
-    .fp-keys kbd:nth-child(1) { grid-column: 2; }
-    .fp-keys kbd:nth-child(2) { grid-column: 1; grid-row: 2; }
-    .fp-keys kbd:nth-child(3) { grid-column: 2; grid-row: 2; }
-    .fp-keys kbd:nth-child(4) { grid-column: 3; grid-row: 2; }
-    .fp-keys kbd:nth-child(5) { grid-column: 3; grid-row: 1; }
 
     button, select {
       font: inherit;
@@ -315,6 +164,9 @@
       display: grid;
       place-items: center;
       background:
+        radial-gradient(circle, rgba(255, 239, 169, .62) 0 1.5px, transparent 2.5px) 0 0 / 62px 46px,
+        radial-gradient(circle, rgba(255, 56, 93, .46) 0 1.5px, transparent 3px) 26px 19px / 94px 72px,
+        radial-gradient(circle, rgba(100, 210, 163, .32) 0 1.5px, transparent 3px) 48px 7px / 116px 92px,
         radial-gradient(ellipse at 9% 84%, rgba(32, 105, 62, .42), transparent 15rem),
         radial-gradient(ellipse at 88% 86%, rgba(56, 118, 92, .3), transparent 14rem),
         radial-gradient(circle at 19% 22%, rgba(255, 203, 69, .28), transparent 10rem),
@@ -337,6 +189,7 @@
       background:
         linear-gradient(90deg, rgba(255, 226, 135, .08) 0 1px, transparent 1px 68px),
         linear-gradient(0deg, rgba(255, 226, 135, .08) 0 1px, transparent 1px 42px),
+        repeating-conic-gradient(from 45deg, rgba(255, 226, 135, .14) 0 25%, rgba(8, 7, 10, .62) 0 50%) 50% 100% / 92px 92px,
         linear-gradient(180deg, rgba(60, 29, 20, .12), rgba(22, 10, 8, .88));
       transform: perspective(900px) rotateX(62deg);
       transform-origin: bottom;
@@ -399,13 +252,15 @@
       border: 1px solid rgba(255, 226, 135, .35);
       border-radius: 8px;
       background:
+        radial-gradient(circle at 14% 18%, rgba(255, 203, 69, .18), transparent 12rem),
+        radial-gradient(circle at 86% 12%, rgba(255, 56, 93, .16), transparent 13rem),
+        radial-gradient(circle at 50% 0%, rgba(100, 210, 163, .08), transparent 17rem),
         linear-gradient(90deg, rgba(255, 203, 69, .06), transparent 22%, transparent 78%, rgba(255, 203, 69, .06)),
         rgba(20, 16, 18, .94);
       box-shadow: 0 28px 90px rgba(0, 0, 0, .52), inset 0 0 60px rgba(255, 203, 69, .08);
       overflow: hidden;
       position: relative;
       z-index: 1;
-      transform: perspective(1400px) rotateX(.8deg);
     }
 
     .marquee {
@@ -435,6 +290,7 @@
       --look-yaw: 0deg;
       background:
         radial-gradient(ellipse at 50% 6%, rgba(255, 226, 135, .24), transparent 14rem),
+        repeating-linear-gradient(90deg, rgba(255, 226, 135, .055) 0 1px, transparent 1px 48px),
         linear-gradient(180deg, rgba(8, 6, 8, .38), rgba(8, 5, 6, .72));
       perspective: 1100px;
     }
@@ -476,11 +332,7 @@
       gap: 12px;
       align-items: end;
       transform-style: preserve-3d;
-      transform:
-        translateX(calc(var(--walk-x) * -44px))
-        translateY(calc(var(--walk-z) * 7px))
-        rotateY(var(--look-yaw));
-      transition: transform .16s ease;
+      transition: transform .2s ease;
     }
 
     .hub-hall::before {
@@ -675,10 +527,45 @@
       gap: 16px;
     }
 
+    body:not([data-menu-page]) .front-body,
+    body[data-menu-page="main"] .front-body {
+      display: none;
+    }
+
+    body[data-menu-page="cards"] .front-body,
+    body[data-menu-page="multiplayer"] .front-body,
+    body[data-menu-page="rules"] .front-body,
+    body[data-menu-page="barkeep"] .front-body {
+      display: grid;
+      grid-template-columns: minmax(280px, 760px);
+      justify-content: center;
+    }
+
+    body[data-menu-page="cards"] .rules-panel,
+    body[data-menu-page="cards"] .barkeep-panel,
+    body[data-menu-page="rules"] .front-panel,
+    body[data-menu-page="rules"] .barkeep-panel,
+    body[data-menu-page="barkeep"] .front-panel,
+    body[data-menu-page="barkeep"] .rules-panel,
+    body[data-menu-page="multiplayer"] .rules-panel,
+    body[data-menu-page="multiplayer"] .barkeep-panel {
+      display: none;
+    }
+
+    body[data-menu-page="cards"] .front-panel .multiplayer-panel {
+      display: none;
+    }
+
+    body[data-menu-page="multiplayer"] .front-panel > :not(.multiplayer-panel) {
+      display: none;
+    }
+
     .front-panel, .rules-panel, .barkeep-panel {
       border: 1px solid rgba(255, 255, 255, .13);
       border-radius: 8px;
       background:
+        radial-gradient(circle at 18% 0%, rgba(255, 203, 69, .12), transparent 12rem),
+        radial-gradient(circle at 88% 8%, rgba(255, 56, 93, .1), transparent 10rem),
         linear-gradient(145deg, rgba(255, 255, 255, .045), transparent 38%),
         rgba(17, 24, 19, .84);
       padding: 16px;
@@ -1308,6 +1195,36 @@
       transform: perspective(900px) rotateX(3deg) rotateZ(-1deg);
     }
 
+    .table-deck-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+
+    .deck-stack {
+      width: 118px;
+      height: 160px;
+      position: relative;
+      filter: drop-shadow(0 22px 28px rgba(0, 0, 0, .42));
+    }
+
+    .deck-stack .card {
+      position: absolute;
+      inset: 0;
+      width: 96px;
+      margin: auto;
+      transform: translate(var(--dx, 0), var(--dy, 0)) rotate(var(--tilt, 0deg));
+      pointer-events: none;
+    }
+
+    .deck-stack .deck-back .pip {
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
     .discard-card.red { color: var(--red); }
 
     .corner {
@@ -1576,6 +1493,29 @@
       box-shadow: 0 0 18px rgba(255, 80, 32, .35), inset 0 0 18px rgba(255, 203, 69, .12);
       text-shadow: 0 1px 3px rgba(0, 0, 0, .9);
     }
+    .card.skin-crystal, .discard-card.skin-crystal {
+      background:
+        radial-gradient(circle at 25% 18%, rgba(255, 255, 255, .92), transparent 12%),
+        radial-gradient(circle at 74% 30%, rgba(235, 214, 255, .76), transparent 10%),
+        linear-gradient(135deg, #fff7ff, #b276ff 42%, #5f2ea6 68%, #20102f);
+      color: #fff8ff;
+      border-color: #dfc1ff;
+      animation: crystalSparkle 1.8s linear infinite;
+      text-shadow: 0 1px 3px rgba(32, 12, 56, .88);
+      box-shadow: 0 0 20px rgba(178, 118, 255, .4), inset 0 0 20px rgba(255, 255, 255, .18);
+    }
+    .card.skin-lava, .discard-card.skin-lava {
+      background:
+        radial-gradient(circle at 28% 78%, rgba(255, 235, 115, .96), transparent 18%),
+        radial-gradient(circle at 64% 70%, rgba(255, 88, 38, .9), transparent 26%),
+        linear-gradient(145deg, #120605, #4b0b0b 36%, #d33c19 58%, #ffb72f 59%, #260705 72%);
+      background-size: 180% 180%;
+      color: #fff3ba;
+      border-color: #ffb741;
+      animation: lavaFlow 1.55s ease-in-out infinite alternate;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, .9);
+      box-shadow: 0 0 22px rgba(255, 88, 38, .36), inset 0 0 22px rgba(255, 222, 100, .14);
+    }
     @keyframes firePulse {
       from { filter: brightness(.95); }
       to { filter: brightness(1.2); }
@@ -1583,6 +1523,14 @@
     @keyframes rainbowSlide {
       from { background-position: 0% 50%; }
       to { background-position: 240% 50%; }
+    }
+    @keyframes crystalSparkle {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.2) saturate(1.15); }
+    }
+    @keyframes lavaFlow {
+      from { background-position: 0% 30%; filter: brightness(.98); }
+      to { background-position: 100% 80%; filter: brightness(1.18); }
     }
     .card.selected {
       transform: translateY(-12px) rotateZ(1deg);
@@ -1597,6 +1545,31 @@
 
     .card .corner { font-size: .9rem; }
     .card .pip { font-size: 2.15rem; }
+
+    .cosmetic-preview {
+      min-height: 126px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 12px;
+      border: 1px solid rgba(255, 226, 135, .18);
+      border-radius: 8px;
+      background:
+        repeating-conic-gradient(from 45deg, rgba(255, 226, 135, .07) 0 25%, rgba(0, 0, 0, .16) 0 50%) 50% 50% / 34px 34px,
+        rgba(7, 6, 8, .55);
+      overflow: hidden;
+    }
+
+    .cosmetic-preview .card {
+      width: 62px;
+      margin-left: -18px;
+      transform: rotate(var(--tilt, 0deg));
+    }
+
+    .cosmetic-preview .card:first-child {
+      margin-left: 0;
+    }
 
     .dialogue {
       border-left: 3px solid var(--accent-2);
@@ -2226,11 +2199,6 @@
         padding-bottom: 110px;
       }
 
-      .first-person-model {
-        height: min(20vh, 150px);
-        opacity: .72;
-      }
-
       .hand {
         flex-wrap: nowrap;
         overflow-x: auto;
@@ -2343,21 +2311,6 @@
   </style>
 </head>
 <body>
-  <div class="first-person-model" id="firstPersonModel" aria-hidden="true">
-    <span class="fp-arm left"></span>
-    <span class="fp-arm right"></span>
-    <span class="fp-hand left"></span>
-    <span class="fp-hand right"></span>
-  </div>
-  <div class="fp-hud" id="fpHud" aria-live="polite">
-    <div>
-      <strong id="fpMode">Casino Floor</strong>
-      <span id="fpPrompt">WASD moves. E enters the glowing station.</span>
-    </div>
-    <div class="fp-keys" aria-hidden="true">
-      <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><kbd>E</kbd>
-    </div>
-  </div>
   <section class="title-screen">
     <div class="friendly-sign">Autism Friendly Experience</div>
     <div class="casino-front">
@@ -2365,7 +2318,15 @@
         <h1>Sir Autismos Tavern Cards and Stuff</h1>
         <p class="subtitle" id="titleTagline">Step through the lights, pick your table rules, and try to leave with fewer cards than dignity.</p>
       </div>
-      <div class="casino-hub" id="casinoHub" data-hub-index="0" data-hub-area="cards" aria-label="First person casino walkway">
+      <div class="menu-nav" aria-label="Main menu pages">
+        <button data-menu-target="main" class="active">Main</button>
+        <button data-menu-target="cards">Cards</button>
+        <button data-menu-target="multiplayer">Multiplayer</button>
+        <button data-menu-target="rules">Rules</button>
+        <button data-menu-target="barkeep">Barkeep</button>
+        <button id="menuAchievements">Achievements</button>
+      </div>
+      <div class="casino-hub" id="casinoHub" data-hub-index="0" data-hub-area="cards" aria-label="Casino main menu">
         <div class="hub-hall">
           <section class="hub-area cards active" data-hub-area="cards">
             <div class="hub-sign">Cards & Dice</div>
@@ -2397,12 +2358,12 @@
           </section>
         </div>
         <div class="hub-floor">
-          <button id="hubPrev" aria-label="Walk left through the casino">Walk Left</button>
+          <button id="hubPrev" aria-label="Previous menu station">Previous</button>
           <div class="hub-location">
             <strong id="hubAreaName">Card Table</strong>
-            <span id="hubHint">You are facing the main card table.</span>
+            <span id="hubHint">Choose a casino page or game.</span>
           </div>
-          <button id="hubNext" aria-label="Walk right through the casino">Walk Right</button>
+          <button id="hubNext" aria-label="Next menu station">Next</button>
         </div>
       </div>
       <div class="front-body">
@@ -2445,7 +2406,10 @@
           <div class="multiplayer-panel">
             <h2>Online Ready Room</h2>
             <label class="field">Server URL
-              <input type="url" id="multiplayerUrl" value="ws://localhost:3217">
+              <input type="url" id="multiplayerUrl" value="ws://localhost:3217" placeholder="wss://your-render-service.onrender.com">
+            </label>
+            <label class="field">Server Token
+              <input type="text" id="multiplayerToken" placeholder="Optional Render SERVER_TOKEN">
             </label>
             <label class="field">Room Code
               <input type="text" id="roomCodeInput" placeholder="Host creates one">
@@ -2500,6 +2464,7 @@
               <tr><td>Shop</td><td>Cards earn 1 coin. Cigar 5, Beer 7, Poker Chip 20.</td></tr>
               <tr><td>Dealer</td><td>Optional chaos event: 1%, then 15% after turn 6, then 50% past turn 8.</td></tr>
               <tr><td>Deck Roulette</td><td>Gold starts everyone with 5 coins. Dragon starts everyone with 15 cards and disables dice. Blue creates a serene rumor-filled game.</td></tr>
+              <tr><td>Win Payouts</td><td>Card wins pay by AI difficulty: Easy 1, Medium 3, Hard 6. Boss pass now costs 50 wins.</td></tr>
             </tbody>
           </table>
         </div>
@@ -2547,7 +2512,10 @@
               <button data-skin="rainbow">Rainbow</button>
               <button data-skin="fire">Flaming</button>
               <button data-skin="dragon">Dragon Fire</button>
+              <button data-skin="crystal">Crystal</button>
+              <button data-skin="lava">Lava</button>
             </div>
+            <div class="cosmetic-preview" id="cosmeticPreview" aria-label="Selected card cosmetic preview"></div>
             <button id="openAchievements">Achievements</button>
             <div class="selected-info" id="achievementStatus">Achievements unlock cosmetic cards.</div>
             <h2>Shifty Dealer</h2>
@@ -2560,7 +2528,7 @@
               <button id="buyMarkedDeck">Buy</button>
             </div>
             <div class="joker-row">
-              <div><strong>Fight The Barkeep · 200 wins</strong><span>Instantly begins a four-attempt boss pass against Master AI.</span></div>
+              <div><strong>Fight The Barkeep · 50 wins</strong><span>Instantly begins a four-attempt boss pass against Master AI.</span></div>
               <button id="buyBossPass">Buy</button>
             </div>
           </div>
@@ -2622,7 +2590,10 @@
       <div class="players" id="playersLeft"></div>
 
       <div class="center">
-        <div class="discard-card" id="discardCard"></div>
+        <div class="table-deck-row">
+          <div class="deck-stack" id="deckStackPreview" aria-label="Deck cosmetic preview"></div>
+          <div class="discard-card" id="discardCard"></div>
+        </div>
         <div class="status">
           <div class="stat"><span>Deck</span><b id="deckCount">0</b></div>
           <div class="stat"><span>Turn</span><b id="turnName">You</b></div>
@@ -2873,10 +2844,10 @@
       { id: "neon-clover", name: "Neon Clover", rarity: "uncommon", description: "Your rewards and lucky rolls improve." },
       { id: "crooked-cue", name: "Crooked Cue", rarity: "uncommon", description: "Pool shots carry strange extra force." },
       { id: "ember-card", name: "Ember Card", rarity: "uncommon", description: "Cards burn lighter in your hand." },
-      { id: "brass-compass", name: "Brass Compass", rarity: "uncommon", description: "First-person aim steadies across darts, pool, and dice." },
+      { id: "brass-compass", name: "Brass Compass", rarity: "uncommon", description: "Aim steadies across darts, pool, and dice." },
       { id: "starlit-sleeve", name: "Starlit Sleeve", rarity: "uncommon", description: "A hidden sleeve drops one card and readies a risky free roll." },
       { id: "lucky-fountain", name: "Lucky Fountain Token", rarity: "uncommon", description: "Coins splash across the table, with a better cut for you." },
-      { id: "velvet-dartboard", name: "Velvet Dartboard", rarity: "uncommon", description: "Darts and first-person throws begin closer to the mark." },
+      { id: "velvet-dartboard", name: "Velvet Dartboard", rarity: "uncommon", description: "Darts begin closer to the mark." },
       { id: "glass-oracle", name: "Glass Oracle", rarity: "rare", description: "The game reveals easier routes and stronger rewards." },
       { id: "midnight-contract", name: "Midnight Contract", rarity: "rare", description: "The barkeep's contract sharpens every win." },
       { id: "dragon-coin", name: "Dragon Coin", rarity: "rare", description: "Coins and fire follow your plays." },
@@ -2962,6 +2933,69 @@
         description: "Bank 20 wins or survive the barkeep duel to unlock dragon fire cards.",
         colors: ["#ff385d", "#ffcb45"],
         art: ["110010", "111100", "011111", "111110", "101100", "100010"]
+      },
+      {
+        key: "crystalBanked",
+        name: "Crystal Cards",
+        description: "Bank 30 wins to unlock amethyst crystal cards.",
+        colors: ["#b276ff", "#f5dcff"],
+        art: ["001100", "011110", "111111", "110011", "011110", "001100"]
+      },
+      {
+        key: "lavaBanked",
+        name: "Lava Cards",
+        description: "Bank 45 wins to unlock animated lava cards.",
+        colors: ["#ff6b24", "#ffd35a"],
+        art: ["001000", "011100", "111110", "110111", "111111", "011010"]
+      },
+      {
+        key: "easyWinner",
+        name: "Easy Money",
+        description: "Win a card game on easy difficulty.",
+        colors: ["#64d2a3", "#f8ead1"],
+        art: ["001100", "011110", "110011", "111111", "001100", "011110"]
+      },
+      {
+        key: "mediumWinner",
+        name: "Middle Table",
+        description: "Win a card game on medium difficulty.",
+        colors: ["#ffcb45", "#64d2a3"],
+        art: ["111111", "100001", "101101", "100001", "111111", "001100"]
+      },
+      {
+        key: "hardWinner",
+        name: "Hard Table Hero",
+        description: "Win a card game on hard difficulty.",
+        colors: ["#ff385d", "#ffcb45"],
+        art: ["101101", "111111", "011110", "111111", "101101", "010010"]
+      },
+      {
+        key: "straightArtist",
+        name: "Straight Artist",
+        description: "Play a straight at the card table.",
+        colors: ["#f8ead1", "#ffcb45"],
+        art: ["100000", "110000", "111000", "011100", "001110", "000111"]
+      },
+      {
+        key: "flushArtist",
+        name: "Flush Artist",
+        description: "Play a flush at the card table.",
+        colors: ["#64d2a3", "#0f6b4a"],
+        art: ["001100", "011110", "111111", "111111", "011110", "001100"]
+      },
+      {
+        key: "d20Roller",
+        name: "Twenty Sided Trouble",
+        description: "Roll a D20 in a card game.",
+        colors: ["#b276ff", "#ffcb45"],
+        art: ["011110", "100001", "101101", "101101", "100001", "011110"]
+      },
+      {
+        key: "dealerSeen",
+        name: "Backroom Visitor",
+        description: "Have the Black Market Dealer crash the table.",
+        colors: ["#ff385d", "#151713"],
+        art: ["111111", "100001", "110011", "101101", "100001", "111111"]
       }
     ];
     const deckModes = {
@@ -3047,10 +3081,8 @@
 
     const els = {
       startGame: document.querySelector("#startGame"),
-      firstPersonModel: document.querySelector("#firstPersonModel"),
-      fpHud: document.querySelector("#fpHud"),
-      fpMode: document.querySelector("#fpMode"),
-      fpPrompt: document.querySelector("#fpPrompt"),
+      menuButtons: document.querySelectorAll("[data-menu-target]"),
+      menuAchievements: document.querySelector("#menuAchievements"),
       titleLounge: document.querySelector("#titleLounge"),
       titleExitGame: document.querySelector("#titleExitGame"),
       titleTagline: document.querySelector("#titleTagline"),
@@ -3072,6 +3104,7 @@
       titleActionCardsEnabled: document.querySelector("#titleActionCardsEnabled"),
       titleDealerEnabled: document.querySelector("#titleDealerEnabled"),
       multiplayerUrl: document.querySelector("#multiplayerUrl"),
+      multiplayerToken: document.querySelector("#multiplayerToken"),
       roomCodeInput: document.querySelector("#roomCodeInput"),
       hostRoom: document.querySelector("#hostRoom"),
       joinRoom: document.querySelector("#joinRoom"),
@@ -3096,6 +3129,7 @@
       achievementsModal: document.querySelector("#achievementsModal"),
       closeAchievements: document.querySelector("#closeAchievements"),
       achievementGrid: document.querySelector("#achievementGrid"),
+      cosmeticPreview: document.querySelector("#cosmeticPreview"),
       curtains: document.querySelector("#curtains"),
       playerCount: document.querySelector("#playerCount"),
       friendMode: document.querySelector("#friendMode"),
@@ -3110,6 +3144,7 @@
       playersLeft: document.querySelector("#playersLeft"),
       playersRight: document.querySelector("#playersRight"),
       discardCard: document.querySelector("#discardCard"),
+      deckStackPreview: document.querySelector("#deckStackPreview"),
       deckCount: document.querySelector("#deckCount"),
       turnName: document.querySelector("#turnName"),
       turnNumber: document.querySelector("#turnNumber"),
@@ -3212,17 +3247,9 @@
       deckMode: "standard",
       rouletteRotation: 0,
       rouletteSpinning: false,
+      menuPage: "main",
       hubAreaIndex: 0,
       keyboardCardIndex: 0,
-      fp: {
-        x: -1.5,
-        z: 1,
-        walking: false,
-        walkTimer: 0,
-        keys: new Set(),
-        movementLoop: 0,
-        lastMoveTick: 0
-      },
       aiEnraged: false,
       matchId: 0,
       gameStarting: false,
@@ -3267,6 +3294,7 @@
         lastHit: null,
         throwsThisTurn: 0,
         keyboardAim: null,
+        stuckDarts: [],
         fx: [],
         wager: null
       },
@@ -3344,9 +3372,15 @@
     function startAmbient() {
       if (ambientTimer || !state.audioEnabled) return;
       ambientTimer = window.setInterval(() => {
-        if (!state.audioEnabled || document.body.classList.contains("game-started") === false) return;
-        tone(pick([98, 110, 123, 147]), .28, "sine", .03);
-        if (Math.random() < .45) tone(pick([392, 440, 494]), .1, "triangle", .025, .12);
+        if (!state.audioEnabled) return;
+        const inGame = document.body.classList.contains("game-started");
+        const inLounge = state.loungeOpen;
+        tone(pick(inLounge ? [123, 147, 165] : [98, 110, 123, 147]), .28, "sine", inGame ? .03 : .022);
+        if (Math.random() < .55) tone(pick([392, 440, 494, 659]), .09, "triangle", .032, .12);
+        if (Math.random() < .34) {
+          tone(pick([740, 880, 988]), .045, "square", .025, .24);
+          tone(pick([523, 587, 659]), .055, "triangle", .022, .31);
+        }
       }, 2200);
     }
 
@@ -3397,6 +3431,7 @@
       els.vsScreen.classList.remove("show");
       els.curtains.classList.remove("show", "closed");
       document.body.classList.remove("game-started");
+      setMenuPage("main");
       renderEmptyTable();
       refreshTagline();
     }
@@ -3484,6 +3519,10 @@
         const secure = location.protocol === "https:";
         url = `${secure ? "wss" : "ws"}://${url}`;
       }
+      const token = els.multiplayerToken?.value?.trim?.() || "";
+      if (token && !/[?&]token=/i.test(url)) {
+        url += `${url.includes("?") ? "&" : "?"}token=${encodeURIComponent(token)}`;
+      }
       return url;
     }
 
@@ -3543,7 +3582,7 @@
           state.multiplayer.peers = 0;
           if (!settled) {
             settled = true;
-            setMultiplayerStatus("Could not reach the multiplayer server.", true);
+            setMultiplayerStatus("Could not reach the multiplayer server. If this is Render, wait 30 seconds for it to wake and include the token if you set SERVER_TOKEN.", true);
             reject(new Error("Multiplayer connection closed."));
           } else {
             setMultiplayerStatus("Offline. Run the server, then host or join a room.");
@@ -3552,7 +3591,7 @@
         socket.addEventListener("error", () => {
           if (state.multiplayer.socket !== socket) return;
           window.clearTimeout(timeoutId);
-          setMultiplayerStatus("Could not reach the multiplayer server.", true);
+          setMultiplayerStatus("Could not reach the multiplayer server. Check the Render URL and optional SERVER_TOKEN.", true);
           if (!settled) {
             settled = true;
             reject(new Error("Multiplayer connection failed."));
@@ -4028,7 +4067,8 @@
     }
 
     function artifactWinValue() {
-      return 1 + artifactWinBonus();
+      const base = { easy: 1, medium: 3, hard: 6 }[els.difficulty?.value || els.titleDifficulty?.value] || 3;
+      return base + artifactWinBonus();
     }
 
     function renderArtifactStatus() {
@@ -4058,57 +4098,40 @@
     }
 
     const casinoAreas = [
-      { id: "cards", name: "Card Table", x: -1.5, hint: "You are facing the main card and dice table." },
-      { id: "darts", name: "Darts Hall", x: -.5, hint: "You hear darts hitting cork under red casino lights." },
-      { id: "pool", name: "8-Ball Billiards", x: .5, hint: "Green felt and brass lamps glow down the casino hallway." },
-      { id: "barkeep", name: "Barkeep Shop", x: 1.5, hint: "Sir Autismos Barkeep waits behind the bar with jokers and artifacts." }
+      { id: "cards", name: "Card Table", page: "cards", hint: "Set up cards, dice, decks, and table rules." },
+      { id: "darts", name: "Darts Hall", lounge: "darts", hint: "Open standard 301 darts in the jazz lounge." },
+      { id: "pool", name: "8-Ball Billiards", lounge: "pool", hint: "Open the billiards room with 8-ball rules." },
+      { id: "barkeep", name: "Barkeep Shop", page: "barkeep", hint: "Spend wins on jokers, cheats, boss passes, and cosmetics." }
     ];
 
     function clampNumber(value, min, max) {
       return Math.max(min, Math.min(max, value));
     }
 
-    function nearestCasinoAreaIndex() {
-      let best = 0;
-      let distance = Infinity;
-      casinoAreas.forEach((area, index) => {
-        const score = Math.abs(state.fp.x - area.x);
-        if (score < distance) {
-          distance = score;
-          best = index;
-        }
+    function setMenuPage(page = "main") {
+      state.menuPage = page;
+      document.body.dataset.menuPage = page;
+      els.menuButtons?.forEach(button => {
+        button.classList.toggle("active", button.dataset.menuTarget === page);
       });
-      return best;
-    }
-
-    function setFirstPersonHud(mode, prompt) {
-      if (els.fpMode) els.fpMode.textContent = mode;
-      if (els.fpPrompt) els.fpPrompt.textContent = prompt;
+      if (page === "main") updateCasinoHub();
+      if (page === "barkeep") renderBarkeep();
     }
 
     function updateCasinoHub() {
       if (!els.casinoHub) return;
-      state.hubAreaIndex = nearestCasinoAreaIndex();
       const area = casinoAreas[state.hubAreaIndex] || casinoAreas[0];
       els.casinoHub.dataset.hubIndex = String(state.hubAreaIndex);
       els.casinoHub.dataset.hubArea = area.id;
-      els.casinoHub.style.setProperty("--walk-x", String(state.fp.x));
-      els.casinoHub.style.setProperty("--walk-z", String(state.fp.z));
-      els.casinoHub.style.setProperty("--look-yaw", `${clampNumber(state.fp.x * -4, -8, 8)}deg`);
-      els.firstPersonModel?.classList.toggle("walking", state.fp.walking);
-      if (els.firstPersonModel) els.firstPersonModel.dataset.station = area.id;
       if (els.hubAreaName) els.hubAreaName.textContent = area.name;
       if (els.hubHint) els.hubHint.textContent = area.hint;
       document.querySelectorAll(".hub-area[data-hub-area]").forEach(panel => {
         panel.classList.toggle("active", panel.dataset.hubArea === area.id);
       });
-      setFirstPersonHud("Casino Floor", `${area.name}: WASD moves. E enters.`);
     }
 
     function walkCasinoHub(delta) {
       state.hubAreaIndex = (state.hubAreaIndex + delta + casinoAreas.length) % casinoAreas.length;
-      state.fp.x = casinoAreas[state.hubAreaIndex].x;
-      state.fp.z = .9;
       updateCasinoHub();
       sound("shop");
     }
@@ -4117,69 +4140,14 @@
       const index = casinoAreas.findIndex(area => area.id === id);
       if (index >= 0) {
         state.hubAreaIndex = index;
-        state.fp.x = casinoAreas[index].x;
-        state.fp.z = .9;
         updateCasinoHub();
       }
     }
 
-    function moveFirstPerson(dx, dz) {
-      state.fp.x = clampNumber(state.fp.x + dx, -1.7, 1.7);
-      state.fp.z = clampNumber(state.fp.z + dz, 0, 2.4);
-      state.fp.walking = true;
-      window.clearTimeout(state.fp.walkTimer);
-      state.fp.walkTimer = window.setTimeout(() => {
-        state.fp.walking = false;
-        updateCasinoHub();
-      }, 260);
-      updateCasinoHub();
-    }
-
-    function stepFirstPersonMovement(time) {
-      state.fp.movementLoop = 0;
-      if (document.body.classList.contains("game-started") || state.loungeOpen || !state.fp.keys.size) {
-        state.fp.keys.clear();
-        state.fp.walking = false;
-        updateCasinoHub();
-        return;
-      }
-      const elapsed = state.fp.lastMoveTick ? Math.min(48, time - state.fp.lastMoveTick) : 16;
-      state.fp.lastMoveTick = time;
-      const speed = elapsed / 16;
-      let dx = 0;
-      let dz = 0;
-      if (state.fp.keys.has("a") || state.fp.keys.has("arrowleft")) dx -= .035 * speed;
-      if (state.fp.keys.has("d") || state.fp.keys.has("arrowright")) dx += .035 * speed;
-      if (state.fp.keys.has("w") || state.fp.keys.has("arrowup")) dz -= .042 * speed;
-      if (state.fp.keys.has("s") || state.fp.keys.has("arrowdown")) dz += .042 * speed;
-      if (dx || dz) {
-        moveFirstPerson(dx, dz);
-        state.fp.movementLoop = window.requestAnimationFrame(stepFirstPersonMovement);
-      }
-    }
-
-    function startFirstPersonMovement(key) {
-      state.fp.keys.add(key);
-      if (!state.fp.movementLoop) {
-        state.fp.lastMoveTick = 0;
-        state.fp.movementLoop = window.requestAnimationFrame(stepFirstPersonMovement);
-      }
-    }
-
-    function stopFirstPersonMovement(key) {
-      state.fp.keys.delete(key);
-      if (!state.fp.keys.size) {
-        state.fp.walking = false;
-        updateCasinoHub();
-      }
-    }
-
-    function interactFirstPerson() {
+    function activateCasinoArea() {
       const area = casinoAreas[state.hubAreaIndex] || casinoAreas[0];
-      if (area.id === "cards") startGameFromTitle();
-      else if (area.id === "darts") openLoungeArea("darts");
-      else if (area.id === "pool") openLoungeArea("pool");
-      else approachBarkeep();
+      if (area.page) setMenuPage(area.page);
+      else if (area.lounge) openLoungeArea(area.lounge);
     }
 
     function openLoungeArea(mode) {
@@ -4189,7 +4157,7 @@
 
     function approachBarkeep() {
       faceCasinoArea("barkeep");
-      document.querySelector(".barkeep-panel")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setMenuPage("barkeep");
       sound("shop");
     }
 
@@ -4335,6 +4303,7 @@
       state.darts.throwsThisTurn = 0;
       state.darts.lastHit = null;
       state.darts.keyboardAim = null;
+      state.darts.stuckDarts = [];
       state.darts.fx = [];
       els.loungeLog.innerHTML = "";
       state.darts.wager = startLoungeWager("Darts");
@@ -4428,6 +4397,20 @@
         ctx.textBaseline = "middle";
         ctx.fillText(dartNumbers[i], c + Math.cos(labelAngle) * (r + 28), c + Math.sin(labelAngle) * (r + 28));
       }
+      ctx.strokeStyle = "rgba(235, 235, 218, .52)";
+      ctx.lineWidth = 1.4;
+      for (let i = 0; i < 20; i++) {
+        const angle = (-90 + i * 18 - 9) * Math.PI / 180;
+        ctx.beginPath();
+        ctx.moveTo(c + Math.cos(angle) * r * .1, c + Math.sin(angle) * r * .1);
+        ctx.lineTo(c + Math.cos(angle) * r, c + Math.sin(angle) * r);
+        ctx.stroke();
+      }
+      [r * .1, r * .58, r * .66, r * .9, r].forEach(radius => {
+        ctx.beginPath();
+        ctx.arc(c, c, radius, 0, Math.PI * 2);
+        ctx.stroke();
+      });
       ctx.beginPath();
       ctx.arc(c, c, r + 4, 0, Math.PI * 2);
       ctx.strokeStyle = "rgba(255, 226, 135, .34)";
@@ -4446,8 +4429,8 @@
       ctx.arc(c, c, r * .045, 0, Math.PI * 2);
       ctx.fillStyle = "#b71934";
       ctx.fill();
-      if (state.darts.lastHit) drawDartMarker(ctx, state.darts.lastHit.x, state.darts.lastHit.y, "#ffcb45");
-      if (ghost) drawDartMarker(ctx, ghost.x, ghost.y, "rgba(100, 210, 163, .9)");
+      state.darts.stuckDarts?.forEach(dart => drawDartModel(ctx, dart.x, dart.y, dart.ai ? "#ff385d" : "#64d2a3", dart.angle));
+      if (ghost) drawAimMarker(ctx, ghost.x, ghost.y, "rgba(100, 210, 163, .9)");
       drawDartFlights(ctx);
     }
 
@@ -4569,6 +4552,7 @@
         sy: ai ? 120 : els.dartBoard.height - 120,
         x,
         y,
+        ai,
         t: 0
       });
     }
@@ -4581,23 +4565,7 @@
         const ease = 1 - Math.pow(1 - fx.t, 3);
         const x = fx.sx + (fx.x - fx.sx) * ease;
         const y = fx.sy + (fx.y - fx.sy) * ease;
-        ctx.strokeStyle = "#f8ead1";
-        ctx.lineWidth = 5;
-        ctx.beginPath();
-        ctx.moveTo(x - 30, y + 10);
-        ctx.lineTo(x, y);
-        ctx.stroke();
-        ctx.fillStyle = "rgba(100, 210, 163, .86)";
-        ctx.beginPath();
-        ctx.moveTo(x - 32, y + 11);
-        ctx.lineTo(x - 44, y + 2);
-        ctx.lineTo(x - 38, y + 18);
-        ctx.closePath();
-        ctx.fill();
-        ctx.fillStyle = "#ff385d";
-        ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
-        ctx.fill();
+        drawDartModel(ctx, x, y, fx.ai ? "#ff385d" : "#64d2a3", Math.atan2(fx.y - fx.sy, fx.x - fx.sx));
       });
       if (state.darts.fx.length) requestAnimationFrame(() => drawDartBoard());
     }
@@ -4611,31 +4579,62 @@
       ctx.fill();
     }
 
-    function drawDartMarker(ctx, x, y, color) {
+    function drawAimMarker(ctx, x, y, color) {
       ctx.save();
-      ctx.strokeStyle = "rgba(0,0,0,.55)";
-      ctx.lineWidth = 8;
-      ctx.beginPath();
-      ctx.moveTo(x - 22, y + 14);
-      ctx.lineTo(x + 2, y - 1);
-      ctx.stroke();
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.moveTo(x - 24, y + 16);
-      ctx.lineTo(x + 3, y - 2);
-      ctx.stroke();
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.moveTo(x - 24, y + 16);
-      ctx.lineTo(x - 38, y + 10);
-      ctx.lineTo(x - 32, y + 24);
-      ctx.closePath();
-      ctx.fill();
       ctx.strokeStyle = "rgba(255,255,255,.42)";
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.arc(x, y, 11, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawDartModel(ctx, x, y, color, angle = -0.55) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.shadowColor = "rgba(0,0,0,.48)";
+      ctx.shadowBlur = 8;
+      ctx.shadowOffsetY = 5;
+      ctx.strokeStyle = "rgba(0,0,0,.45)";
+      ctx.lineWidth = 9;
+      ctx.beginPath();
+      ctx.moveTo(-46, 0);
+      ctx.lineTo(8, 0);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = "#f8ead1";
+      ctx.lineWidth = 5;
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(-42, 0);
+      ctx.lineTo(4, 0);
+      ctx.stroke();
+      ctx.fillStyle = "#d4d7d0";
+      ctx.beginPath();
+      ctx.moveTo(3, -4);
+      ctx.lineTo(18, 0);
+      ctx.lineTo(3, 4);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(-44, 0);
+      ctx.lineTo(-61, -12);
+      ctx.lineTo(-55, 0);
+      ctx.lineTo(-61, 12);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255,255,255,.38)";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(-56, -8);
+      ctx.lineTo(-47, 0);
+      ctx.lineTo(-56, 8);
       ctx.stroke();
       ctx.restore();
     }
@@ -4670,6 +4669,11 @@
         addLoungeLog(`${player.name} hit ${hit.label} for ${hit.score}. ${player.score} left.`);
       }
       state.darts.lastHit = { x, y };
+      if (hit.score > 0) {
+        state.darts.stuckDarts ||= [];
+        state.darts.stuckDarts.push({ x, y, ai: player.ai, angle: player.ai ? 2.62 : -0.52 });
+        if (state.darts.stuckDarts.length > 24) state.darts.stuckDarts.shift();
+      }
       state.darts.throwsThisTurn += 1;
       sound(hit.score ? "dice" : "draw");
       if (player.score === 0) {
@@ -4702,9 +4706,6 @@
       els.dartHint.textContent = player?.ai
         ? `${player.name} is lining up a throw.`
         : `${player?.name || "Your"} throw ${state.darts.throwsThisTurn + 1}/3. Drag or use WASD to aim, Space to throw. Beer: ${state.loungeBeer}, Pretzels: ${state.pretzels}.`;
-      if (state.loungeOpen && state.loungeMode === "darts") {
-        setFirstPersonHud("Darts Hall", "WASD aims the dart. Space throws. Q backs out.");
-      }
       renderBarkeep();
     }
 
@@ -4899,7 +4900,11 @@
       if (artifactIs("master-key")) return 38;
       if (artifactIs("phantom-rack") || artifactIs("casino-map") || artifactIs("brass-compass")) return 34;
       if (artifactIs("soft-felt") || artifactIs("velvet-ledger") || artifactIs("lucky-coaster") || artifactIs("glass-oracle")) return 31;
-      return 26;
+      return 30;
+    }
+
+    function poolPocketCatchRadius(ball) {
+      return poolPocketRadius() + (ball?.r || 13) * .95;
     }
 
     function renderPoolStatus() {
@@ -4908,9 +4913,6 @@
       els.poolSecondLabel.textContent = playerLabel(1);
       els.poolAiGroup.textContent = state.pool.groups?.[1] || "open";
       els.poolTurnName.textContent = playerLabel(state.pool.turn);
-      if (state.loungeOpen && state.loungeMode === "pool") {
-        setFirstPersonHud("8-Ball Billiards", "W/S sets power. A/D aims. Space shoots. Q backs out.");
-      }
     }
 
     function drawPoolTable(aimPoint) {
@@ -5145,6 +5147,11 @@
           ball.vx = 0;
           ball.vy = 0;
         }
+        const caughtPocket = poolPockets().find(pocket => Math.hypot(ball.x - pocket.x, ball.y - pocket.y) < poolPocketCatchRadius(ball));
+        if (caughtPocket) {
+          potPoolBall(ball);
+          return;
+        }
         if (ball.x < 46 + ball.r || ball.x > w - 46 - ball.r) {
           ball.vx *= -0.9;
           ball.x = Math.max(46 + ball.r, Math.min(w - 46 - ball.r, ball.x));
@@ -5159,7 +5166,7 @@
       }
       poolPockets().forEach(pocket => {
         state.pool.balls.forEach(ball => {
-          if (!ball.pocketed && Math.hypot(ball.x - pocket.x, ball.y - pocket.y) < poolPocketRadius()) {
+          if (!ball.pocketed && Math.hypot(ball.x - pocket.x, ball.y - pocket.y) < poolPocketCatchRadius(ball)) {
             potPoolBall(ball);
           }
         });
@@ -5171,6 +5178,7 @@
     }
 
     function collidePoolBalls(a, b) {
+      if (a.pocketed || b.pocketed) return;
       const dx = b.x - a.x;
       const dy = b.y - a.y;
       const dist = Math.hypot(dx, dy);
@@ -5413,6 +5421,8 @@
         cardsLeft: player.hand.length,
         coins: player.coins
       });
+      if (!player.ai && combo.type === "straight") unlockAchievement("straightArtist", "Straight Artist");
+      if (!player.ai && combo.type === "flush") unlockAchievement("flushArtist", "Flush Artist");
 
       if (combo.type === "action") {
         resolveActionCard(player, cards[0]);
@@ -5558,7 +5568,9 @@
         gold: state.achievements.firstCardWin || state.achievements.goldBanked,
         rainbow: state.achievements.dartWinner || state.achievements.rainbowBanked,
         fire: state.achievements.poolWinner || state.achievements.fireBanked,
-        dragon: state.achievements.artifactOwner || state.achievements.barkeepDuel || state.achievements.dragonBanked
+        dragon: state.achievements.artifactOwner || state.achievements.barkeepDuel || state.achievements.dragonBanked,
+        crystal: state.achievements.crystalBanked || state.achievements.flushArtist,
+        lava: state.achievements.lavaBanked || state.achievements.hardWinner
       };
     }
 
@@ -5580,6 +5592,24 @@
       render();
     }
 
+    function renderCosmeticPreview() {
+      if (!els.cosmeticPreview) return;
+      const previewCards = [
+        { rank: "A", symbol: "♥", color: "red" },
+        { rank: "8", symbol: "♣", color: "black" },
+        { rank: "K", symbol: "♦", color: "red" },
+        { rank: "Q", symbol: "♠", color: "black" },
+        { rank: "J", symbol: "♥", color: "red" }
+      ];
+      els.cosmeticPreview.innerHTML = previewCards.map((card, index) => `
+        <div class="card ${cardSkinClass()} ${card.color === "red" ? "red" : ""}" style="--tilt:${-8 + index * 4}deg">
+          <div class="corner">${card.rank}<br>${card.symbol}</div>
+          <div class="pip">${card.symbol}</div>
+          <div class="corner bottom">${card.rank}<br>${card.symbol}</div>
+        </div>
+      `).join("");
+    }
+
     function renderAchievements() {
       let changed = false;
       if (state.winCurrency >= 3 && !state.achievements.goldBanked) {
@@ -5598,6 +5628,14 @@
         state.achievements.dragonBanked = true;
         changed = true;
       }
+      if (state.winCurrency >= 30 && !state.achievements.crystalBanked) {
+        state.achievements.crystalBanked = true;
+        changed = true;
+      }
+      if (state.winCurrency >= 45 && !state.achievements.lavaBanked) {
+        state.achievements.lavaBanked = true;
+        changed = true;
+      }
       if (changed) saveAchievements();
       const unlocked = unlockedSkins();
       if (!unlocked[state.cardSkin]) {
@@ -5609,9 +5647,10 @@
         button.classList.toggle("active", state.cardSkin === skin);
         button.disabled = !unlocked[skin];
       });
+      renderCosmeticPreview();
       renderAchievementGrid();
       const unlockedCount = achievementCatalog.filter(item => state.achievements[item.key]).length;
-      els.achievementStatus.textContent = `Cosmetics unlocked: ${Object.values(unlocked).filter(Boolean).length}/5. Achievements: ${unlockedCount}/${achievementCatalog.length}.`;
+      els.achievementStatus.textContent = `Cosmetics unlocked: ${Object.values(unlocked).filter(Boolean).length}/7. Achievements: ${unlockedCount}/${achievementCatalog.length}.`;
     }
 
     function renderPixelArt(achievement, unlocked) {
@@ -5666,7 +5705,7 @@
       const shop = {
         loaded: { cost: 50, label: "Loaded Sleeve" },
         marked: { cost: 50, label: "Marked Deck" },
-        boss: { cost: 200, label: "Fight The Barkeep" }
+        boss: { cost: 50, label: "Fight The Barkeep" }
       }[kind];
       if (!shop) return;
       if (state.winCurrency < shop.cost) {
@@ -5756,6 +5795,7 @@
       if (artifactIs("jackpot-soul") || artifactIs("emperor-chip") || artifactIs("timekeeper-ace") || artifactIs("chandelier-crown")) bonus += 5;
       const roll = Math.min(sides, rawRoll + bonus);
       sound("dice");
+      if (!player.ai && sides === 20) unlockAchievement("d20Roller", "Twenty Sided Trouble");
       player.diceBonus = 0;
       const target = diceTargetFor(player);
       const targetDraw = Math.min(roll, diceTargetDrawCap(sides, free));
@@ -5917,6 +5957,7 @@
     function blackMarketIntro(effect) {
       sound("dealer");
       addLog(`Black Market Dealer appears: ${effect}`);
+      unlockAchievement("dealerSeen", "Backroom Visitor");
       els.dialogue.textContent = "\"No refunds, no questions, no looking under the table.\"";
     }
 
@@ -6133,6 +6174,10 @@
         saveWins();
         addLog(`${winner.name} earned ${earnedWins} win${earnedWins === 1 ? "" : "s"} for Sir Autismos Barkeep.`);
         unlockAchievement("firstCardWin", "Card Table Winner");
+        const difficulty = els.difficulty.value;
+        if (difficulty === "easy") unlockAchievement("easyWinner", "Easy Money");
+        if (difficulty === "medium") unlockAchievement("mediumWinner", "Middle Table");
+        if (difficulty === "hard") unlockAchievement("hardWinner", "Hard Table Hero");
       }
       els.winnerTitle.textContent = winner.name === "You" ? "You win!" : `${winner.name} wins!`;
       els.winnerText.textContent = reason;
@@ -6637,6 +6682,17 @@
       }
     }
 
+    function renderDeckStack() {
+      if (!els.deckStackPreview) return;
+      els.deckStackPreview.innerHTML = [0, 1, 2].map(index => `
+        <div class="card ${cardSkinClass()} deck-back" style="--dx:${index * 5}px; --dy:${index * -5}px; --tilt:${-4 + index * 2}deg">
+          <div class="corner">Deck</div>
+          <div class="pip">${state.deck.length}</div>
+          <div class="corner bottom">Deck</div>
+        </div>
+      `).join("");
+    }
+
     function render() {
       if (!state.players.length || !state.discard.length) {
         renderEmptyTable();
@@ -6656,9 +6712,9 @@
           : "D12 T10";
       renderPlayers();
       renderHand();
+      renderDeckStack();
       renderBarkeep();
       const humanTurn = isLocalTurn();
-      setFirstPersonHud("Card Table", humanTurn ? "A/D chooses cards. Space selects. E plays. R draws. F ends." : "Card Table: watching the turn move around the felt.");
       setControls(humanTurn);
       const player = currentPlayer();
       const human = activeLocalPlayer();
@@ -6733,6 +6789,7 @@
       });
       renderBarkeep();
       renderDeckMode();
+      renderDeckStack();
       renderArtifactStatus();
     }
 
@@ -6744,7 +6801,7 @@
       els.buyArtifactKey.disabled = state.winCurrency < 20 || state.jokers.artifact > 0;
       els.buyLoadedSleeve.disabled = state.winCurrency < 50;
       els.buyMarkedDeck.disabled = state.winCurrency < 50;
-      els.buyBossPass.disabled = state.winCurrency < 200 || state.boss.active;
+      els.buyBossPass.disabled = state.winCurrency < 50 || state.boss.active;
       const queued = [];
       if (state.jokers.rage) queued.push("Rage Joker ready");
       if (state.jokers.coins) queued.push("Loaded Pockets ready");
@@ -6878,20 +6935,10 @@
     }
 
     function handleCasinoKey(key) {
-      if (key === "w" || key === "arrowup") {
-        moveFirstPerson(0, -.18);
-        startFirstPersonMovement(key);
-      } else if (key === "s" || key === "arrowdown") {
-        moveFirstPerson(0, .18);
-        startFirstPersonMovement(key);
-      } else if (key === "a" || key === "arrowleft") {
-        moveFirstPerson(-.18, 0);
-        startFirstPersonMovement(key);
-      } else if (key === "d" || key === "arrowright") {
-        moveFirstPerson(.18, 0);
-        startFirstPersonMovement(key);
-      }
-      else if (key === "e" || key === "enter" || key === " ") interactFirstPerson();
+      if (key === "a" || key === "arrowleft" || key === "w" || key === "arrowup") walkCasinoHub(-1);
+      else if (key === "d" || key === "arrowright" || key === "s" || key === "arrowdown") walkCasinoHub(1);
+      else if (key === "e" || key === "enter" || key === " ") activateCasinoArea();
+      else if (key === "escape" || key === "q") setMenuPage("main");
       else return false;
       return true;
     }
@@ -6928,7 +6975,7 @@
       return true;
     }
 
-    function handleFirstPersonKeys(event) {
+    function handleGlobalKeys(event) {
       if (isTextEntryTarget(event.target) || els.achievementsModal.classList.contains("show")) return;
       const key = event.key.toLowerCase();
       let handled = false;
@@ -6946,11 +6993,6 @@
       }
       if (handled) event.preventDefault();
     }
-
-    document.addEventListener("keyup", event => {
-      const key = event.key.toLowerCase();
-      if (state.fp.keys.has(key)) stopFirstPersonMovement(key);
-    });
 
     els.playSelected.addEventListener("click", () => {
       if (playCards(currentPlayer(), selectedCards())) {
@@ -6975,7 +7017,7 @@
       render();
     });
 
-    document.addEventListener("keydown", handleFirstPersonKeys);
+    document.addEventListener("keydown", handleGlobalKeys);
 
     document.querySelectorAll("[data-die]").forEach(button => {
       button.addEventListener("click", () => {
@@ -6988,9 +7030,13 @@
     });
 
     els.startGame.addEventListener("click", startGameFromTitle);
+    els.menuButtons.forEach(button => {
+      button.addEventListener("click", () => setMenuPage(button.dataset.menuTarget));
+    });
+    els.menuAchievements.addEventListener("click", openAchievementsMenu);
     els.hubPrev.addEventListener("click", () => walkCasinoHub(-1));
     els.hubNext.addEventListener("click", () => walkCasinoHub(1));
-    els.hubCards.addEventListener("click", startGameFromTitle);
+    els.hubCards.addEventListener("click", () => setMenuPage("cards"));
     els.hubDarts.addEventListener("click", () => openLoungeArea("darts"));
     els.hubPool.addEventListener("click", () => openLoungeArea("pool"));
     els.hubBarkeep.addEventListener("click", approachBarkeep);
@@ -7116,6 +7162,7 @@
     });
 
     refreshTagline();
+    setMenuPage("main");
     updateCasinoHub();
     renderDeckMode();
     renderEmptyTable();
