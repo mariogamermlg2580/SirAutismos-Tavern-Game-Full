@@ -1105,6 +1105,77 @@
         inset 0 -24px 46px rgba(0, 0, 0, .24);
     }
 
+    body[data-table-skin="cosmic"] .table {
+      background:
+        radial-gradient(circle at 18% 20%, rgba(255, 255, 255, .72) 0 1px, transparent 2px),
+        radial-gradient(circle at 72% 18%, rgba(137, 199, 255, .82) 0 1px, transparent 2px),
+        radial-gradient(circle at 34% 68%, rgba(255, 226, 135, .8) 0 1px, transparent 2px),
+        radial-gradient(circle at 78% 74%, rgba(225, 185, 255, .76) 0 1px, transparent 2px),
+        linear-gradient(135deg, rgba(48, 28, 108, .68), rgba(9, 12, 31, .96) 42%, rgba(17, 34, 61, .92));
+      background-size: 160px 160px, 210px 210px, 190px 190px, 230px 230px, 100% 100%;
+      box-shadow:
+        0 34px 70px rgba(0, 0, 0, .56),
+        0 18px 0 rgba(13, 8, 28, .86),
+        inset 0 0 0 8px rgba(154, 118, 255, .22),
+        inset 0 0 80px rgba(84, 166, 255, .14);
+    }
+
+    body[data-table-skin="cosmic"] .table::before {
+      background:
+        radial-gradient(ellipse at 50% 44%, rgba(58, 103, 188, .62), rgba(15, 22, 62, .54) 42%, rgba(5, 8, 26, .28) 68%, transparent 72%);
+      filter: drop-shadow(0 24px 25px rgba(37, 52, 111, .44));
+    }
+
+    body[data-table-skin="cosmic"] .table::after {
+      border-color: rgba(171, 142, 255, .34);
+      box-shadow:
+        inset 0 0 22px rgba(137, 199, 255, .24),
+        inset 0 -24px 46px rgba(0, 0, 0, .34),
+        0 0 30px rgba(137, 199, 255, .12);
+    }
+
+    body[data-table-skin="cosmic"] .table .center::before {
+      content: "COSMIC TABLE";
+      color: rgba(220, 235, 255, .62);
+      text-shadow: 0 0 14px rgba(137, 199, 255, .62);
+    }
+
+    body[data-table-skin="velvet"] .table {
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, .04), transparent 34%),
+        radial-gradient(ellipse at 50% 44%, rgba(98, 18, 52, .46), transparent 32rem),
+        linear-gradient(180deg, rgba(64, 20, 33, .7), rgba(17, 14, 20, .96));
+      box-shadow:
+        0 34px 70px rgba(0, 0, 0, .5),
+        0 18px 0 rgba(35, 10, 18, .88),
+        inset 0 0 0 8px rgba(135, 39, 72, .28),
+        inset 0 0 68px rgba(255, 82, 130, .08);
+    }
+
+    body[data-table-skin="velvet"] .table .center::before {
+      content: "VELVET TABLE";
+      color: rgba(255, 196, 219, .5);
+      text-shadow: 0 0 14px rgba(255, 82, 130, .35);
+    }
+
+    body[data-table-skin="neon"] .table {
+      background:
+        repeating-linear-gradient(90deg, rgba(100, 210, 163, .07) 0 1px, transparent 1px 54px),
+        repeating-linear-gradient(0deg, rgba(101, 167, 255, .055) 0 1px, transparent 1px 54px),
+        linear-gradient(135deg, rgba(17, 49, 47, .88), rgba(9, 14, 24, .96) 48%, rgba(54, 19, 71, .76));
+      box-shadow:
+        0 34px 70px rgba(0, 0, 0, .52),
+        0 18px 0 rgba(7, 24, 24, .86),
+        inset 0 0 0 8px rgba(100, 210, 163, .2),
+        inset 0 0 80px rgba(100, 210, 163, .13);
+    }
+
+    body[data-table-skin="neon"] .table .center::before {
+      content: "NEON TABLE";
+      color: rgba(195, 255, 229, .56);
+      text-shadow: 0 0 14px rgba(100, 210, 163, .6);
+    }
+
     .table > * {
       position: relative;
       z-index: 1;
@@ -1373,6 +1444,13 @@
       padding: 12px;
       display: grid;
       gap: 9px;
+      transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    .shop-item:hover {
+      border-color: rgba(255, 226, 135, .34);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, .2);
     }
 
     .shop-item strong {
@@ -2564,7 +2642,8 @@
               <tr><td>Free Dice</td><td>Only straights and flushes earn a free dice roll.</td></tr>
               <tr><td>Dice Cost</td><td>Normal rolls draw half the die size. D12 unlocks on turn 10 and D20 unlocks on turn 20.</td></tr>
               <tr><td>Dice Target</td><td>Click or tap an opponent panel during your turn. Big target draws are capped so one roll cannot instantly end the table.</td></tr>
-              <tr><td>Shop</td><td>Cards, darts, and pool each have 5 different buyable items. Card table items use table coins; lounge games use table coins or a small bar wallet when played alone.</td></tr>
+              <tr><td>Shop</td><td>Cards, darts, and pool each have different buyable items. Card table items use table coins; lounge games use table coins or a small bar wallet when played alone.</td></tr>
+              <tr><td>Cosmetics</td><td>Card and table cosmetics are visual only. The Cosmic table changes the card table into a space-styled felt without changing rules.</td></tr>
               <tr><td>Dealer</td><td>Optional chaos event: 1%, then 15% after turn 6, then 50% past turn 8.</td></tr>
               <tr><td>Deck Roulette</td><td>Gold adds coins. Dragon starts with 15 cards and no dice. Blue adds rumors. Orange starts at 5 cards, caps at 15, uses D4 only, and has no action cards. Strike is a black-suit speed deck with no coins or action cards. Royal, Mirror, and Eclipse add stronger table twists.</td></tr>
               <tr><td>Win Payouts</td><td>Card wins pay by AI difficulty: Easy 1, Medium 3, Hard 6. Boss pass now costs 50 wins.</td></tr>
@@ -2621,8 +2700,15 @@
               <button data-skin="vip">VIP Platinum</button>
             </div>
             <div class="cosmetic-preview" id="cosmeticPreview" aria-label="Selected card cosmetic preview"></div>
+            <h2>Table Cosmetics</h2>
+            <div class="deck-buttons table-skin-buttons">
+              <button data-table-skin="classic">Classic Felt</button>
+              <button data-table-skin="cosmic">Cosmic</button>
+              <button data-table-skin="velvet">Velvet</button>
+              <button data-table-skin="neon">Neon Grid</button>
+            </div>
             <button id="openAchievements">Achievements</button>
-            <div class="selected-info" id="achievementStatus">Achievements unlock cosmetic cards.</div>
+            <div class="selected-info" id="achievementStatus">Achievements unlock cosmetic cards and tables.</div>
             <h2>Shifty Dealer</h2>
             <div class="joker-row">
               <div><strong>Loaded Sleeve · 50 wins</strong><span>Next card game starts you with coins, fewer cards, and a free chip roll.</span></div>
@@ -2761,6 +2847,26 @@
           <strong>Insurance Stub - 8</strong>
           <span>Blocks up to 2 cards from your next draw burst.</span>
           <button id="buyInsurance">Buy Stub</button>
+        </div>
+        <div class="shop-item">
+          <strong>Loaded Dice - 12</strong>
+          <span>Draw 1 card now, then add +4 to your next dice roll.</span>
+          <button id="buyLoadedDice">Load Dice</button>
+        </div>
+        <div class="shop-item">
+          <strong>Velvet Rope - 10</strong>
+          <span>Your current dice target skips their next turn.</span>
+          <button id="buyVelvetRope">Block Seat</button>
+        </div>
+        <div class="shop-item">
+          <strong>Card Press - 11</strong>
+          <span>Compress your hand: shed up to 2 weak cards, then draw 1.</span>
+          <button id="buyCardPress">Press Hand</button>
+        </div>
+        <div class="shop-item">
+          <strong>Target Compass - 9</strong>
+          <span>Targets the opponent with the most cards and adds +1 to your next roll.</span>
+          <button id="buyTargetCompass">Mark Target</button>
         </div>
       </div>
     </section>
@@ -3490,6 +3596,10 @@
       buyChip: document.querySelector("#buyChip"),
       buyMatchbook: document.querySelector("#buyMatchbook"),
       buyInsurance: document.querySelector("#buyInsurance"),
+      buyLoadedDice: document.querySelector("#buyLoadedDice"),
+      buyVelvetRope: document.querySelector("#buyVelvetRope"),
+      buyCardPress: document.querySelector("#buyCardPress"),
+      buyTargetCompass: document.querySelector("#buyTargetCompass"),
       useCigar: document.querySelector("#useCigar"),
       useBeer: document.querySelector("#useBeer"),
       winner: document.querySelector("#winner"),
@@ -3617,6 +3727,7 @@
       activeArtifact: null,
       shopMessage: "",
       cardSkin: readSavedText("satcasCardSkin", "classic"),
+      tableSkin: readSavedText("satcasTableSkin", "classic"),
       achievements: readSavedObject("satcasAchievements"),
       stats: {
         ...{
@@ -6415,6 +6526,46 @@
       };
     }
 
+    function unlockedTableSkins() {
+      return {
+        classic: true,
+        cosmic: true,
+        velvet: state.achievements.firstCardWin || state.winCurrency >= 5,
+        neon: state.achievements.wins25 || state.winCurrency >= 25
+      };
+    }
+
+    function applyTableSkin() {
+      const unlocked = unlockedTableSkins();
+      if (!unlocked[state.tableSkin]) state.tableSkin = "classic";
+      document.body.dataset.tableSkin = state.tableSkin;
+      localStorage.setItem("satcasTableSkin", state.tableSkin);
+    }
+
+    function selectTableSkin(skin) {
+      const unlocked = unlockedTableSkins();
+      if (!unlocked[skin]) {
+        const line = "\"That table is still roped off. Win a little more, then pick the felt.\"";
+        if (els.jokerStatus) els.jokerStatus.textContent = line;
+        if (els.dialogue) els.dialogue.textContent = line;
+        return;
+      }
+      state.tableSkin = skin;
+      applyTableSkin();
+      renderAchievements();
+      render();
+    }
+
+    function renderTableSkinButtons() {
+      applyTableSkin();
+      const unlocked = unlockedTableSkins();
+      document.querySelectorAll("[data-table-skin]").forEach(button => {
+        const skin = button.dataset.tableSkin;
+        button.classList.toggle("active", state.tableSkin === skin);
+        button.disabled = !unlocked[skin];
+      });
+    }
+
     function cardSkinClass() {
       const unlocked = unlockedSkins();
       if (!unlocked[state.cardSkin]) {
@@ -6501,11 +6652,13 @@
         button.classList.toggle("active", state.cardSkin === skin);
         button.disabled = !unlocked[skin];
       });
+      renderTableSkinButtons();
       renderCosmeticPreview();
       renderAchievementGrid();
       const unlockedCount = achievementCatalog.filter(item => state.achievements[item.key]).length;
       if (els.achievementStatus) {
-        els.achievementStatus.textContent = `Cosmetics unlocked: ${Object.values(unlocked).filter(Boolean).length}/${Object.keys(unlocked).length}. Achievements: ${unlockedCount}/${achievementCatalog.length}.`;
+        const tableUnlocked = unlockedTableSkins();
+        els.achievementStatus.textContent = `Cards: ${Object.values(unlocked).filter(Boolean).length}/${Object.keys(unlocked).length}. Tables: ${Object.values(tableUnlocked).filter(Boolean).length}/${Object.keys(tableUnlocked).length}. Achievements: ${unlockedCount}/${achievementCatalog.length}.`;
       }
     }
 
@@ -7014,6 +7167,75 @@
       player.drawShield += 2;
       addLog("Insurance Stub bought: your next draw burst blocks up to 2 cards.");
       sound("shop");
+      render();
+    }
+
+    function buyLoadedDice() {
+      const player = activeLocalPlayer();
+      if (!state.diceEnabled) {
+        addLog("Loaded Dice need dice rules turned on.");
+        render();
+        return;
+      }
+      if (currentPlayer() !== player || state.gameOver || state.turnEnding || !spendCoins(player, 12)) {
+        render();
+        return;
+      }
+      draw(player, 1, false);
+      player.diceBonus += 4;
+      addLog("Loaded Dice bought: draw 1 now, then +4 on your next roll.");
+      sound("shop");
+      render();
+    }
+
+    function buyVelvetRope() {
+      const player = activeLocalPlayer();
+      const target = ensureDiceTarget() || activeOpponents(player)[0];
+      if (!target) {
+        addLog("Velvet Rope needs an opponent at the table.");
+        render();
+        return;
+      }
+      if (currentPlayer() !== player || state.gameOver || state.turnEnding || !spendCoins(player, 10)) {
+        render();
+        return;
+      }
+      target.skipTurns += 1;
+      addLog(`Velvet Rope bought: ${target.name} will skip their next turn.`);
+      sound("shop");
+      render();
+    }
+
+    function buyCardPress() {
+      const player = activeLocalPlayer();
+      if (currentPlayer() !== player || state.gameOver || state.turnEnding || player.hand.length <= 1 || !spendCoins(player, 11)) {
+        render();
+        return;
+      }
+      const pressed = discardExtras(player, 2);
+      draw(player, 1, false);
+      addLog(`Card Press used: shed ${pressed} weak card${pressed === 1 ? "" : "s"}, then drew 1.`);
+      sound("shop");
+      render();
+    }
+
+    function buyTargetCompass() {
+      const player = activeLocalPlayer();
+      const opponents = activeOpponents(player);
+      if (!state.diceEnabled || opponents.length === 0) {
+        addLog("Target Compass needs dice rules and an opponent.");
+        render();
+        return;
+      }
+      if (currentPlayer() !== player || state.gameOver || state.turnEnding || !spendCoins(player, 9)) {
+        render();
+        return;
+      }
+      const target = opponents.sort((a, b) => b.hand.length - a.hand.length)[0];
+      state.diceTargetIndex = state.players.indexOf(target);
+      player.diceBonus += 1;
+      addLog(`Target Compass bought: ${target.name} is marked, and your next roll gets +1.`);
+      sound("target");
       render();
     }
 
@@ -7661,6 +7883,10 @@
       els.buyChip.disabled = !humanTurn || !state.diceEnabled || human.coins < 20 || state.freeRollAvailable;
       els.buyMatchbook.disabled = !humanTurn || human.coins < 6 || human.hand.length <= 1;
       els.buyInsurance.disabled = !humanTurn || human.coins < 8;
+      els.buyLoadedDice.disabled = !humanTurn || !state.diceEnabled || human.coins < 12;
+      els.buyVelvetRope.disabled = !humanTurn || human.coins < 10 || activeOpponents(human).length === 0;
+      els.buyCardPress.disabled = !humanTurn || human.coins < 11 || human.hand.length <= 1;
+      els.buyTargetCompass.disabled = !humanTurn || !state.diceEnabled || human.coins < 9 || activeOpponents(human).length === 0;
       els.buyChip.textContent = "Buy Chip";
       els.soundToggle.textContent = state.audioEnabled ? "Music On" : "Music Off";
       els.playSelected.disabled = !humanTurn || state.freeRollAvailable || !combo.valid;
@@ -7718,7 +7944,7 @@
       els.drawCard.textContent = "Draw";
       els.soundToggle.textContent = state.audioEnabled ? "Music On" : "Music Off";
       setControls(false);
-      [els.buyCigar, els.buyBeer, els.buyChip, els.buyMatchbook, els.buyInsurance, els.useCigar, els.useBeer].forEach(button => {
+      [els.buyCigar, els.buyBeer, els.buyChip, els.buyMatchbook, els.buyInsurance, els.buyLoadedDice, els.buyVelvetRope, els.buyCardPress, els.buyTargetCompass, els.useCigar, els.useBeer].forEach(button => {
         button.disabled = true;
       });
       document.querySelectorAll("[data-die]").forEach(button => {
@@ -8124,6 +8350,10 @@
     els.buyChip.addEventListener("click", buyChip);
     els.buyMatchbook.addEventListener("click", buyMatchbook);
     els.buyInsurance.addEventListener("click", buyInsurance);
+    els.buyLoadedDice.addEventListener("click", buyLoadedDice);
+    els.buyVelvetRope.addEventListener("click", buyVelvetRope);
+    els.buyCardPress.addEventListener("click", buyCardPress);
+    els.buyTargetCompass.addEventListener("click", buyTargetCompass);
     els.useCigar.addEventListener("click", useCigar);
     els.useBeer.addEventListener("click", useBeer);
     els.buyRageJoker.addEventListener("click", () => spendWins(1, "rage", "Rage Joker"));
@@ -8140,8 +8370,12 @@
     document.querySelectorAll("[data-skin]").forEach(button => {
       button.addEventListener("click", () => selectCardSkin(button.dataset.skin));
     });
+    document.querySelectorAll("[data-table-skin]").forEach(button => {
+      button.addEventListener("click", () => selectTableSkin(button.dataset.tableSkin));
+    });
 
     refreshTagline();
+    applyTableSkin();
     setMenuPage("main");
     updateCasinoHub();
     renderDeckMode();
